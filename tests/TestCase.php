@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use Dive\Skeleton\SkeletonServiceProvider;
+use CreateFezTables;
+use Dive\Fez\FezServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -16,16 +17,15 @@ class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app)
     {
-        return [SkeletonServiceProvider::class];
+        return [FezServiceProvider::class];
     }
 
     protected function setUpDatabase($app)
     {
         $app->make('db')->connection()->getSchemaBuilder()->dropAllTables();
 
-        /*
-        require_once __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
-        (new \CreatePackageTable())->up();
-        */
+        require_once __DIR__.'/../database/migrations/create_fez_tables.php.stub';
+
+        (new CreateFezTables())->up();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dive\Skeleton\Database\Factories;
+namespace Dive\Fez\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

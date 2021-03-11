@@ -1,35 +1,33 @@
-# :package_description
+# Optimize document heads for robots
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/:package_name.svg?style=flat-square)](https://packagist.org/packages/dive-be/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-fez.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-fez)
 
-**Note:** Run `./init.sh` to get started, or manually replace  ```:author_name``` ```:author_username``` ```:author_email``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](.github/CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can also run `init.sh` to do this automatically.
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+TODO
 
 ⚠️ Minor releases of this package may cause breaking changes as it has no stable release yet.
 
 ## What problem does this package solve?
 
-Optionally describe why someone would want to use this package.
+TODO
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require dive-be/:package_name
+composer require dive-be/laravel-fez
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Dive\Skeleton\SkeletonServiceProvider" --tag=":package_name-migrations"
+php artisan vendor:publish --provider="Dive\Fez\FezServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Dive\Skeleton\SkeletonServiceProvider" --tag=":package_name-config"
+php artisan vendor:publish --provider="Dive\Fez\FezServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -42,8 +40,8 @@ return [
 ## Usage
 
 ```php
-$skeleton = new Dive\Skeleton();
-echo $skeleton->echoPhrase('Hello, Dive!');
+$laravel-fez = new Dive\Fez();
+echo $laravel-fez->echoPhrase('Hello, Dive!');
 ```
 
 ## Testing
@@ -66,7 +64,7 @@ If you discover any security related issues, please email oss@dive.be instead of
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Muhammed Sari](https://github.com/mabdullahsari)
 - [All Contributors](../../contributors)
 
 ## License

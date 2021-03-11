@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateFezTables extends Migration
+{
+    public function up()
+    {
+        Schema::create('meta_data', static function (Blueprint $table) {
+            $table->id();
+            $table->morphs('meta_dataable');
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->string('keywords')->nullable();
+            $table->string('robots')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('static_pages', static function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->index();
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('meta_data');
+        Schema::dropIfExists('static_pages');
+    }
+}
