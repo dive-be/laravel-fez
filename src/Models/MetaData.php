@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $image
  * @property string|null $keywords
  * @property string|null $robots
- * @property string $title
+ * @property string      $title
  */
 class MetaData extends Model
 {
