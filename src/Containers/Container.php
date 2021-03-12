@@ -25,7 +25,7 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
 
     abstract public function toArray(): array;
 
-    public function getProperty(string $property, string $default = null)
+    public function getProperty(string $property, ?string $default = null): ?string
     {
         return Arr::get($this->properties, $property, $default);
     }
@@ -35,7 +35,7 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
         return $this->properties;
     }
 
-    public function setProperty(string $property, string $value)
+    public function setProperty(string $property, string $value): static
     {
         if (! empty($value)) {
             Arr::set($this->properties, $property, $value);
@@ -86,7 +86,21 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
 
     public function __call(string $method, array $arguments)
     {
+        if (empty($arguments)) {
+            return $this->getProperty($method);
+        }
+
         return $this->setProperty($method, Arr::get($arguments, 0, ''));
+    }
+
+    public function __get(string $name): ?string
+    {
+        return $this->getProperty($name);
+    }
+
+    public function __set(string $name, string $value): void
+    {
+        $this->setProperty($name, $value);
     }
 
     public function __toString(): string
