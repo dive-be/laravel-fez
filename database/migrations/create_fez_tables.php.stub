@@ -28,7 +28,7 @@ class CreateFezTables extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
 
-            $table->index('key');
+            $table->unique('key');
         });
     }
 
