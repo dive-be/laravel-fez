@@ -10,5 +10,5 @@ class TranslatableMetaData extends MetaData
 
     protected $table = 'meta_data';
 
-    protected array $translatable = ['description', 'image', 'title'];
+    protected array $translatable = ['description', 'title'];
 }
