@@ -10,4 +10,6 @@ return [
         'suffixed' => true,
         'title' => env('FEZ_DEFAULTS_TITLE'),
     ],
+
+    'locales' => [],
 ];

@@ -2,8 +2,23 @@
 
 namespace Dive\Fez\Containers;
 
+use Closure;
+use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
+use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
+use Illuminate\Config\Repository;
+use Illuminate\Http\Request;
+
 final class AlternatePage extends Container
 {
+    private static ?Closure $resolveAlternateUrlUsing = null;
+
+    public function __construct(private Repository $config, private Request $request) {}
+
+    public static function resolveAlternateUrlUsing(Closure $callback): void
+    {
+        self::$resolveAlternateUrlUsing = $callback;
+    }
+
     public function generate(): string
     {
         return $this
@@ -14,9 +29,36 @@ final class AlternatePage extends Container
 
     public function toArray(): array
     {
-        return [
-            'en' => 'https://dive.be/en',
-            'nl' => 'https://dive.be/nl',
-        ];
+        $locales = $this->resolveLocales();
+        $urlResolver = $this->resolveAlternateUrl();
+
+        return array_combine(
+            $locales,
+            array_map(fn ($locale) => $urlResolver($locale, $this->request), $locales)
+        );
+    }
+
+    /**
+     * @throws UnspecifiedAlternateUrlResolverException
+     */
+    private function resolveAlternateUrl(): Closure
+    {
+        return is_null($resolver = self::$resolveAlternateUrlUsing)
+            ? throw UnspecifiedAlternateUrlResolverException::make()
+            : $resolver;
+    }
+
+    /**
+     * @throws TooFewLocalesSpecifiedException
+     */
+    private function resolveLocales(): array
+    {
+        $locales = array_unique($this->config->get('fez.locales'));
+
+        if (count($locales) < 2) {
+            throw TooFewLocalesSpecifiedException::make();
+        }
+
+        return $locales;
     }
 }
