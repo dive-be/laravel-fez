@@ -16,13 +16,19 @@ class CreateFezTables extends Migration
             $table->string('keywords')->nullable();
             $table->string('robots')->nullable();
             $table->string('image')->nullable();
+            $table->json('open_graph')->nullable();
+            $table->json('twitter')->nullable();
             $table->timestamps();
         });
 
         Schema::create('static_pages', static function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index();
+            $table->string('key');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
+
+            $table->index('key');
         });
     }
 

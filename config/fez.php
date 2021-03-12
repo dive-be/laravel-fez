@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'allowed_defaults' => [
+        'description',
+        'image',
+        'keywords',
+        'robots',
+        'title',
+    ],
+
     'defaults' => [
         'description' => env('FEZ_DEFAULTS_DESCRIPTION'),
         'image' => env('FEZ_DEFAULTS_IMAGE'),
