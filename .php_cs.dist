@@ -41,6 +41,7 @@ $dive = [
         'sort_algorithm' => 'alpha',
     ],
     'phpdoc_to_comment' => false,
+    'single_line_throw' => false,
     'trailing_comma_in_multiline_array' => true,
     'yoda_style' => [],
 ];
