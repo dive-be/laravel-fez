@@ -2,6 +2,7 @@
 
 namespace Dive\Fez\Containers;
 
+use ArrayAccess;
 use Dive\Fez\Contracts\Collectable;
 use Dive\Fez\Contracts\Generable;
 use Illuminate\Contracts\Support\Arrayable;
@@ -9,21 +10,11 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use ArrayAccess;
 use JsonSerializable;
-use Stringable;
 
-abstract class Container implements
-    Arrayable,
-    ArrayAccess,
-    Collectable,
-    Generable,
-    Htmlable,
-    Jsonable,
-    JsonSerializable,
-    Stringable
+abstract class Container implements Arrayable, ArrayAccess, Collectable, Generable, Htmlable, Jsonable, JsonSerializable
 {
-    public function __construct(protected array $properties = []) {}
+    final public function __construct(protected array $properties = []) {}
 
     public static function make(array $properties = []): static
     {
