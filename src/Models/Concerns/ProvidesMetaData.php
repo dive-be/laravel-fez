@@ -23,7 +23,7 @@ trait ProvidesMetaData
 
     public function metaData(): MorphOne
     {
-        return $this->morphOne(MetaData::class, 'meta_dataable')->withDefault();
+        return $this->morphOne(config('fez.models.meta_data'), 'meta_dataable')->withDefault();
     }
 
     protected function initializeProvidesMetaData()

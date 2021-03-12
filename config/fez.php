@@ -20,4 +20,9 @@ return [
     ],
 
     'locales' => [],
+
+    'models' => [
+        'meta_data' => Dive\Fez\Models\MetaData::class,
+        'static_page' => Dive\Fez\Models\StaticPage::class,
+    ],
 ];
