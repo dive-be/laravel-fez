@@ -6,6 +6,9 @@ use Dive\Fez\Models\MetaData;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 
+/**
+ * @property MetaData $metaData
+ */
 trait ProvidesMetaData
 {
     protected array $metaDefaults = [];

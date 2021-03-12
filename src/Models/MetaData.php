@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $description
  * @property string|null $image
  * @property string|null $keywords
+ * @property mixed       $metaDataable
  * @property string|null $robots
  * @property string      $title
  */
