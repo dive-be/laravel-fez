@@ -54,37 +54,37 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
         return Collection::make($this->toArray());
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->generate();
     }
 
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return Arr::has($this->properties, $offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return $this->getProperty($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->setProperty($offset, $value);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         Arr::forget($this->properties, $offset);
     }
 
-    public function __call(string $method, array $arguments)
+    public function __call(string $method, array $arguments): static|string|null
     {
         if (empty($arguments)) {
             return $this->getProperty($method);

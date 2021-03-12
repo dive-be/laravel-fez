@@ -9,7 +9,7 @@ class MetaDataFactory extends Factory
 {
     protected $model = MetaData::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'description' => $this->faker->text(255),

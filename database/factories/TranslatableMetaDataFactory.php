@@ -8,7 +8,7 @@ class TranslatableMetaDataFactory extends MetaDataFactory
 {
     protected $model = TranslatableMetaData::class;
 
-    public function definition()
+    public function definition(): array
     {
         return array_merge(parent::definition(), [
             'description' => [app()->getLocale() => $this->faker->text(255)],

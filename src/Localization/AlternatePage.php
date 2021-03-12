@@ -54,7 +54,7 @@ final class AlternatePage implements Arrayable, Collectable, Generable, Jsonable
         return Collection::make($this->toArray());
     }
 
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }

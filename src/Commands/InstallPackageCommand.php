@@ -10,7 +10,7 @@ class InstallPackageCommand extends Command
 
     protected $signature = 'fez:install';
 
-    public function handle()
+    public function handle(): int
     {
         if ($this->isHidden()) {
             $this->error('🤚  Fez is already installed.');
@@ -34,9 +34,11 @@ class InstallPackageCommand extends Command
         ]);
 
         $this->info('🏁  Fez installed successfully!');
+
+        return 0;
     }
 
-    public function isHidden()
+    public function isHidden(): bool
     {
         return file_exists(config_path('fez.php'));
     }

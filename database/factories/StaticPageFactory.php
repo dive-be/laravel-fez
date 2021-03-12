@@ -9,7 +9,7 @@ class StaticPageFactory extends Factory
 {
     protected $model = StaticPage::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'description' => $this->faker->text(255),
