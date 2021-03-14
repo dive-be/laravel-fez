@@ -2,7 +2,10 @@
 
 namespace Dive\Fez;
 
+use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 use ReflectionClass;
 
 final class Fez extends Component
@@ -22,12 +25,17 @@ final class Fez extends Component
 
     public function generate(): string
     {
-        return '';
+        return Collection::make(array_values($this->components))
+            ->map(fn (Generable $component) => $component->generate())
+            ->join(PHP_EOL.PHP_EOL);
     }
 
     public function toArray(): array
     {
-        return [];
+        return array_combine(
+            array_keys($this->components),
+            array_map(fn (Arrayable $component) => $component->toArray(), $this->components),
+        );
     }
 
     /**
