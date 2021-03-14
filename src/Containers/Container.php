@@ -3,10 +3,10 @@
 namespace Dive\Fez\Containers;
 
 use ArrayAccess;
-use Dive\Fez\Composite;
+use Dive\Fez\Component;
 use Illuminate\Support\Arr;
 
-abstract class Container extends Composite implements ArrayAccess
+abstract class Container extends Component implements ArrayAccess
 {
     final public function __construct(protected array $properties = []) {}
 

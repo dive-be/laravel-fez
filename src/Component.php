@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use JsonSerializable;
 use Stringable;
 
-abstract class Composite implements Arrayable, Collectable, Generable, Htmlable, Jsonable, JsonSerializable, Stringable
+abstract class Component implements Arrayable, Collectable, Generable, Htmlable, Jsonable, JsonSerializable, Stringable
 {
     abstract public function generate(): string;
 

@@ -15,9 +15,9 @@ class ComponentFactory
 {
     public function __construct(private Repository $config, private Request $request) {}
 
-    public function make(string $component): Composite
+    public function make(string $component): Component
     {
-        return match($component) {
+        return match ($component) {
             'alternatePages' => AlternatePage::make(array_unique($this->config->get('fez.locales')), $this->request),
             'meta' => Meta::make(),
             'openGraph' => OpenGraph::make(),

@@ -5,7 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use ReflectionClass;
 
-final class Fez extends Composite
+final class Fez extends Component
 {
     public const FEATURE_ALTERNATE_PAGES = 'alternatePages';
     public const FEATURE_META = 'meta';

@@ -3,12 +3,12 @@
 namespace Dive\Fez\Localization;
 
 use Closure;
-use Dive\Fez\Composite;
+use Dive\Fez\Component;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Http\Request;
 
-final class AlternatePage extends Composite
+final class AlternatePage extends Component
 {
     private static ?Closure $resolveAlternateUrlUsing = null;
 
