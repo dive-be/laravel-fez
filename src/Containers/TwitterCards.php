@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Containers;
 
-final class TwitterCard extends Container
+final class TwitterCards extends Container
 {
     public const PREFIX = 'twitter';
 
