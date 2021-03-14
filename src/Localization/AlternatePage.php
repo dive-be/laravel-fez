@@ -6,14 +6,23 @@ use Closure;
 use Dive\Fez\Composite;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
-use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 final class AlternatePage extends Composite
 {
     private static ?Closure $resolveAlternateUrlUsing = null;
 
-    public function __construct(private Repository $config, private Request $request) {}
+    public function __construct(private array $locales, private Request $request)
+    {
+        if (count($locales) < 2) {
+            throw TooFewLocalesSpecifiedException::make();
+        }
+    }
+
+    public static function make(array $locales, Request $request): self
+    {
+        return new self($locales, $request);
+    }
 
     public static function resolveAlternateUrlUsing(Closure $callback): void
     {
@@ -30,12 +39,11 @@ final class AlternatePage extends Composite
 
     public function toArray(): array
     {
-        $locales = $this->resolveLocales();
         $urlResolver = $this->resolveAlternateUrl();
 
         return array_combine(
-            $locales,
-            array_map(fn ($locale) => $urlResolver($locale, $this->request), $locales)
+            $this->locales,
+            array_map(fn ($locale) => $urlResolver($locale, $this->request), $this->locales)
         );
     }
 
@@ -47,19 +55,5 @@ final class AlternatePage extends Composite
         return is_null($resolver = self::$resolveAlternateUrlUsing)
             ? throw UnspecifiedAlternateUrlResolverException::make()
             : $resolver;
-    }
-
-    /**
-     * @throws TooFewLocalesSpecifiedException
-     */
-    private function resolveLocales(): array
-    {
-        $locales = array_unique($this->config->get('fez.locales'));
-
-        if (count($locales) < 2) {
-            throw TooFewLocalesSpecifiedException::make();
-        }
-
-        return $locales;
     }
 }
