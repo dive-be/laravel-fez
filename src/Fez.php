@@ -5,6 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 
@@ -30,6 +31,11 @@ final class Fez extends Component
             ->join(PHP_EOL.PHP_EOL);
     }
 
+    public function get(string $component): ?Component
+    {
+        return Arr::get($this->components, $component);
+    }
+
     public function toArray(): array
     {
         return array_combine(
@@ -50,5 +56,10 @@ final class Fez extends Component
         }
 
         return array_combine($features, array_map([$factory, 'make'], $features));
+    }
+
+    public function __get(string $name): ?Component
+    {
+        return $this->get($name);
     }
 }
