@@ -3,16 +3,10 @@
 namespace Dive\Fez\Containers;
 
 use ArrayAccess;
-use Dive\Fez\Contracts\Collectable;
-use Dive\Fez\Contracts\Generable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\Support\Jsonable;
+use Dive\Fez\Composite;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use JsonSerializable;
 
-abstract class Container implements Arrayable, ArrayAccess, Collectable, Generable, Htmlable, Jsonable, JsonSerializable
+abstract class Container extends Composite implements ArrayAccess
 {
     final public function __construct(protected array $properties = []) {}
 
@@ -20,10 +14,6 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
     {
         return new static($properties);
     }
-
-    abstract public function generate(): string;
-
-    abstract public function toArray(): array;
 
     public function getProperty(string $property, ?string $default = null): ?string
     {
@@ -42,26 +32,6 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
         }
 
         return $this;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
-    }
-
-    public function toCollection(): Collection
-    {
-        return Collection::make($this->toArray());
-    }
-
-    public function toHtml(): string
-    {
-        return $this->generate();
-    }
-
-    public function toJson($options = 0): string
-    {
-        return json_encode($this->toArray(), $options);
     }
 
     public function offsetExists($offset): bool
@@ -98,13 +68,18 @@ abstract class Container implements Arrayable, ArrayAccess, Collectable, Generab
         return $this->getProperty($name);
     }
 
+    public function __isset(string $key): bool
+    {
+        return $this->offsetExists($key);
+    }
+
     public function __set(string $name, string $value): void
     {
         $this->setProperty($name, $value);
     }
 
-    public function __toString(): string
+    public function __unset(string $key): void
     {
-        return $this->generate();
+        $this->offsetUnset($key);
     }
 }

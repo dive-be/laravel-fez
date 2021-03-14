@@ -2,15 +2,7 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Collectable;
-use Dive\Fez\Contracts\Generable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Collection;
-use JsonSerializable;
-
-class Fez implements Arrayable, Collectable, Generable, Htmlable, Jsonable, JsonSerializable
+final class Fez extends Composite
 {
     public const FEATURE_ALTERNATE_PAGES = 'alternatePages';
     public const FEATURE_META = 'meta';
@@ -23,28 +15,8 @@ class Fez implements Arrayable, Collectable, Generable, Htmlable, Jsonable, Json
         return '';
     }
 
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    public function toArray()
+    public function toArray(): array
     {
         return [];
-    }
-
-    public function toCollection(): Collection
-    {
-        return Collection::make($this->toArray());
-    }
-
-    public function toHtml()
-    {
-        return $this->generate();
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 }

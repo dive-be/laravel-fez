@@ -3,19 +3,13 @@
 namespace Dive\Fez\Localization;
 
 use Closure;
-use Dive\Fez\Contracts\Collectable;
-use Dive\Fez\Contracts\Generable;
+use Dive\Fez\Composite;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use JsonSerializable;
 
-final class AlternatePage implements Arrayable, Collectable, Generable, Htmlable, Jsonable, JsonSerializable
+final class AlternatePage extends Composite
 {
     private static ?Closure $resolveAlternateUrlUsing = null;
 
@@ -34,11 +28,6 @@ final class AlternatePage implements Arrayable, Collectable, Generable, Htmlable
             ->join(PHP_EOL);
     }
 
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
     public function toArray(): array
     {
         $locales = $this->resolveLocales();
@@ -48,21 +37,6 @@ final class AlternatePage implements Arrayable, Collectable, Generable, Htmlable
             $locales,
             array_map(fn ($locale) => $urlResolver($locale, $this->request), $locales)
         );
-    }
-
-    public function toCollection(): Collection
-    {
-        return Collection::make($this->toArray());
-    }
-
-    public function toHtml(): string
-    {
-        return $this->generate();
-    }
-
-    public function toJson($options = 0): string
-    {
-        return json_encode($this->toArray(), $options);
     }
 
     /**
