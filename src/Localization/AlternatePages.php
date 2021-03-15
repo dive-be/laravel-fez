@@ -8,7 +8,7 @@ use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Http\Request;
 
-final class AlternatePage extends Component
+final class AlternatePages extends Component
 {
     private static ?Closure $resolveAlternateUrlUsing = null;
 

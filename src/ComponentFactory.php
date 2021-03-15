@@ -7,7 +7,7 @@ use Dive\Fez\Containers\OpenGraph;
 use Dive\Fez\Containers\Schema;
 use Dive\Fez\Containers\TwitterCards;
 use Dive\Fez\Exceptions\UnexpectedComponentException;
-use Dive\Fez\Localization\AlternatePage;
+use Dive\Fez\Localization\AlternatePages;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class ComponentFactory
     public function make(string $component): Component
     {
         return match ($component) {
-            'alternatePages' => AlternatePage::make(array_unique($this->config->get('fez.locales')), $this->request),
+            'alternatePages' => AlternatePages::make(array_unique($this->config->get('fez.locales')), $this->request),
             'meta' => Meta::make(),
             'openGraph' => OpenGraph::make(),
             'schemaOrg' => Schema::make(),
