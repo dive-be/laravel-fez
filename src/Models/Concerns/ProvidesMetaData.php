@@ -13,7 +13,7 @@ trait ProvidesMetaData
 {
     protected array $metaDefaults = [];
 
-    public function getMetaDataAttribute(): MetaData
+    public function getMetaData(): MetaData
     {
         $relation = $this->getRelationValue('metaData');
         [$metaAttributes, $modelAttributes] = Arr::divide($this->metaDefaults);
@@ -27,6 +27,13 @@ trait ProvidesMetaData
     public function metaData(): MorphOne
     {
         return $this->morphOne(config('fez.models.meta_data'), 'meta_dataable')->withDefault();
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return tap(parent::resolveRouteBinding($value, $field), function ($model) {
+            app('fez')->use($model);
+        });
     }
 
     protected function initializeProvidesMetaData()

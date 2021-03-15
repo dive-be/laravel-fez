@@ -3,6 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Generable;
+use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -19,9 +20,9 @@ final class Fez extends Component
 
     private array $components;
 
-    public function __construct(array $features, ComponentFactory $factory)
+    public function __construct(private array $features, private ComponentFactory $factory)
     {
-        $this->components = $this->initialize($features, $factory);
+        $this->components = $this->initialize();
     }
 
     public function generate(): string
@@ -44,18 +45,23 @@ final class Fez extends Component
         );
     }
 
+    public function use(Metaable $metaable): void
+    {
+        $this->metaable = $metaable;
+    }
+
     /**
      * @throws NoFeaturesActiveException
      */
-    private function initialize(array $features, ComponentFactory $factory): array
+    private function initialize(): array
     {
-        $features = array_intersect($features, (new ReflectionClass(self::class))->getConstants());
+        $features = array_intersect($this->features, (new ReflectionClass(self::class))->getConstants());
 
         if (empty($features)) {
             throw NoFeaturesActiveException::make();
         }
 
-        return array_combine($features, array_map([$factory, 'make'], $features));
+        return array_combine($features, array_map([$this->factory, 'make'], $features));
     }
 
     public function __get(string $name): ?Component

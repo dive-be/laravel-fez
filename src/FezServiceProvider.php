@@ -30,7 +30,7 @@ class FezServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(StaticPage::class, static function (Application $app) {
-            return StaticPage::resolve($app->make('router')->getCurrentRoute());
+            return StaticPage::resolve($app->make('fez'), $app->make('router')->getCurrentRoute());
         });
     }
 
