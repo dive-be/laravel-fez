@@ -19,7 +19,7 @@ class ComponentFactory
     {
         return match ($component) {
             'alternatePages' => AlternatePages::make(array_unique($this->config->get('fez.locales')), $this->request),
-            'meta' => Meta::make(),
+            'meta' => Meta::make($this->config->get('fez.defaults')),
             'openGraph' => OpenGraph::make(),
             'schemaOrg' => Schema::make(),
             'twitterCards' => TwitterCards::make(),

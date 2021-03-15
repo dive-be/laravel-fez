@@ -11,17 +11,9 @@ use Illuminate\Support\Arr;
  */
 trait ProvidesMetaData
 {
-    protected array $metaDefaults = [];
-
     public function getMetaData(): MetaData
     {
-        $relation = $this->getRelationValue('metaData');
-        [$metaAttributes, $modelAttributes] = Arr::divide($this->metaDefaults);
-
-        return $relation->fill(array_merge(
-            array_combine($metaAttributes, array_values($this->only($modelAttributes))),
-            array_filter($relation->only(config('fez.allowed_defaults'))),
-        ));
+        return $this->getRelationValue('metaData');
     }
 
     public function metaData(): MorphOne
@@ -35,10 +27,5 @@ trait ProvidesMetaData
             parent::resolveRouteBinding($value, $field),
             fn ($model) => $model->exists && app('fez')->use($model),
         );
-    }
-
-    protected function initializeProvidesMetaData()
-    {
-        $this->metaDefaults = Arr::only($this->metaDefaults, config('fez.allowed_defaults'));
     }
 }
