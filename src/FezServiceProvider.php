@@ -3,6 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
+use Dive\Fez\Models\StaticPage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,10 @@ class FezServiceProvider extends ServiceProvider
 
         $this->app->singleton(Fez::class, static function (Application $app) {
             return new Fez(array_unique($app['config']['fez.features']), $app->make(ComponentFactory::class));
+        });
+
+        $this->app->bind(StaticPage::class, static function (Application $app) {
+            return StaticPage::resolve($app->make('router')->getCurrentRoute());
         });
     }
 

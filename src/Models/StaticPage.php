@@ -2,9 +2,11 @@
 
 namespace Dive\Fez\Models;
 
+use Closure;
 use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Models\Concerns\ProvidesMetaData;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Route;
 
 /**
  * @property string|null $description
@@ -15,5 +17,19 @@ class StaticPage extends Model implements Metaable
 {
     use ProvidesMetaData;
 
+    protected static ?Closure $resolveKeyUsing = null;
+
     protected $guarded = [];
+
+    public static function resolveKeyUsing(Closure $callback)
+    {
+        self::$resolveKeyUsing = $callback;
+    }
+
+    public static function resolve(Route $route)
+    {
+        $keyResolver = self::$resolveKeyUsing ?? fn (Route $route) => $route->getName();
+
+        return self::query()->where('key', $keyResolver($route))->firstOrNew();
+    }
 }
