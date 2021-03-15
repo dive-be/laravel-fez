@@ -4,12 +4,15 @@ namespace Dive\Fez\Localization;
 
 use Closure;
 use Dive\Fez\Component;
+use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Http\Request;
 
 final class AlternatePages extends Component
 {
+    use Makeable;
+
     private static ?Closure $resolveAlternateUrlUsing = null;
 
     public function __construct(private array $locales, private Request $request)
@@ -17,11 +20,6 @@ final class AlternatePages extends Component
         if (count($locales) < 2) {
             throw TooFewLocalesSpecifiedException::make();
         }
-    }
-
-    public static function make(array $locales, Request $request): self
-    {
-        return new self($locales, $request);
     }
 
     public static function resolveAlternateUrlUsing(Closure $callback): void

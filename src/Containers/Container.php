@@ -4,18 +4,16 @@ namespace Dive\Fez\Containers;
 
 use ArrayAccess;
 use Dive\Fez\Component;
+use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Support\Arr;
 
 abstract class Container extends Component implements ArrayAccess, Hydratable
 {
-    final public function __construct(protected array $properties = []) {}
+    use Makeable;
 
-    public static function make(array $properties = []): static
-    {
-        return new static($properties);
-    }
+    protected array $properties = [];
 
     abstract public function hydrate(MetaData $data): self;
 
