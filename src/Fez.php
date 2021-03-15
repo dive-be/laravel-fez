@@ -63,7 +63,7 @@ final class Fez extends Component
         );
     }
 
-    public function use(Metaable $metaable): void
+    public function use(Metaable $metaable): self
     {
         $this->metaable = $metaable;
 
@@ -72,6 +72,8 @@ final class Fez extends Component
 
             $this->hydrated = false;
         }
+
+        return $this;
     }
 
     private function hydrateIfNecessary(): void

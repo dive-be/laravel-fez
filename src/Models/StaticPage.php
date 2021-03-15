@@ -22,19 +22,18 @@ class StaticPage extends Model implements Metaable
 
     protected $guarded = [];
 
-    public static function resolveKeyUsing(Closure $callback)
-    {
-        self::$resolveKeyUsing = $callback;
-    }
-
     public static function resolve(Fez $fez, Route $route)
     {
         $keyResolver = self::$resolveKeyUsing ?? fn (Route $route) => $route->getName();
 
-        $page = self::query()->where('key', $keyResolver($route))->firstOrNew();
+        return tap(
+            self::query()->where('key', $keyResolver($route))->firstOrNew(),
+            fn (self $page) => $page->exists && $fez->use($page),
+        );
+    }
 
-        $fez->use($page);
-
-        return $page;
+    public static function resolveKeyUsing(Closure $callback)
+    {
+        self::$resolveKeyUsing = $callback;
     }
 }

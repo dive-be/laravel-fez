@@ -31,9 +31,10 @@ trait ProvidesMetaData
 
     public function resolveRouteBinding($value, $field = null)
     {
-        return tap(parent::resolveRouteBinding($value, $field), function ($model) {
-            app('fez')->use($model);
-        });
+        return tap(
+            parent::resolveRouteBinding($value, $field),
+            fn ($model) => $model->exists && app('fez')->use($model),
+        );
     }
 
     protected function initializeProvidesMetaData()
