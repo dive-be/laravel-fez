@@ -11,6 +11,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 
+/**
+ * @property \Dive\Fez\Localization\AlternatePages|null $alternatePages
+ * @property \Dive\Fez\Containers\Meta|null             $meta
+ * @property \Dive\Fez\Containers\OpenGraph|null        $openGraph
+ * @property \Dive\Fez\Containers\Schema|null           $schemaOrg
+ * @property \Dive\Fez\Containers\TwitterCards|null     $twitterCards
+ */
 final class Fez extends Component
 {
     public const FEATURE_ALTERNATE_PAGES = 'alternatePages';
