@@ -3,9 +3,9 @@
 namespace Dive\Fez\Models;
 
 use Closure;
+use Dive\Fez\Concerns\ProvidesMetaData;
 use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Fez;
-use Dive\Fez\Models\Concerns\ProvidesMetaData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
 
