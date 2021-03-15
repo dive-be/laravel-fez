@@ -17,6 +17,8 @@ class FezServiceProvider extends ServiceProvider
             $this->registerConfig();
             $this->registerMigration();
         }
+
+        $this->registerBladeDirectives();
     }
 
     public function register()
@@ -31,6 +33,13 @@ class FezServiceProvider extends ServiceProvider
 
         $this->app->bind(StaticPage::class, static function (Application $app) {
             return StaticPage::resolve($app->make('fez'), $app->make('router')->getCurrentRoute());
+        });
+    }
+
+    private function registerBladeDirectives()
+    {
+        $this->app->make('blade.compiler')->directive('fez', static function ($expression) {
+            return "<?php echo e(fez({$expression})).PHP_EOL ?>";
         });
     }
 
