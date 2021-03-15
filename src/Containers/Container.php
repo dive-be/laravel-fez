@@ -4,9 +4,11 @@ namespace Dive\Fez\Containers;
 
 use ArrayAccess;
 use Dive\Fez\Component;
+use Dive\Fez\Contracts\Hydratable;
+use Dive\Fez\Models\MetaData;
 use Illuminate\Support\Arr;
 
-abstract class Container extends Component implements ArrayAccess
+abstract class Container extends Component implements ArrayAccess, Hydratable
 {
     final public function __construct(protected array $properties = []) {}
 
@@ -14,6 +16,8 @@ abstract class Container extends Component implements ArrayAccess
     {
         return new static($properties);
     }
+
+    abstract public function hydrate(MetaData $data): self;
 
     public function getProperty(string $property, ?string $default = null): ?string
     {

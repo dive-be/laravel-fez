@@ -2,6 +2,8 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Models\MetaData;
+
 final class Meta extends Container
 {
     public function generate(): string
@@ -10,6 +12,11 @@ final class Meta extends Container
             ->toCollection()
             ->map(fn ($content, $name) => '<meta name="'.$name.'" content="'.$content.'" />')
             ->join(PHP_EOL);
+    }
+
+    public function hydrate(MetaData $data): self
+    {
+        return $this;
     }
 
     public function toArray(): array

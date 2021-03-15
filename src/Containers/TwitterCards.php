@@ -2,6 +2,8 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Models\MetaData;
+
 final class TwitterCards extends Container
 {
     public const PREFIX = 'twitter';
@@ -12,6 +14,11 @@ final class TwitterCards extends Container
             ->toCollection()
             ->map(fn ($content, $name) => '<meta name="'.self::PREFIX.':'.$name.'" content="'.$content.'" />')
             ->join(PHP_EOL);
+    }
+
+    public function hydrate(MetaData $data): self
+    {
+        return $this;
     }
 
     public function toArray(): array

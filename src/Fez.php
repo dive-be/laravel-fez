@@ -3,6 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Generable;
+use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
@@ -20,6 +21,10 @@ final class Fez extends Component
 
     private array $components;
 
+    private ?Metaable $metaable = null;
+
+    private bool $hydrated = false;
+
     public function __construct(private array $features, private ComponentFactory $factory)
     {
         $this->components = $this->initialize();
@@ -27,6 +32,8 @@ final class Fez extends Component
 
     public function generate(): string
     {
+        $this->hydrateIfNecessary();
+
         return Collection::make(array_values($this->components))
             ->map(fn (Generable $component) => $component->generate())
             ->join(PHP_EOL.PHP_EOL);
@@ -34,11 +41,15 @@ final class Fez extends Component
 
     public function get(string $component): ?Component
     {
+        $this->hydrateIfNecessary();
+
         return Arr::get($this->components, $component);
     }
 
     public function toArray(): array
     {
+        $this->hydrateIfNecessary();
+
         return array_combine(
             array_keys($this->components),
             array_map(fn (Arrayable $component) => $component->toArray(), $this->components),
@@ -48,6 +59,33 @@ final class Fez extends Component
     public function use(Metaable $metaable): void
     {
         $this->metaable = $metaable;
+
+        if ($this->hydrated) {
+            $this->components = $this->initialize();
+
+            $this->hydrated = false;
+        }
+    }
+
+    private function hydrateIfNecessary(): void
+    {
+        if ($this->hydrated) {
+            return;
+        }
+
+        if (is_null($this->metaable)) {
+            return;
+        }
+
+        $metaData = $this->metaable->getMetaData();
+
+        foreach ($this->components as $component) {
+            if ($component instanceof Hydratable) {
+                $component->hydrate($metaData);
+            }
+        }
+
+        $this->hydrated = true;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Models\MetaData;
+
 final class Schema extends Container
 {
     public function generate(): string
@@ -9,6 +11,11 @@ final class Schema extends Container
         return '<script type="application/ld+json">'
             .$this->toJson(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
             .'</script>';
+    }
+
+    public function hydrate(MetaData $data): self
+    {
+        return $this;
     }
 
     public function toArray(): array

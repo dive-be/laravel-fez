@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 interface Metaable
 {
-    public function getMetaDataAttribute(): MetaData;
+    public function getMetaData(): MetaData;
 
     public function metaData(): MorphOne;
 }
