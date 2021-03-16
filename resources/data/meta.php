@@ -1,9 +1,16 @@
 <?php
 
 return [
-    'canonical',
-    'description',
-    'keywords',
-    'robots',
-    'title',
+    'canonical' => null,
+    'description' => null,
+    'keywords' => null,
+    'robots' => [
+        'all',
+        'none',
+        'index',
+        'follow',
+        'noindex',
+        'nofollow',
+    ],
+    'title' => null,
 ];

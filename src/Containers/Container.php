@@ -20,7 +20,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
 
     abstract public function hydrate(MetaData $data): self;
 
-    public function getProperty(string $property, ?string $default = null): ?string
+    public function getProperty(string $property, ?string $default = null): array|string|null
     {
         return Arr::get($this->properties, $property, $default);
     }
@@ -33,13 +33,13 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
     /**
      * @throws \Dive\Fez\Exceptions\ValidationException
      */
-    public function setProperty(string $property, string $value): static
+    public function setProperty(string $property, array|string $value): static
     {
         $property = $this->normalizeProperty($property);
 
-        $this->validator->validate($property);
+        if (! empty($property) && ! empty($value)) {
+            $this->validator->validate($property, $value);
 
-        if (! empty($value)) {
             Arr::set($this->properties, $property, $value);
         }
 
@@ -48,7 +48,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
 
     protected function normalizeProperty(string $property): string
     {
-        return $property;
+        return trim($property);
     }
 
     public function offsetExists($offset): bool

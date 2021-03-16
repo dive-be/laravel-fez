@@ -2,11 +2,23 @@
 
 namespace Dive\Fez\Validators;
 
+use Illuminate\Support\Arr;
+
 class MetaValidator extends Validator
 {
-    public function passes(string $value): bool
+    public function passes(string $property, array|string $value): bool
     {
-        return in_array($value, $this->data);
+        if (! Arr::has($this->data, $property)) {
+            return false;
+        }
+
+        if (! is_array($possibilities = Arr::get($this->data, $property))) {
+            return true;
+        }
+
+        $value = Arr::wrap($value);
+
+        return count(array_intersect($possibilities, $value)) === count($value);
     }
 
     protected function dataProvider(): array

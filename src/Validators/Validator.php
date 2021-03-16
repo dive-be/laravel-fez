@@ -5,7 +5,6 @@ namespace Dive\Fez\Validators;
 use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Validator as Contract;
 use Dive\Fez\Exceptions\ValidationException;
-use Illuminate\Support\Str;
 
 abstract class Validator implements Contract
 {
@@ -20,18 +19,15 @@ abstract class Validator implements Contract
 
     abstract protected function dataProvider(): array;
 
-    public function fails(string $value): bool
+    public function fails(string $property, string|array $value): bool
     {
-        return ! $this->passes($value);
+        return ! $this->passes($property, $value);
     }
 
-    public function validate(string $value): void
+    public function validate(string $property, array|string $value): void
     {
-        if ($this->fails($value)) {
-            throw ValidationException::make(
-                Str::of(class_basename(static::class))->before('Validator')->camel(),
-                $value,
-            );
+        if ($this->fails($property, $value)) {
+            throw ValidationException::make($property, $value);
         }
     }
 }

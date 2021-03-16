@@ -4,7 +4,7 @@ namespace Dive\Fez\Validators;
 
 class OpenGraphValidator extends Validator
 {
-    public function passes(string $value): bool
+    public function passes(string $property, array|string $value): bool
     {
         return true;
     }
