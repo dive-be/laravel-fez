@@ -32,7 +32,7 @@ class FezServiceProvider extends ServiceProvider
         $this->app->singleton(Fez::class, fn (Application $app) => new Fez(
             array_unique($app['config']['fez.features']),
             $app->make(ComponentFactory::class),
-            (new MetaableFinder())->setRouteResolver(fn () => $app->make('router')->getCurrentRoute()),
+            $app->make(MetaableFinder::class)->setRouteResolver(fn () => $app->make('router')->getCurrentRoute()),
         ));
 
         $this->app->bind(StaticPageContract::class, fn (Application $app) => call_user_func(
