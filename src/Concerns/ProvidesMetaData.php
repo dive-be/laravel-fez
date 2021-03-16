@@ -34,12 +34,4 @@ trait ProvidesMetaData
     {
         return $this->morphOne(config('fez.models.meta_data'), 'meta_dataable')->withDefault();
     }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        return tap(
-            parent::resolveRouteBinding($value, $field),
-            fn ($model) => $model->exists && app('fez')->useModel($model, $field),
-        );
-    }
 }

@@ -29,9 +29,11 @@ class FezServiceProvider extends ServiceProvider
 
         $this->app->alias(Fez::class, 'fez');
 
-        $this->app->singleton(Fez::class, static function (Application $app) {
-            return new Fez(array_unique($app['config']['fez.features']), $app->make(ComponentFactory::class));
-        });
+        $this->app->singleton(Fez::class, fn (Application $app) => new Fez(
+            array_unique($app['config']['fez.features']),
+            $app->make(ComponentFactory::class),
+            $app->make('router'),
+        ));
 
         $this->app->bind(StaticPageContract::class, fn (Application $app) => call_user_func(
             [$app->make('config')->get('fez.models.static_page'), 'resolve'],
@@ -82,7 +84,7 @@ class FezServiceProvider extends ServiceProvider
     private function registerRouteMacro()
     {
         Route::macro('fez', function (string $binding) {
-            app('fez')->acceptBinding($binding);
+            app('fez')->useBinding($binding);
 
             return $this;
         });

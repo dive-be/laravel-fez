@@ -7,6 +7,7 @@ use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionClass;
@@ -34,12 +35,15 @@ final class Fez extends Component
 
     private ?Metaable $metaable = null;
 
-    public function __construct(private array $features, private ComponentFactory $factory)
-    {
+    public function __construct(
+        private array $features,
+        private ComponentFactory $factory,
+        private Router $router,
+    ) {
         $this->components = $this->initialize();
     }
 
-    public function acceptBinding(string $binding): void
+    public function useBinding(string $binding): void
     {
         $this->binding = $binding;
     }
@@ -70,12 +74,8 @@ final class Fez extends Component
         );
     }
 
-    public function useModel(Metaable $metaable, ?string $binding = null): self
+    public function useModel(Metaable $metaable): self
     {
-        if (is_string($this->binding) && $this->binding !== $binding) {
-            return $this;
-        }
-
         $this->metaable = $metaable;
 
         if ($this->hydrated) {
@@ -89,19 +89,43 @@ final class Fez extends Component
 
     private function hydrateIfNecessary(): void
     {
-        if ($this->hydrated || is_null($this->metaable)) {
+        if ($this->hydrated) {
             return;
         }
 
-        $metaData = $this->metaable->getMetaData();
+        $metaable = $this->findMostRelevantMetaable();
 
-        foreach ($this->components as $component) {
-            if ($component instanceof Hydratable) {
-                $component->hydrate($metaData);
+        if ($metaable instanceof Metaable) {
+            $metaData = $metaable->getMetaData();
+
+            foreach ($this->components as $component) {
+                if ($component instanceof Hydratable) {
+                    $component->hydrate($metaData);
+                }
             }
         }
 
         $this->hydrated = true;
+    }
+
+    private function findMostRelevantMetaable(): ?Metaable
+    {
+        if ($this->metaable instanceof Metaable) {
+            return $this->metaable;
+        }
+
+        if (is_null($route = $this->router->getCurrentRoute())) {
+            return null;
+        }
+
+        if (is_string($this->binding)) {
+            return Arr::get($route->parameters, $this->binding);
+        }
+
+        return Collection::make($route->parameterNames)
+            ->map(fn ($param) => Arr::get($route->parameters, $param))
+            ->reverse()
+            ->first(fn ($param) => $param instanceof Metaable);
     }
 
     /**
