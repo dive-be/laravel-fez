@@ -31,4 +31,9 @@ final class OpenGraph extends Container
             'url' => 'https://dive.be',
         ];
     }
+
+    protected function normalizeProperty(string $property): string
+    {
+        return str_replace(self::PREFIX.':', '', $property);
+    }
 }

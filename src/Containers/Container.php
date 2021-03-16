@@ -6,6 +6,7 @@ use ArrayAccess;
 use Dive\Fez\Component;
 use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Hydratable;
+use Dive\Fez\Contracts\Validator;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Support\Arr;
 
@@ -14,6 +15,8 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
     use Makeable;
 
     protected array $properties = [];
+
+    public function __construct(protected Validator $validator) {}
 
     abstract public function hydrate(MetaData $data): self;
 
@@ -27,13 +30,25 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         return $this->properties;
     }
 
+    /**
+     * @throws \Dive\Fez\Exceptions\ValidationException
+     */
     public function setProperty(string $property, string $value): static
     {
+        $property = $this->normalizeProperty($property);
+
+        $this->validator->validate($property);
+
         if (! empty($value)) {
             Arr::set($this->properties, $property, $value);
         }
 
         return $this;
+    }
+
+    protected function normalizeProperty(string $property): string
+    {
+        return $property;
     }
 
     public function offsetExists($offset): bool

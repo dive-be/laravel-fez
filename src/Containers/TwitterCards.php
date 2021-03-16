@@ -31,4 +31,9 @@ final class TwitterCards extends Container
             'title' => 'Brands to dive for',
         ];
     }
+
+    protected function normalizeProperty(string $property): string
+    {
+        return str_replace(self::PREFIX.':', '', $property);
+    }
 }
