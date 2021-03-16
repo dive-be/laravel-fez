@@ -2,10 +2,15 @@
 
 namespace Dive\Fez\Validators;
 
-class MetaValidator extends ContainerValidator
+class MetaValidator extends Validator
 {
-    public function validate(string $value): bool
+    public function passes(string $value): bool
     {
-        return true;
+        return in_array($value, $this->data);
+    }
+
+    protected function dataProvider(): array
+    {
+        return require_once __DIR__.'../../resources/data/meta.php';
     }
 }
