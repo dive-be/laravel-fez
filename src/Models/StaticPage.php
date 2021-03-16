@@ -17,6 +17,8 @@ use Illuminate\Routing\Route;
  */
 class StaticPage extends Model implements Contract, Metaable
 {
+    public const PARAMETER_NAME = 'page';
+
     use ProvidesMetaData;
 
     protected static ?Closure $resolveKeyUsing = null;
@@ -27,10 +29,12 @@ class StaticPage extends Model implements Contract, Metaable
     {
         $keyResolver = self::$resolveKeyUsing ?? fn (Route $route) => $route->getName();
 
-        return tap(
-            self::query()->where('key', $keyResolver($route))->firstOrNew(),
-            fn (self $page) => $page->exists && $fez->useModel($page),
-        );
+        return tap(self::query()->where('key', $keyResolver($route))->first(), function ($page) use ($route) {
+            if ($page instanceof self) {
+                $route->parameterNames[] = self::PARAMETER_NAME;
+                $route->setParameter(self::PARAMETER_NAME, $page);
+            }
+        });
     }
 
     public static function resolveKeyUsing(Closure $callback): void
