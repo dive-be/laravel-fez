@@ -3,7 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
-use Dive\Fez\Models\StaticPage;
+use Dive\Fez\Contracts\StaticPage as StaticPageContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -33,9 +33,11 @@ class FezServiceProvider extends ServiceProvider
             return new Fez(array_unique($app['config']['fez.features']), $app->make(ComponentFactory::class));
         });
 
-        $this->app->bind(StaticPage::class, static function (Application $app) {
-            return StaticPage::resolve($app->make('fez'), $app->make('router')->getCurrentRoute());
-        });
+        $this->app->bind(StaticPageContract::class, fn (Application $app) => call_user_func(
+            [$app->make('config')->get('fez.models.static_page'), 'resolve'],
+            $app->make('fez'),
+            $app->make('router')->getCurrentRoute()
+        ));
     }
 
     private function registerBladeDirectives()
