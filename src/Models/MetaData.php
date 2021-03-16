@@ -15,7 +15,16 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class MetaData extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'description',
+        'image',
+        'keywords',
+        'open_graph',
+        'robots',
+        'schema',
+        'title',
+        'twitter',
+    ];
 
     public function metaDataable(): MorphTo
     {

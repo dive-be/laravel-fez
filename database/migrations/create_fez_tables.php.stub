@@ -17,6 +17,7 @@ class CreateFezTables extends Migration
             $table->string('robots')->nullable();
             $table->string('image')->nullable();
             $table->json('open_graph')->nullable();
+            $table->json('schema')->nullable();
             $table->json('twitter')->nullable();
             $table->timestamps();
         });

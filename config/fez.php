@@ -1,14 +1,6 @@
 <?php
 
 return [
-    'allowed_defaults' => [
-        'description',
-        'image',
-        'keywords',
-        'robots',
-        'title',
-    ],
-
     'defaults' => [
         'description' => null,
         'image' => null,
