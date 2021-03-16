@@ -64,9 +64,22 @@ final class Fez extends Component
         );
     }
 
+    public function use(Metaable $metaable): self
+    {
+        $this->finder->alwaysFind($metaable);
+
+        if ($this->hydrated) {
+            $this->components = $this->initialize();
+
+            $this->hydrated = false;
+        }
+
+        return $this;
+    }
+
     public function useBinding(string $binding): void
     {
-        $this->finder->useBinding($binding);
+        $this->finder->searchFor($binding);
     }
 
     private function hydrateIfNecessary(): void

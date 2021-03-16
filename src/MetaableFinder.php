@@ -11,12 +11,23 @@ use Illuminate\Support\Collection;
 
 class MetaableFinder
 {
+    private ?Metaable $always = null;
+
     private ?string $binding = null;
 
     private Closure $route;
 
+    public function alwaysFind(Metaable $metaable): void
+    {
+        $this->always = $metaable;
+    }
+
     public function find(): ?Metaable
     {
+        if ($this->always instanceof Metaable) {
+            return $this->always;
+        }
+
         $route = ($this->route)();
 
         if (! $route instanceof Route) {
@@ -46,15 +57,15 @@ class MetaableFinder
         }
     }
 
+    public function searchFor(string $binding): void
+    {
+        $this->binding = $binding;
+    }
+
     public function setRouteResolver(Closure $callback): self
     {
         $this->route = $callback;
 
         return $this;
-    }
-
-    public function useBinding(string $binding): void
-    {
-        $this->binding = $binding;
     }
 }
