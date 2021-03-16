@@ -28,7 +28,10 @@ abstract class Validator implements Contract
     public function validate(string $value): void
     {
         if ($this->fails($value)) {
-            throw ValidationException::make(Str::before(class_basename(static::class), 'Validator'), $value);
+            throw ValidationException::make(
+                Str::of(class_basename(static::class))->before('Validator')->camel(),
+                $value,
+            );
         }
     }
 }

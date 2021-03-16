@@ -11,6 +11,6 @@ class OpenGraphValidator extends Validator
 
     protected function dataProvider(): array
     {
-        return require_once __DIR__.'../../resources/data/open_graph.php';
+        return require_once __DIR__.'/../../resources/data/open_graph.php';
     }
 }

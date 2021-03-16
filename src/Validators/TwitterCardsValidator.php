@@ -11,6 +11,6 @@ class TwitterCardsValidator extends Validator
 
     protected function dataProvider(): array
     {
-        return require_once __DIR__.'../../resources/data/twitter_cards.php';
+        return require_once __DIR__.'/../../resources/data/twitter_cards.php';
     }
 }

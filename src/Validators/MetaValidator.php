@@ -11,6 +11,6 @@ class MetaValidator extends Validator
 
     protected function dataProvider(): array
     {
-        return require_once __DIR__.'../../resources/data/meta.php';
+        return require_once __DIR__.'/../../resources/data/meta.php';
     }
 }

@@ -11,6 +11,6 @@ class SchemaValidator extends Validator
 
     protected function dataProvider(): array
     {
-        return require_once __DIR__.'../../resources/data/schema.php';
+        return require_once __DIR__.'/../../resources/data/schema.php';
     }
 }
