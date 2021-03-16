@@ -26,15 +26,22 @@ final class Fez extends Component
     public const FEATURE_SCHEMA_ORG = 'schemaOrg';
     public const FEATURE_TWITTER_CARDS = 'twitterCards';
 
+    private ?string $binding = null;
+
     private array $components;
 
-    private ?Metaable $metaable = null;
-
     private bool $hydrated = false;
+
+    private ?Metaable $metaable = null;
 
     public function __construct(private array $features, private ComponentFactory $factory)
     {
         $this->components = $this->initialize();
+    }
+
+    public function acceptBinding(string $binding): void
+    {
+        $this->binding = $binding;
     }
 
     public function generate(): string
@@ -63,8 +70,12 @@ final class Fez extends Component
         );
     }
 
-    public function use(Metaable $metaable): self
+    public function useModel(Metaable $metaable, ?string $binding = null): self
     {
+        if (is_string($this->binding) && $this->binding !== $binding) {
+            return $this;
+        }
+
         $this->metaable = $metaable;
 
         if ($this->hydrated) {
@@ -78,11 +89,7 @@ final class Fez extends Component
 
     private function hydrateIfNecessary(): void
     {
-        if ($this->hydrated) {
-            return;
-        }
-
-        if (is_null($this->metaable)) {
+        if ($this->hydrated || is_null($this->metaable)) {
             return;
         }
 

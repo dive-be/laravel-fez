@@ -24,7 +24,7 @@ trait ProvidesMetaData
     {
         return tap(
             parent::resolveRouteBinding($value, $field),
-            fn ($model) => $model->exists && app('fez')->use($model),
+            fn ($model) => $model->exists && app('fez')->useModel($model, $field),
         );
     }
 }

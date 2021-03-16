@@ -5,6 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Models\StaticPage;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +20,7 @@ class FezServiceProvider extends ServiceProvider
         }
 
         $this->registerBladeDirectives();
+        $this->registerRouteMacro();
     }
 
     public function register()
@@ -73,5 +75,14 @@ class FezServiceProvider extends ServiceProvider
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),
             ], 'migrations');
         }
+    }
+
+    private function registerRouteMacro()
+    {
+        Route::macro('fez', function (string $binding) {
+            app('fez')->acceptBinding($binding);
+
+            return $this;
+        });
     }
 }

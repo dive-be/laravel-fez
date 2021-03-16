@@ -28,7 +28,7 @@ class StaticPage extends Model implements Metaable
 
         return tap(
             self::query()->where('key', $keyResolver($route))->firstOrNew(),
-            fn (self $page) => $page->exists && $fez->use($page),
+            fn (self $page) => $page->exists && $fez->useModel($page),
         );
     }
 
