@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 
 class FezServiceProvider extends ServiceProvider
 {
@@ -20,7 +21,7 @@ class FezServiceProvider extends ServiceProvider
         }
 
         $this->registerBladeDirectives();
-        $this->registerRouteMacro();
+        $this->registerMacros();
     }
 
     public function register()
@@ -65,6 +66,21 @@ class FezServiceProvider extends ServiceProvider
         ], 'config');
     }
 
+    private function registerMacros()
+    {
+        Route::macro('fez', function (string $binding) {
+            app('fez')->useBinding($binding);
+
+            return $this;
+        });
+
+        View::macro('withFez', function (array|string $property, $value = null) {
+            app('fez')->set($property, $value);
+
+            return $this;
+        });
+    }
+
     private function registerMigration()
     {
         $migration = 'create_fez_tables.php';
@@ -79,14 +95,5 @@ class FezServiceProvider extends ServiceProvider
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),
             ], 'migrations');
         }
-    }
-
-    private function registerRouteMacro()
-    {
-        Route::macro('fez', function (string $binding) {
-            app('fez')->useBinding($binding);
-
-            return $this;
-        });
     }
 }
