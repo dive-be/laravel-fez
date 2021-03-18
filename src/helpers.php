@@ -1,6 +1,5 @@
 <?php
 
-use Dive\Fez\Component;
 use Dive\Fez\Fez;
 
 if (! function_exists('fez')) {

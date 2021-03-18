@@ -17,9 +17,9 @@ use Illuminate\Routing\Route;
  */
 class StaticPage extends Model implements Contract, Metaable
 {
-    public const PARAMETER_NAME = 'page';
-
     use ProvidesMetaData;
+
+    public const PARAMETER_NAME = 'page';
 
     protected static ?Closure $resolveKeyUsing = null;
 
