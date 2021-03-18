@@ -15,14 +15,14 @@ trait ProvidesMetaData
     {
         $relation = $this->getRelationValue('metaData');
 
-        if (count($this->metaDefaults()) < 1) {
+        if (count($this->metaDefaultsArray()) < 1) {
             return $relation;
         }
 
         [
             $metaAttributes,
             $modelAttributes
-        ] = Arr::divide(Arr::only($this->metaDefaults(), $relation->getFillable()));
+        ] = Arr::divide(Arr::only($this->metaDefaultsArray(), $relation->getFillable()));
 
         return $relation->fill(array_merge(
             array_combine($metaAttributes, array_values($this->only($modelAttributes))),
@@ -35,7 +35,7 @@ trait ProvidesMetaData
         return $this->morphOne(config('fez.models.meta_data'), 'meta_dataable')->withDefault();
     }
 
-    protected function metaDefaults(): array
+    protected function metaDefaultsArray(): array
     {
         return isset($this->metaDefaults) ? $this->metaDefaults : [];
     }
