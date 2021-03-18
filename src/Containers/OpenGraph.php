@@ -11,21 +11,19 @@ final class OpenGraph extends Container
 {
     public const PREFIX = 'og';
 
-    private TitleFormatter $formatter;
-
     private bool $locale;
 
     private bool $url;
 
     public function __construct(
+        private TitleFormatter $formatter,
         private UrlGenerator $urlGenerator,
         private string $activeLocale,
         array $defaults,
     ) {
-        $this->formatter = TitleFormatter::make($defaults['suffix'], $defaults['separator']);
-        $this->properties = Arr::except($defaults, ['locale', 'suffix', 'separator', 'url']);
-        $this->locale = Arr::get($defaults, 'locale', true);
-        $this->url = Arr::get($defaults, 'url', true);
+        $this->locale = Arr::pull($defaults, 'locale', true);
+        $this->url = Arr::pull($defaults, 'url', true);
+        $this->properties = $defaults;
     }
 
     public function generate(): string

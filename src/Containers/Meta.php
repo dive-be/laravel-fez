@@ -9,17 +9,15 @@ use Illuminate\Support\Arr;
 
 final class Meta extends Container
 {
-    private array $attributes = ['description', 'keywords', 'robots', 'title'];
-
     private bool $canonical;
 
-    private TitleFormatter $formatter;
-
-    public function __construct(private UrlGenerator $url, array $defaults)
-    {
-        $this->canonical = Arr::get($defaults, 'canonical', true);
-        $this->formatter = TitleFormatter::make($defaults['suffix'], $defaults['separator']);
-        $this->properties = Arr::only($defaults, $this->attributes);
+    public function __construct(
+        private TitleFormatter $formatter,
+        private UrlGenerator $url,
+        array $defaults
+    ) {
+        $this->canonical = Arr::pull($defaults, 'canonical', true);
+        $this->properties = Arr::except($defaults, 'image');
     }
 
     public function generate(): string
@@ -38,7 +36,10 @@ final class Meta extends Container
 
     public function hydrate(MetaData $data): self
     {
-        $this->properties = array_merge($this->properties, array_filter($data->only($this->attributes)));
+        $this->properties = array_merge(
+            $this->properties,
+            array_filter($data->only('description', 'keywords', 'robots', 'title')),
+        );
 
         return $this;
     }

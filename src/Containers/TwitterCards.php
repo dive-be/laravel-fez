@@ -4,18 +4,14 @@ namespace Dive\Fez\Containers;
 
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
-use Illuminate\Support\Arr;
 
 final class TwitterCards extends Container
 {
     public const PREFIX = 'twitter';
 
-    private TitleFormatter $formatter;
-
-    public function __construct(array $defaults)
+    public function __construct(private TitleFormatter $formatter, array $defaults)
     {
-        $this->formatter = TitleFormatter::make($defaults['suffix'], $defaults['separator']);
-        $this->properties = Arr::except($defaults, ['suffix', 'separator']);
+        $this->properties = $defaults;
     }
 
     public function generate(): string

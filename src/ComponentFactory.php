@@ -6,15 +6,19 @@ use Dive\Fez\Containers\Meta;
 use Dive\Fez\Containers\OpenGraph;
 use Dive\Fez\Containers\TwitterCards;
 use Dive\Fez\Exceptions\UnexpectedComponentException;
+use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Localization\AlternatePages;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ComponentFactory
 {
     private array $defaults;
+
+    private TitleFormatter $formatter;
 
     private array $locales;
 
@@ -26,19 +30,27 @@ class ComponentFactory
     ) {
         $this->defaults = $config->get('fez.defaults');
         $this->locales = array_unique($config->get('fez.locales'));
+        $this->formatter = TitleFormatter::make(
+            Arr::pull($this->defaults, 'general.suffix'),
+            Arr::pull($this->defaults, 'general.separator'),
+        );
     }
 
     public function make(string $component): Component
     {
         return match ($component) {
             Fez::FEATURE_ALTERNATE_PAGES => AlternatePages::make($this->locales, $this->request),
-            Fez::FEATURE_META => Meta::make($this->url, $this->defaultsFor(Fez::FEATURE_META)),
+            Fez::FEATURE_META => Meta::make($this->formatter, $this->url, $this->defaultsFor(Fez::FEATURE_META)),
             Fez::FEATURE_OPEN_GRAPH => OpenGraph::make(
+                $this->formatter,
                 $this->url,
                 $this->app->getLocale(),
                 $this->defaultsFor(Fez::FEATURE_OPEN_GRAPH),
             ),
-            Fez::FEATURE_TWITTER_CARDS => TwitterCards::make($this->defaultsFor(Fez::FEATURE_TWITTER_CARDS)),
+            Fez::FEATURE_TWITTER_CARDS => TwitterCards::make(
+                $this->formatter,
+                $this->defaultsFor(Fez::FEATURE_TWITTER_CARDS),
+            ),
             default => throw UnexpectedComponentException::make($component),
         };
     }
