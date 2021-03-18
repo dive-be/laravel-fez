@@ -4,16 +4,20 @@ namespace Dive\Fez\Containers;
 
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 
 final class Meta extends Container
 {
     private array $attributes = ['description', 'keywords', 'robots', 'title'];
 
+    private bool $canonical;
+
     private TitleFormatter $formatter;
 
-    public function __construct(array $defaults)
+    public function __construct(private UrlGenerator $url, array $defaults)
     {
+        $this->canonical = Arr::get($defaults, 'canonical', true);
         $this->formatter = TitleFormatter::make($defaults['suffix'], $defaults['separator']);
         $this->properties = Arr::only($defaults, $this->attributes);
     }
@@ -27,7 +31,9 @@ final class Meta extends Container
             ->map(fn ($content) => is_array($content) ? implode(', ', $content) : $content)
             ->map(fn ($content, $name) => '<meta name="'.$name.'" content="'.$content.'" />')
             ->prepend("<title>{$title}</title>")
-            ->join(PHP_EOL);
+            ->when($this->canonical, function ($props) {
+                return $props->push('<link rel="canonical" href="'.$this->url->current().'" />');
+            })->join(PHP_EOL);
     }
 
     public function hydrate(MetaData $data): self
