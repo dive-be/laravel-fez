@@ -63,6 +63,11 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         Arr::forget($this->properties, $offset);
     }
 
+    public function toArray(): array
+    {
+        return array_filter($this->properties);
+    }
+
     public function __call(string $method, array $arguments)
     {
         if (empty($arguments)) {
