@@ -66,6 +66,8 @@ final class Fez extends Component
             return $this;
         }
 
+        $this->hydrateIfNecessary();
+
         if (is_string($property)) {
             $property = [$property => $value];
         }
