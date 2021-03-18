@@ -3,7 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
-use Dive\Fez\Contracts\StaticPage as StaticPageContract;
+use Dive\Fez\Contracts\StaticPage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -29,6 +29,7 @@ class FezServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/fez.php', 'fez');
 
         $this->app->alias(Fez::class, 'fez');
+        $this->app->alias(StaticPage::class, $staticPage = $this->app['config']['fez.models.static_page']);
 
         $this->app->singleton(Fez::class, fn (Application $app) => new Fez(
             array_unique($app['config']['fez.features']),
@@ -36,11 +37,9 @@ class FezServiceProvider extends ServiceProvider
             $app->make(MetaableFinder::class)->setRouteResolver(fn () => $app->make('router')->getCurrentRoute()),
         ));
 
-        $this->app->bind(StaticPageContract::class, fn (Application $app) => call_user_func(
-            [$app->make('config')->get('fez.models.static_page'), 'resolve'],
-            $app->make('fez'),
-            $app->make('router')->getCurrentRoute()
-        ));
+        $this->app->bind(StaticPage::class, function (Application $app) use ($staticPage) {
+            return call_user_func([$staticPage, 'resolve'], $app->make('fez'), $app->make('router')->getCurrentRoute());
+        });
     }
 
     private function registerBladeDirectives()
