@@ -34,13 +34,11 @@ final class Meta extends Container
             })->join(PHP_EOL);
     }
 
-    public function hydrate(MetaData $data): self
+    public function hydrate(MetaData $data): void
     {
         $this->properties = array_merge(
             $this->properties,
             array_filter($data->only('description', 'keywords', 'robots', 'title')),
         );
-
-        return $this;
     }
 }

@@ -37,14 +37,12 @@ final class OpenGraph extends Container
             ->join(PHP_EOL);
     }
 
-    public function hydrate(MetaData $data): self
+    public function hydrate(MetaData $data): void
     {
         $this->properties = array_merge(
             $this->properties,
             array_merge(array_filter($data->only('description', 'image', 'title')), $data->open_graph ?? []),
         );
-
-        return $this;
     }
 
     protected function normalizeProperty(string $property): string

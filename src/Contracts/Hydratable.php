@@ -6,5 +6,5 @@ use Dive\Fez\Models\MetaData;
 
 interface Hydratable
 {
-    public function hydrate(MetaData $data): self;
+    public function hydrate(MetaData $data): void;
 }
