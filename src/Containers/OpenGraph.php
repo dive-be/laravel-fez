@@ -34,6 +34,6 @@ final class OpenGraph extends Container
 
     protected function normalizeProperty(string $property): string
     {
-        return str_replace(self::PREFIX.':', '', $property);
+        return str_replace(self::PREFIX.':', '', parent::normalizeProperty($property));
     }
 }
