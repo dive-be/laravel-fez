@@ -11,9 +11,9 @@ use Illuminate\Support\Collection;
 
 class MetaableFinder
 {
-    private ?Metaable $always = null;
+    public const DEFAULT = 'fez';
 
-    private ?string $binding = null;
+    private ?Metaable $always = null;
 
     private Closure $route;
 
@@ -34,8 +34,8 @@ class MetaableFinder
             throw UnresolvableRouteException::make();
         }
 
-        if (is_string($this->binding)) {
-            $metaable = Arr::get($route->parameters, $this->binding);
+        if (is_string($binding = Arr::pull($route->defaults, self::DEFAULT))) {
+            $metaable = Arr::get($route->parameters, $binding);
 
             if ($metaable instanceof Metaable) {
                 return $metaable;
@@ -55,11 +55,6 @@ class MetaableFinder
         if ($metaable instanceof Metaable) {
             $callback($metaable);
         }
-    }
-
-    public function searchFor(string $binding): void
-    {
-        $this->binding = $binding;
     }
 
     public function setRouteResolver(Closure $callback): self

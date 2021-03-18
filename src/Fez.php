@@ -108,11 +108,6 @@ final class Fez extends Component
         return $this;
     }
 
-    public function useBinding(string $binding): void
-    {
-        $this->finder->searchFor($binding);
-    }
-
     private function hydrateIfNecessary(): void
     {
         if ($this->hydrated) {

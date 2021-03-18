@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Dive\Fez\Fez set(array|string $property, $value = null)
  * @method static array toArray()
  * @method static \Dive\Fez\Fez use(\Dive\Fez\Contracts\Metaable $metaable)
- * @method static useBinding(string $binding)
  */
 class Fez extends Facade
 {

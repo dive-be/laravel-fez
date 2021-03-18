@@ -68,9 +68,8 @@ class FezServiceProvider extends ServiceProvider
     private function registerMacros()
     {
         Route::macro('fez', function (string $binding) {
-            app('fez')->useBinding($binding);
-
-            return $this;
+            /** @var Route $this */
+            return $this->defaults(MetaableFinder::DEFAULT, $binding);
         });
 
         View::macro('withFez', function (array|string $property, $value = null) {
