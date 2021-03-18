@@ -18,7 +18,9 @@ class MetaData extends Model
 {
     protected $casts = [
         'keywords' => DelimitedCast::class,
+        'open_graph' => 'array',
         'robots' => DelimitedCast::class,
+        'twitter' => 'array',
     ];
 
     protected $fillable = [
