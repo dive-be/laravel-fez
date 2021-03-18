@@ -11,8 +11,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $image
  * @property string|null $keywords
  * @property mixed       $metaDataable
+ * @property array|null  $open_graph
  * @property string|null $robots
  * @property string      $title
+ * @property array|null  $twitter
  */
 class MetaData extends Model
 {
