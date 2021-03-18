@@ -4,7 +4,6 @@ namespace Dive\Fez\Containers;
 
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
-use Dive\Fez\Validators\MetaValidator;
 use Illuminate\Support\Arr;
 
 final class Meta extends Container
@@ -13,10 +12,8 @@ final class Meta extends Container
 
     private TitleFormatter $formatter;
 
-    public function __construct(array $defaults, MetaValidator $validator)
+    public function __construct(array $defaults)
     {
-        parent::__construct($validator);
-
         $this->formatter = TitleFormatter::make($defaults['suffix'], $defaults['separator']);
         $this->properties = Arr::only($defaults, $this->attributes);
     }

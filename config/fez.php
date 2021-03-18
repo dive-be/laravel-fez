@@ -15,7 +15,6 @@ return [
         Dive\Fez\Fez::FEATURE_META,
         Dive\Fez\Fez::FEATURE_OPEN_GRAPH,
         Dive\Fez\Fez::FEATURE_TWITTER_CARDS,
-        Dive\Fez\Fez::FEATURE_SCHEMA_ORG,
         Dive\Fez\Fez::FEATURE_ALTERNATE_PAGES,
     ],
 

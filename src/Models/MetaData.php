@@ -21,7 +21,6 @@ class MetaData extends Model
         'keywords',
         'open_graph',
         'robots',
-        'schema',
         'title',
         'twitter',
     ];

@@ -15,7 +15,6 @@ use ReflectionClass;
  * @property \Dive\Fez\Localization\AlternatePages|null $alternatePages
  * @property \Dive\Fez\Containers\Meta|null             $meta
  * @property \Dive\Fez\Containers\OpenGraph|null        $openGraph
- * @property \Dive\Fez\Containers\Schema|null           $schemaOrg
  * @property \Dive\Fez\Containers\TwitterCards|null     $twitterCards
  */
 final class Fez extends Component
@@ -23,7 +22,6 @@ final class Fez extends Component
     public const FEATURE_ALTERNATE_PAGES = 'alternatePages';
     public const FEATURE_META = 'meta';
     public const FEATURE_OPEN_GRAPH = 'openGraph';
-    public const FEATURE_SCHEMA_ORG = 'schemaOrg';
     public const FEATURE_TWITTER_CARDS = 'twitterCards';
 
     private array $components;

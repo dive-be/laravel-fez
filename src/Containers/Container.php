@@ -6,7 +6,6 @@ use ArrayAccess;
 use Dive\Fez\Component;
 use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Hydratable;
-use Dive\Fez\Contracts\Validator;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Support\Arr;
 
@@ -16,11 +15,9 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
 
     protected array $properties = [];
 
-    public function __construct(protected Validator $validator) {}
-
     abstract public function hydrate(MetaData $data): self;
 
-    public function getProperty(string $property, ?string $default = null): array|string|null
+    public function getProperty(string $property, ?string $default = null)
     {
         return Arr::get($this->properties, $property, $default);
     }
@@ -33,13 +30,11 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
     /**
      * @throws \Dive\Fez\Exceptions\ValidationException
      */
-    public function setProperty(string $property, array|string $value): static
+    public function setProperty(string $property, $value): static
     {
         $property = $this->normalizeProperty($property);
 
         if (! empty($property) && ! empty($value)) {
-            $this->validator->validate($property, $value);
-
             Arr::set($this->properties, $property, $value);
         }
 
@@ -56,7 +51,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         return Arr::has($this->properties, $offset);
     }
 
-    public function offsetGet($offset): ?string
+    public function offsetGet($offset)
     {
         return $this->getProperty($offset);
     }
@@ -71,7 +66,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         Arr::forget($this->properties, $offset);
     }
 
-    public function __call(string $method, array $arguments): static|string|null
+    public function __call(string $method, array $arguments)
     {
         if (empty($arguments)) {
             return $this->getProperty($method);
@@ -80,7 +75,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         return $this->setProperty($method, Arr::get($arguments, 0, ''));
     }
 
-    public function __get(string $name): ?string
+    public function __get(string $name)
     {
         return $this->getProperty($name);
     }
