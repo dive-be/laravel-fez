@@ -72,7 +72,7 @@ class FezServiceProvider extends ServiceProvider
             return $this->defaults(MetaableFinder::DEFAULT, $binding);
         });
 
-        View::macro('withFez', function (array|string $property, $value = null) {
+        View::macro('withFez', function ($property, $value = null) {
             app('fez')->set($property, $value);
 
             return $this;
