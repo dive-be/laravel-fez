@@ -20,10 +20,11 @@ final class Meta extends Container
 
     public function generate(): string
     {
-        $meta = $this->toCollection();
-        $title = $this->formatter->format($meta->pull('title'));
+        $properties = $this->toCollection();
+        $title = $this->formatter->format($properties->pull('title'));
 
-        return $meta
+        return $properties
+            ->map(fn ($content) => is_array($content) ? implode(', ', $content) : $content)
             ->map(fn ($content, $name) => '<meta name="'.$name.'" content="'.$content.'" />')
             ->prepend("<title>{$title}</title>")
             ->join(PHP_EOL);
@@ -34,10 +35,5 @@ final class Meta extends Container
         $this->properties = array_merge($this->properties, array_filter($data->only($this->attributes)));
 
         return $this;
-    }
-
-    public function toArray(): array
-    {
-        return array_filter($this->properties);
     }
 }
