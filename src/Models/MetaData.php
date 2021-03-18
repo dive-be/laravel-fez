@@ -2,6 +2,7 @@
 
 namespace Dive\Fez\Models;
 
+use Dive\Fez\Casts\DelimitedCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -15,6 +16,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class MetaData extends Model
 {
+    protected $casts = [
+        'keywords' => DelimitedCast::class,
+        'robots' => DelimitedCast::class,
+    ];
+
     protected $fillable = [
         'description',
         'image',
