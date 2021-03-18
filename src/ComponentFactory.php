@@ -39,24 +39,41 @@ class ComponentFactory
     public function make(string $component): Component
     {
         return match ($component) {
-            Fez::FEATURE_ALTERNATE_PAGES => AlternatePages::make($this->locales, $this->request),
-            Fez::FEATURE_META => Meta::make($this->formatter, $this->url, $this->defaultsFor(Fez::FEATURE_META)),
-            Fez::FEATURE_OPEN_GRAPH => OpenGraph::make(
-                $this->formatter,
-                $this->url,
-                $this->app->getLocale(),
-                $this->defaultsFor(Fez::FEATURE_OPEN_GRAPH),
-            ),
-            Fez::FEATURE_TWITTER_CARDS => TwitterCards::make(
-                $this->formatter,
-                $this->defaultsFor(Fez::FEATURE_TWITTER_CARDS),
-            ),
+            Fez::FEATURE_ALTERNATE_PAGES => $this->alternatePages(),
+            Fez::FEATURE_META => $this->meta(),
+            Fez::FEATURE_OPEN_GRAPH => $this->openGraph(),
+            Fez::FEATURE_TWITTER_CARDS => $this->twitterCards(),
             default => throw UnexpectedComponentException::make($component),
         };
+    }
+
+    private function alternatePages(): AlternatePages
+    {
+        return AlternatePages::make($this->locales, $this->request);
     }
 
     private function defaultsFor(string $component): array
     {
         return array_merge($this->defaults['general'], $this->defaults[$component]);
+    }
+
+    private function meta(): Meta
+    {
+        return Meta::make($this->formatter, $this->url, $this->defaultsFor(Fez::FEATURE_META));
+    }
+
+    private function openGraph(): OpenGraph
+    {
+        return OpenGraph::make(
+            $this->formatter,
+            $this->url,
+            $this->app->getLocale(),
+            $this->defaultsFor(Fez::FEATURE_OPEN_GRAPH),
+        );
+    }
+
+    private function twitterCards(): TwitterCards
+    {
+        return TwitterCards::make($this->formatter, $this->defaultsFor(Fez::FEATURE_TWITTER_CARDS));
     }
 }
