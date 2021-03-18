@@ -2,10 +2,11 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
 
-final class TwitterCards extends Container
+final class TwitterCards extends Container implements Imageable
 {
     public const PREFIX = 'twitter';
 

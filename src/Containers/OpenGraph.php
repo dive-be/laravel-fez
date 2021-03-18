@@ -2,12 +2,13 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 
-final class OpenGraph extends Container
+final class OpenGraph extends Container implements Imageable
 {
     public const PREFIX = 'og';
 

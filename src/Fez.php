@@ -2,8 +2,10 @@
 
 namespace Dive\Fez;
 
+use Dive\Fez\Containers\Container;
 use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
+use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Metaable;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
@@ -28,6 +30,12 @@ final class Fez extends Component
 
     private bool $hydrated = false;
 
+    private array $propertyMapping = [
+        'description' => Container::class,
+        'image' => Imageable::class,
+        'title' => Container::class,
+    ];
+
     public function __construct(
         private array $features,
         private ComponentFactory $factory,
@@ -50,6 +58,29 @@ final class Fez extends Component
         $this->hydrateIfNecessary();
 
         return Arr::get($this->components, $component);
+    }
+
+    public function set(array|string $property, $value = null): self
+    {
+        if (empty($property)) {
+            return $this;
+        }
+
+        if (is_string($property)) {
+            $property = [$property => $value];
+        }
+
+        $properties = Arr::only($property, array_keys($this->propertyMapping));
+
+        foreach ($this->components as $component) {
+            foreach ($properties as $property => $value) {
+                if ($component instanceof $this->propertyMapping[$property]) {
+                    $component->setProperty($property, $value);
+                }
+            }
+        }
+
+        return $this;
     }
 
     public function toArray(): array

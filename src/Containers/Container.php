@@ -24,9 +24,6 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         return $this->properties;
     }
 
-    /**
-     * @throws \Dive\Fez\Exceptions\ValidationException
-     */
     public function setProperty(string $property, $value): static
     {
         $property = $this->normalizeProperty($property);
