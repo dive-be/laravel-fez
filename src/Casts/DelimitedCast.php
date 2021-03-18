@@ -10,7 +10,7 @@ class DelimitedCast implements CastsAttributes
 
     public function get($model, string $key, $value, array $attributes)
     {
-        return explode(self::DELIMITER, $value);
+        return is_string($value) ? explode(self::DELIMITER, $value) : null;
     }
 
     public function set($model, string $key, $value, array $attributes)
