@@ -1,12 +1,12 @@
 <?php
 
-namespace Dive\Fez\Localization;
+namespace Dive\Fez\Components;
 
 use Closure;
 use Dive\Fez\Component;
-use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
+use Dive\Fez\Support\Makeable;
 use Illuminate\Http\Request;
 
 final class AlternatePage extends Component

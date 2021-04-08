@@ -13,10 +13,10 @@ use Illuminate\Support\Collection;
 use ReflectionClass;
 
 /**
- * @property \Dive\Fez\Localization\AlternatePage|null $alternatePage
- * @property \Dive\Fez\Containers\Meta|null            $meta
- * @property \Dive\Fez\Containers\OpenGraph|null       $openGraph
- * @property \Dive\Fez\Containers\TwitterCards|null    $twitterCards
+ * @property \Dive\Fez\Components\AlternatePage|null $alternatePage
+ * @property \Dive\Fez\Components\Meta|null          $meta
+ * @property \Dive\Fez\Components\OpenGraph|null     $openGraph
+ * @property \Dive\Fez\Components\TwitterCards|null  $twitterCards
  */
 final class Fez extends Component
 {

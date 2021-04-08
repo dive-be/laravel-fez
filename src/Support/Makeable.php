@@ -1,6 +1,6 @@
 <?php
 
-namespace Dive\Fez\Concerns;
+namespace Dive\Fez\Support;
 
 trait Makeable
 {

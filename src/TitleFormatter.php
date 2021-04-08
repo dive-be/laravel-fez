@@ -1,9 +1,9 @@
 <?php
 
-namespace Dive\Fez\Formatters;
+namespace Dive\Fez;
 
-use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Formatter;
+use Dive\Fez\Support\Makeable;
 
 class TitleFormatter implements Formatter
 {

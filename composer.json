@@ -47,7 +47,7 @@
     },
     "autoload": {
         "files": [
-            "src/helpers.php"
+            "src/Support/helpers.php"
         ],
         "psr-4": {
             "Dive\\Fez\\": "src",

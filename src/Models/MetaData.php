@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Models;
 
-use Dive\Fez\Casts\DelimitedCast;
+use Dive\Fez\Models\Casts\DelimitedCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 

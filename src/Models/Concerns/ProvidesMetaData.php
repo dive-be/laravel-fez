@@ -1,6 +1,6 @@
 <?php
 
-namespace Dive\Fez\Concerns;
+namespace Dive\Fez\Models\Concerns;
 
 use Dive\Fez\Models\MetaData;
 use Illuminate\Database\Eloquent\Relations\MorphOne;

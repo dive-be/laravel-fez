@@ -1,11 +1,11 @@
 <?php
 
-namespace Dive\Fez\Containers;
+namespace Dive\Fez\Components;
 
 use Dive\Fez\Container;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
+use Dive\Fez\TitleFormatter;
 
 final class TwitterCards extends Container implements Imageable
 {

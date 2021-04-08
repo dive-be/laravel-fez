@@ -1,6 +1,6 @@
 <?php
 
-namespace Dive\Fez\Casts;
+namespace Dive\Fez\Models\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 

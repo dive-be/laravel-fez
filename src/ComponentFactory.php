@@ -2,12 +2,11 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Containers\Meta;
-use Dive\Fez\Containers\OpenGraph;
-use Dive\Fez\Containers\TwitterCards;
+use Dive\Fez\Components\AlternatePage;
+use Dive\Fez\Components\Meta;
+use Dive\Fez\Components\OpenGraph;
+use Dive\Fez\Components\TwitterCards;
 use Dive\Fez\Exceptions\UnexpectedComponentException;
-use Dive\Fez\Formatters\TitleFormatter;
-use Dive\Fez\Localization\AlternatePage;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
