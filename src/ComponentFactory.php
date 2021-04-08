@@ -7,7 +7,7 @@ use Dive\Fez\Containers\OpenGraph;
 use Dive\Fez\Containers\TwitterCards;
 use Dive\Fez\Exceptions\UnexpectedComponentException;
 use Dive\Fez\Formatters\TitleFormatter;
-use Dive\Fez\Localization\AlternatePages;
+use Dive\Fez\Localization\AlternatePage;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -39,7 +39,7 @@ class ComponentFactory
     public function make(string $component): Component
     {
         return match ($component) {
-            Fez::FEATURE_ALTERNATE_PAGES => $this->alternatePages(),
+            Fez::FEATURE_ALTERNATE_PAGE => $this->alternatePage(),
             Fez::FEATURE_META => $this->meta(),
             Fez::FEATURE_OPEN_GRAPH => $this->openGraph(),
             Fez::FEATURE_TWITTER_CARDS => $this->twitterCards(),
@@ -47,9 +47,9 @@ class ComponentFactory
         };
     }
 
-    private function alternatePages(): AlternatePages
+    private function alternatePage(): AlternatePage
     {
-        return AlternatePages::make($this->locales, $this->request);
+        return AlternatePage::make($this->locales, $this->request);
     }
 
     private function defaultsFor(string $component): array

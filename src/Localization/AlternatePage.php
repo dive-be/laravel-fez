@@ -9,7 +9,7 @@ use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Http\Request;
 
-final class AlternatePages extends Component
+final class AlternatePage extends Component
 {
     use Makeable;
 
