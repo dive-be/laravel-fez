@@ -1,9 +1,8 @@
 <?php
 
-namespace Dive\Fez\Containers;
+namespace Dive\Fez;
 
 use ArrayAccess;
-use Dive\Fez\Component;
 use Dive\Fez\Concerns\Makeable;
 use Dive\Fez\Contracts\Hydratable;
 use Illuminate\Support\Arr;

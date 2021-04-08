@@ -2,6 +2,7 @@
 
 namespace Dive\Fez\Containers;
 
+use Dive\Fez\Container;
 use Dive\Fez\Formatters\TitleFormatter;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Contracts\Routing\UrlGenerator;

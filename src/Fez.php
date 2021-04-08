@@ -2,7 +2,6 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Containers\Container;
 use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
