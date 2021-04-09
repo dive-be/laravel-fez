@@ -11,7 +11,7 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
 {
     use Makeable;
 
-    protected array $properties = [];
+    public function __construct(protected array $properties = []) {}
 
     public function getProperty(string $property, ?string $default = null)
     {

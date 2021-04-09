@@ -25,7 +25,8 @@ final class OpenGraph extends Container implements Imageable
     ) {
         $this->locale = Arr::pull($defaults, 'locale', true);
         $this->url = Arr::pull($defaults, 'url', true);
-        $this->properties = $defaults;
+
+        parent::__construct($defaults);
     }
 
     public function generate(): string

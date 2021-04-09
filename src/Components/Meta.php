@@ -18,7 +18,8 @@ final class Meta extends Container
         array $defaults
     ) {
         $this->canonical = Arr::pull($defaults, 'canonical', true);
-        $this->properties = Arr::except($defaults, 'image');
+
+        parent::__construct(Arr::except($defaults, 'image'));
     }
 
     public function generate(): string

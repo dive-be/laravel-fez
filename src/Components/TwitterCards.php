@@ -13,7 +13,7 @@ final class TwitterCards extends Container implements Imageable
 
     public function __construct(private TitleFormatter $formatter, array $defaults)
     {
-        $this->properties = $defaults;
+        parent::__construct($defaults);
     }
 
     public function generate(): string
