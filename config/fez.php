@@ -21,13 +21,13 @@ return [
         Fez::FEATURE_OPEN_GRAPH => [
             'locale' => true, // Generates locale tag based on the current active app locale
             'site_name' => env('APP_NAME'),
-            'type' => 'website',
+            'type' => 'website', // article, book, profile or website
             'url' => true, // Uses Url::current when enabled
         ],
 
         Fez::FEATURE_TWITTER_CARDS => [
-            'card' => 'summary',
             'site' => null, // Prefix with @ mandatory
+            'type' => 'summary', // summary, summary_large_image or player
         ],
     ],
 
@@ -39,7 +39,7 @@ return [
         Fez::FEATURE_META,
         Fez::FEATURE_OPEN_GRAPH,
         Fez::FEATURE_TWITTER_CARDS,
-        // Dive\Fez\Fez::FEATURE_ALTERNATE_PAGES,
+        // Fez::FEATURE_ALTERNATE_PAGE,
     ],
 
     /**
