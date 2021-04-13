@@ -3,11 +3,10 @@
 namespace Dive\Fez;
 
 use ArrayAccess;
-use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Support\Arr;
 
-abstract class Container extends Component implements ArrayAccess, Hydratable
+abstract class Container extends Component implements ArrayAccess
 {
     use Makeable;
 

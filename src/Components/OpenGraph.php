@@ -3,13 +3,14 @@
 namespace Dive\Fez\Components;
 
 use Dive\Fez\Container;
+use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
 use Dive\Fez\TitleFormatter;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 
-final class OpenGraph extends Container implements Imageable
+final class OpenGraph extends Container implements Hydratable, Imageable
 {
     public const PREFIX = 'og';
 
