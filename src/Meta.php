@@ -1,11 +1,9 @@
 <?php
 
-namespace Dive\Fez\Components;
+namespace Dive\Fez;
 
-use Dive\Fez\Container;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Models\MetaData;
-use Dive\Fez\TitleFormatter;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 

@@ -2,10 +2,6 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Components\AlternatePage;
-use Dive\Fez\Components\Meta;
-use Dive\Fez\Components\OpenGraph;
-use Dive\Fez\Components\TwitterCards;
 use Dive\Fez\Exceptions\UnexpectedComponentException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;

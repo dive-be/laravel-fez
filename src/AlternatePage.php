@@ -1,9 +1,8 @@
 <?php
 
-namespace Dive\Fez\Components;
+namespace Dive\Fez;
 
 use Closure;
-use Dive\Fez\Component;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
 use Illuminate\Http\Request;

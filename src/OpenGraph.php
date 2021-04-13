@@ -1,8 +1,7 @@
 <?php
 
-namespace Dive\Fez\Components;
+namespace Dive\Fez;
 
-use Dive\Fez\Container;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
@@ -10,13 +9,12 @@ use Dive\Fez\OpenGraph\Objects\Article;
 use Dive\Fez\OpenGraph\Objects\Book;
 use Dive\Fez\OpenGraph\Objects\Profile;
 use Dive\Fez\OpenGraph\Objects\Website;
-use Dive\Fez\TitleFormatter;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 
 final class OpenGraph extends Container implements Hydratable, Imageable
 {
-    public const PREFIX = 'og';
+    public const DELIMITER = ':';
 
     private bool $locale;
 
@@ -71,10 +69,5 @@ final class OpenGraph extends Container implements Hydratable, Imageable
             $this->properties,
             array_merge(array_filter($data->only('description', 'image', 'title')), $data->open_graph ?? []),
         );
-    }
-
-    protected function normalizeProperty(string $property): string
-    {
-        return str_replace(self::PREFIX.':', '', parent::normalizeProperty($property));
     }
 }
