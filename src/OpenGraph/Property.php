@@ -2,24 +2,15 @@
 
 namespace Dive\Fez\OpenGraph;
 
-use Dive\Fez\Component;
+use Dive\Fez\OpenGraph;
+use Dive\Fez\Property as Component;
 
 final class Property extends Component
 {
     public const PREFIX = 'og';
 
-    public function __construct(private string $property, private string $content) {}
-
     public function generate(): string
     {
-        return '<meta property="'.self::PREFIX.':'.$this->property.'" content="'.$this->content.'" />';
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'content' => $this->content,
-            'property' => $this->property,
-        ];
+        return '<meta property="'.self::PREFIX.OpenGraph::DELIMITER.$this->name.'" content="'.$this->content.'" />';
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Dive\Fez\OpenGraph\Structures;
+namespace Dive\Fez\OpenGraph\Properties;
 
-use Dive\Fez\Container;
+use Dive\Fez\OpenGraph\StructuredProperty;
 
-abstract class Medium extends Container
+abstract class Medium extends StructuredProperty
 {
     public function mime(string $mime): self
     {
