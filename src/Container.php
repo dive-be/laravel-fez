@@ -15,6 +15,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this
             ->toCollection()
             ->values()
+            ->filter(fn ($prop) => $prop instanceof Generable)
             ->map(fn (Generable $prop) => $prop->generate())
             ->join(PHP_EOL);
     }
@@ -29,6 +30,15 @@ abstract class Container extends Component implements ArrayAccess
         return $this->properties;
     }
 
+    public function pushProperties(array $properties): static
+    {
+        foreach ($properties as $property) {
+            $this->pushProperty($property);
+        }
+
+        return $this;
+    }
+
     public function pushProperty($value): static
     {
         if (! empty($value)) {
@@ -38,20 +48,20 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    public function setProperty(string $property, $value): static
+    public function setProperty(string $name, $value): static
     {
-        $property = $this->normalizeProperty($property);
+        $name = $this->normalizeName($name);
 
-        if (! empty($property) && ! empty($value)) {
-            Arr::set($this->properties, $property, $value);
+        if (! empty($name) && ! empty($value)) {
+            Arr::set($this->properties, $name, $value);
         }
 
         return $this;
     }
 
-    protected function normalizeProperty(string $property): string
+    protected function normalizeName(string $value): string
     {
-        return trim($property);
+        return trim($value);
     }
 
     public function offsetExists($offset): bool
@@ -98,7 +108,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this->offsetExists($key);
     }
 
-    public function __set(string $name, string $value): void
+    public function __set(string $name, $value): void
     {
         $this->setProperty($name, $value);
     }
