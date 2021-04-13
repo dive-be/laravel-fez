@@ -1,12 +1,10 @@
 <?php
 
-namespace Dive\Fez\Components;
+namespace Dive\Fez;
 
-use Dive\Fez\Container;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
-use Dive\Fez\TitleFormatter;
 
 final class TwitterCards extends Container implements Hydratable, Imageable
 {
@@ -32,10 +30,5 @@ final class TwitterCards extends Container implements Hydratable, Imageable
             $this->properties,
             array_merge(array_filter($data->only('description', 'image', 'title')), $data->twitter ?? []),
         );
-    }
-
-    protected function normalizeProperty(string $property): string
-    {
-        return str_replace(self::PREFIX.':', '', parent::normalizeProperty($property));
     }
 }
