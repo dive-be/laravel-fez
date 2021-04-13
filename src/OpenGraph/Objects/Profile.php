@@ -1,6 +1,8 @@
 <?php
 
-namespace Dive\Fez\OpenGraph;
+namespace Dive\Fez\Objects\OpenGraph;
+
+use Dive\Fez\OpenGraph\RichObject;
 
 final class Profile extends RichObject
 {

@@ -7,8 +7,6 @@ use Illuminate\Support\Str;
 
 abstract class RichObject extends Container
 {
-    public const PREFIX = 'og';
-
     public function __construct(array $properties = [])
     {
         parent::__construct($properties + ['type' => Str::lower(class_basename(static::class))]);

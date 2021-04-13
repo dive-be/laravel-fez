@@ -1,8 +1,9 @@
 <?php
 
-namespace Dive\Fez\OpenGraph;
+namespace Dive\Fez\Objects\OpenGraph;
 
 use DateTimeInterface;
+use Dive\Fez\OpenGraph\RichObject;
 
 final class Article extends RichObject
 {
