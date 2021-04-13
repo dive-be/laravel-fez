@@ -13,7 +13,9 @@ abstract class RichObject extends Container
 {
     public function __construct(array $properties = [])
     {
-        parent::__construct($this->initialize($properties));
+        parent::__construct($properties);
+
+        $this->setProperty('type', Str::lower(class_basename(static::class)));
     }
 
     public function alternateLocale(array|string $alternateLocale): static
@@ -78,16 +80,5 @@ abstract class RichObject extends Container
     public function video(Video|string $video): static
     {
         return $this->pushProperty([__FUNCTION__, $video]);
-    }
-
-    private function initialize(array $properties): array
-    {
-        foreach ($properties as $name => $property) {
-            if (! $property instanceof Property) {
-                $properties[$name] = Property::make($name, $property);
-            }
-        }
-
-        return $properties + ['type' => Property::make('type', Str::lower(class_basename(static::class)))];
     }
 }

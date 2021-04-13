@@ -9,7 +9,9 @@ abstract class Card extends Container
 {
     public function __construct(array $properties = [])
     {
-        parent::__construct($this->initialize($properties));
+        parent::__construct($properties);
+
+        $this->setProperty('card', Str::lower(class_basename(static::class)));
     }
 
     public function description(string $description): static
@@ -39,16 +41,5 @@ abstract class Card extends Container
     public function title(string $title): static
     {
         return $this->setProperty(__FUNCTION__, $title);
-    }
-
-    private function initialize(array $properties): array
-    {
-        foreach ($properties as $name => $property) {
-            if (! $property instanceof Property) {
-                $properties[$name] = Property::make($name, $property);
-            }
-        }
-
-        return $properties + ['card' => Property::make('card', Str::lower(class_basename(static::class)))];
     }
 }
