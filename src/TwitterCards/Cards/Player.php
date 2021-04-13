@@ -1,6 +1,8 @@
 <?php
 
-namespace Dive\Fez\TwitterCards;
+namespace Dive\Fez\TwitterCards\Cards;
+
+use Dive\Fez\TwitterCards\Card;
 
 final class Player extends Card
 {

@@ -8,7 +8,7 @@ use Dive\Fez\Models\MetaData;
 
 final class TwitterCards extends Container implements Hydratable, Imageable
 {
-    public const PREFIX = 'twitter';
+    public const DELIMITER = ':';
 
     public function __construct(private TitleFormatter $formatter, array $defaults)
     {

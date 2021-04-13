@@ -6,8 +6,6 @@ use Dive\Fez\Container;
 
 abstract class Card extends Container
 {
-    public const PREFIX = 'twitter';
-
     public function description(string $description): static
     {
         return $this->setProperty(__FUNCTION__, $description);
