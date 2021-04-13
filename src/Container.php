@@ -3,6 +3,7 @@
 namespace Dive\Fez;
 
 use ArrayAccess;
+use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Support\Arr;
 
@@ -11,6 +12,15 @@ abstract class Container extends Component implements ArrayAccess
     use Makeable;
 
     public function __construct(protected array $properties = []) {}
+
+    public function generate(): string
+    {
+        return $this
+            ->toCollection()
+            ->values()
+            ->map(fn (Generable $prop) => $prop->generate())
+            ->join(PHP_EOL);
+    }
 
     public function getProperty(string $property, ?string $default = null)
     {
