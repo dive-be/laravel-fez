@@ -4,7 +4,14 @@ namespace Dive\Fez;
 
 abstract class Property extends Component
 {
+    public const DELIMITER = ':';
+
     public function __construct(protected string $name, protected string $content) {}
+
+    public static function delimit(...$values): string
+    {
+        return implode(self::DELIMITER, $values);
+    }
 
     public function getContent(): string
     {
