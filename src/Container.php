@@ -23,6 +23,15 @@ abstract class Container extends Component implements ArrayAccess, Hydratable
         return $this->properties;
     }
 
+    public function pushProperty($value): static
+    {
+        if (! empty($value)) {
+            $this->properties[] = $value;
+        }
+
+        return $this;
+    }
+
     public function setProperty(string $property, $value): static
     {
         $property = $this->normalizeProperty($property);

@@ -7,10 +7,9 @@ use Dive\Fez\OpenGraph\RichObject;
 
 final class Article extends RichObject
 {
-    // TODO: Allow multiple authors
     public function author(string $author): self
     {
-        return $this->setProperty(__FUNCTION__, $author);
+        return $this->pushProperty($author);
     }
 
     public function expirationTime(DateTimeInterface $expirationTime): self
@@ -33,10 +32,9 @@ final class Article extends RichObject
         return $this->setProperty(__FUNCTION__, $section);
     }
 
-    // TODO: Allow multiple tags
     public function tag(string $tag): self
     {
-        return $this->setProperty(__FUNCTION__, $tag);
+        return $this->pushProperty($tag);
     }
 
     private function setTimeProperty(string $type, DateTimeInterface $time): self
