@@ -11,12 +11,8 @@ use Illuminate\Support\Str;
 
 abstract class RichObject extends Container
 {
-    public function __construct(array|string $properties = [])
+    public function __construct(array $properties = [])
     {
-        if (is_string($properties)) {
-            $properties = ['title' => Property::make('title', $properties)];
-        }
-
         parent::__construct($this->initialize($properties));
     }
 

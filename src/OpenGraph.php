@@ -30,24 +30,24 @@ final class OpenGraph extends Container implements Hydratable, Imageable
         parent::__construct($defaults);
     }
 
-    public static function article(?string $title = null): Article
+    public static function article(): Article
     {
-        return Article::make($title ?? []);
+        return Article::make();
     }
 
-    public static function book(?string $title = null): Book
+    public static function book(): Book
     {
-        return Book::make($title ?? []);
+        return Book::make();
     }
 
-    public static function profile(?string $title = null): Profile
+    public static function profile(): Profile
     {
-        return Profile::make($title ?? []);
+        return Profile::make();
     }
 
-    public static function website(?string $title = null): Website
+    public static function website(): Website
     {
-        return Website::make($title ?? []);
+        return Website::make();
     }
 
     public function generate(): string

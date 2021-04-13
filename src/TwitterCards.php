@@ -16,19 +16,19 @@ final class TwitterCards extends Container implements Hydratable, Imageable
         parent::__construct($defaults);
     }
 
-    public static function player(?string $title = null): Player
+    public static function player(): Player
     {
-        return Player::make($title ?? []);
+        return Player::make();
     }
 
-    public static function summary(?string $title = null): Summary
+    public static function summary(): Summary
     {
-        return Summary::make($title ?? []);
+        return Summary::make();
     }
 
     public static function summaryLargeImage(): SummaryLargeImage
     {
-        return SummaryLargeImage::make($title ?? []);
+        return SummaryLargeImage::make();
     }
 
     public function generate(): string
