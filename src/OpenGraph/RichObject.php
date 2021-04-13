@@ -10,8 +10,12 @@ use Illuminate\Support\Str;
 
 abstract class RichObject extends Container
 {
-    public function __construct(array $properties = [])
+    public function __construct(array|string $properties = [])
     {
+        if (is_string($properties)) {
+            $properties = ['title' => $properties];
+        }
+
         parent::__construct($properties + ['type' => Str::lower(class_basename(static::class))]);
     }
 

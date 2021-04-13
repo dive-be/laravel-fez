@@ -6,6 +6,10 @@ use Dive\Fez\Container;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
+use Dive\Fez\OpenGraph\Objects\Article;
+use Dive\Fez\OpenGraph\Objects\Book;
+use Dive\Fez\OpenGraph\Objects\Profile;
+use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\TitleFormatter;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -28,6 +32,26 @@ final class OpenGraph extends Container implements Hydratable, Imageable
         $this->url = Arr::pull($defaults, 'url', true);
 
         parent::__construct($defaults);
+    }
+
+    public static function article(?string $title = null): Article
+    {
+        return Article::make($title ?? []);
+    }
+
+    public static function book(?string $title = null): Book
+    {
+        return Book::make($title ?? []);
+    }
+
+    public static function profile(?string $title = null): Profile
+    {
+        return Profile::make($title ?? []);
+    }
+
+    public static function website(?string $title = null): Website
+    {
+        return Website::make($title ?? []);
     }
 
     public function generate(): string
