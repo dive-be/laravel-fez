@@ -1,6 +1,6 @@
 <?php
 
-namespace Dive\Fez\Objects\OpenGraph;
+namespace Dive\Fez\OpenGraph\Objects;
 
 use DateTimeInterface;
 use Dive\Fez\OpenGraph\RichObject;
