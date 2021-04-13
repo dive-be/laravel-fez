@@ -23,53 +23,65 @@ abstract class RichObject extends Container
     public function alternateLocale(array|string $alternateLocale): static
     {
         return $this->pushProperties(array_map(function ($locale) {
-            return Property::make('locale:alternate', $locale);
+            return ['locale:alternate', $locale];
         }, Arr::wrap($alternateLocale)));
     }
 
     public function audio(Audio|string $audio): static
     {
-        return $this->pushProperty(is_string($audio) ? Property::make(__FUNCTION__, $audio) : $audio);
+        return $this->pushProperty([__FUNCTION__, $audio]);
     }
 
     public function description(string $description): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make(__FUNCTION__, $description));
+        return $this->setProperty(__FUNCTION__, $description);
     }
 
     public function determiner(string $determiner): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make(__FUNCTION__, $determiner));
+        return $this->setProperty(__FUNCTION__, $determiner);
     }
 
     public function image(Image|string $image): static
     {
-        return $this->pushProperty(is_string($image) ? Property::make(__FUNCTION__, $image) : $image);
+        return $this->pushProperty([__FUNCTION__, $image]);
     }
 
     public function locale(string $locale): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make(__FUNCTION__, $locale));
+        return $this->setProperty(__FUNCTION__, $locale);
+    }
+
+    public function pushProperty($value): static
+    {
+        [$name, $value] = $value;
+
+        return parent::pushProperty(is_string($value) ? Property::make($name, $value) : $value);
+    }
+
+    public function setProperty(string $name, $value): static
+    {
+        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
     }
 
     public function siteName(string $siteName): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make('site_name', $siteName));
+        return $this->setProperty('site_name', $siteName);
     }
 
     public function title(string $title): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make(__FUNCTION__, $title));
+        return $this->setProperty(__FUNCTION__, $title);
     }
 
     public function url(string $url): static
     {
-        return $this->setProperty(__FUNCTION__, Property::make(__FUNCTION__, $url));
+        return $this->setProperty(__FUNCTION__, $url);
     }
 
     public function video(Video|string $video): static
     {
-        return $this->pushProperty(is_string($video) ? Property::make(__FUNCTION__, $video) : $video);
+        return $this->pushProperty([__FUNCTION__, $video]);
     }
 
     private function initialize(array $properties): array

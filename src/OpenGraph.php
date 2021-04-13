@@ -14,8 +14,6 @@ use Illuminate\Support\Arr;
 
 final class OpenGraph extends Container implements Hydratable, Imageable
 {
-    public const DELIMITER = ':';
-
     private bool $locale;
 
     private bool $url;
