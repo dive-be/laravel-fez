@@ -3,12 +3,9 @@
 namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Component;
-use Dive\Fez\Support\Makeable;
 
 final class Property extends Component
 {
-    use Makeable;
-
     public const PREFIX = 'og';
 
     public function __construct(private string $property, private string $content) {}

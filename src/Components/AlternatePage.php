@@ -6,13 +6,10 @@ use Closure;
 use Dive\Fez\Component;
 use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
 use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
-use Dive\Fez\Support\Makeable;
 use Illuminate\Http\Request;
 
 final class AlternatePage extends Component
 {
-    use Makeable;
-
     private static ?Closure $resolveAlternateUrlUsing = null;
 
     public function __construct(private array $locales, private Request $request)
