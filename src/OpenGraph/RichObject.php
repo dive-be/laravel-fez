@@ -3,6 +3,9 @@
 namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Container;
+use Dive\Fez\OpenGraph\Structures\Audio;
+use Dive\Fez\OpenGraph\Structures\Image;
+use Dive\Fez\OpenGraph\Structures\Video;
 use Illuminate\Support\Str;
 
 abstract class RichObject extends Container
@@ -12,16 +15,14 @@ abstract class RichObject extends Container
         parent::__construct($properties + ['type' => Str::lower(class_basename(static::class))]);
     }
 
-    // TODO: Allow multiple locales
     public function alternateLocale(string $alternateLocale): static
     {
-        return $this->setProperty('locale:alternate', $alternateLocale);
+        return $this->pushProperty($alternateLocale);
     }
 
-    // TODO: Allow multiple audio
-    public function audio(string $audio): static
+    public function audio(Audio|string $audio): static
     {
-        return $this->setProperty(__FUNCTION__, $audio);
+        return $this->pushProperty($audio);
     }
 
     public function description(string $description): static
@@ -34,10 +35,9 @@ abstract class RichObject extends Container
         return $this->setProperty(__FUNCTION__, $determiner);
     }
 
-    // TODO: Allow multiple images
-    public function image(string $image): static
+    public function image(Image|string $image): static
     {
-        return $this->setProperty(__FUNCTION__, $image);
+        return $this->pushProperty($image);
     }
 
     public function locale(string $locale): static
@@ -60,9 +60,8 @@ abstract class RichObject extends Container
         return $this->setProperty(__FUNCTION__, $url);
     }
 
-    // TODO: Allow multiple video
-    public function video(string $video): static
+    public function video(Video|string $video): static
     {
-        return $this->setProperty(__FUNCTION__, $video);
+        return $this->pushProperty($video);
     }
 }
