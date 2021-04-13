@@ -16,6 +16,11 @@ abstract class Card extends Container
         return $this->setProperty(__FUNCTION__, $image);
     }
 
+    public function setProperty(string $name, $value): static
+    {
+        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
+    }
+
     public function site(string $site): static
     {
         return $this->setProperty(__FUNCTION__, $site);
