@@ -32,7 +32,6 @@ class FezServiceProvider extends ServiceProvider
         $this->app->alias(StaticPage::class, $staticPage = $this->app['config']['fez.models.static_page']);
 
         $this->app->singleton(Fez::class, fn (Application $app) => new Fez(
-            array_unique($app['config']['fez.features']),
             $app->make(ComponentFactory::class),
             $app->make(MetaableFinder::class)->setRouteResolver(fn () => $app->make('router')->getCurrentRoute()),
         ));

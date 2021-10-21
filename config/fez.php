@@ -1,6 +1,6 @@
 <?php
 
-use Dive\Fez\Fez;
+use Dive\Fez\Feature;
 
 return [
     'defaults' => [
@@ -12,20 +12,20 @@ return [
             'title' => null,
         ],
 
-        Fez::FEATURE_META => [
+        Feature::meta() => [
             'canonical' => true, // Uses Url::current when enabled
             'keywords' => null, // An array of default keywords
             'robots' => ['index', 'follow'], // Any valid combination of index/follow, noindex/nofollow or all/none
         ],
 
-        Fez::FEATURE_OPEN_GRAPH => [
+        Feature::openGraph() => [
             'locale' => true, // Generates locale tag based on the current active app locale
             'site_name' => env('APP_NAME'),
             'type' => 'website', // article, book, profile or website
             'url' => true, // Uses Url::current when enabled
         ],
 
-        Fez::FEATURE_TWITTER_CARDS => [
+        Feature::twitterCards() => [
             'site' => null, // Prefix with @ mandatory
             'type' => 'summary', // summary, summary_large_image or player
         ],
@@ -36,10 +36,10 @@ return [
      * The order of these features also defines the order in which the tags are generated when rendering your views.
      */
     'features' => [
-        Fez::FEATURE_META,
-        Fez::FEATURE_OPEN_GRAPH,
-        Fez::FEATURE_TWITTER_CARDS,
-        // Fez::FEATURE_ALTERNATE_PAGE,
+        Feature::meta(),
+        Feature::openGraph(),
+        Feature::twitterCards(),
+        // Feature::alternatePage(),
     ],
 
     /**

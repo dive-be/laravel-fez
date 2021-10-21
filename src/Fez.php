@@ -10,7 +10,6 @@ use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use ReflectionClass;
 
 /**
  * @property \Dive\Fez\AlternatePage|null $alternatePage
@@ -20,11 +19,6 @@ use ReflectionClass;
  */
 final class Fez extends Component
 {
-    public const FEATURE_ALTERNATE_PAGE = 'alternatePage';
-    public const FEATURE_META = 'meta';
-    public const FEATURE_OPEN_GRAPH = 'openGraph';
-    public const FEATURE_TWITTER_CARDS = 'twitterCards';
-
     private array $components;
 
     private bool $hydrated = false;
@@ -36,7 +30,6 @@ final class Fez extends Component
     ];
 
     public function __construct(
-        private array $features,
         private ComponentFactory $factory,
         private MetaableFinder $finder,
     ) {
@@ -131,9 +124,7 @@ final class Fez extends Component
      */
     private function initialize(): array
     {
-        $features = array_intersect($this->features, (new ReflectionClass(self::class))->getConstants());
-
-        if (empty($features)) {
+        if (empty($features = Feature::enabled())) {
             throw NoFeaturesActiveException::make();
         }
 

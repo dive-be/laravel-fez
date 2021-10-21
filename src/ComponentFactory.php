@@ -34,10 +34,10 @@ class ComponentFactory
     public function make(string $component): Component
     {
         return match ($component) {
-            Fez::FEATURE_ALTERNATE_PAGE => $this->alternatePage(),
-            Fez::FEATURE_META => $this->meta(),
-            Fez::FEATURE_OPEN_GRAPH => $this->openGraph(),
-            Fez::FEATURE_TWITTER_CARDS => $this->twitterCards(),
+            Feature::alternatePage() => $this->alternatePage(),
+            Feature::meta() => $this->meta(),
+            Feature::openGraph() => $this->openGraph(),
+            Feature::twitterCards() => $this->twitterCards(),
             default => throw UnexpectedComponentException::make($component),
         };
     }
@@ -54,7 +54,7 @@ class ComponentFactory
 
     private function meta(): Meta
     {
-        return Meta::make($this->formatter, $this->url, $this->defaultsFor(Fez::FEATURE_META));
+        return Meta::make($this->formatter, $this->url, $this->defaultsFor(__FUNCTION__));
     }
 
     private function openGraph(): OpenGraph
@@ -63,12 +63,12 @@ class ComponentFactory
             $this->formatter,
             $this->url,
             $this->app->getLocale(),
-            $this->defaultsFor(Fez::FEATURE_OPEN_GRAPH),
+            $this->defaultsFor(__FUNCTION__),
         );
     }
 
     private function twitterCards(): TwitterCards
     {
-        return TwitterCards::make($this->formatter, $this->defaultsFor(Fez::FEATURE_TWITTER_CARDS));
+        return TwitterCards::make($this->formatter, $this->defaultsFor(__FUNCTION__));
     }
 }
