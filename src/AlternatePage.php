@@ -3,24 +3,24 @@
 namespace Dive\Fez;
 
 use Closure;
-use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
-use Dive\Fez\Exceptions\UnspecifiedAlternateUrlResolverException;
+use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
+use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
 use Illuminate\Http\Request;
 
 final class AlternatePage extends Component
 {
-    private static ?Closure $resolveAlternateUrlUsing = null;
+    private static ?Closure $url = null;
 
     public function __construct(private array $locales, private Request $request)
     {
         if (count($locales) < 2) {
-            throw TooFewLocalesSpecifiedException::make();
+            throw SorryTooFewLocalesSpecified::make();
         }
     }
 
-    public static function resolveAlternateUrlUsing(Closure $callback): void
+    public static function urlUsing(Closure $callback): void
     {
-        self::$resolveAlternateUrlUsing = $callback;
+        self::$url = $callback;
     }
 
     public function generate(): string
@@ -41,12 +41,10 @@ final class AlternatePage extends Component
     }
 
     /**
-     * @throws UnspecifiedAlternateUrlResolverException
+     * @throws SorryUnspecifiedUrlResolver
      */
     private function resolveAlternateUrl(): Closure
     {
-        return is_null($resolver = self::$resolveAlternateUrlUsing)
-            ? throw UnspecifiedAlternateUrlResolverException::make()
-            : $resolver;
+        return is_null($resolver = self::$url) ? throw SorryUnspecifiedUrlResolver::make() : $resolver;
     }
 }

@@ -6,7 +6,7 @@ use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Metaable;
-use Dive\Fez\Exceptions\NoFeaturesActiveException;
+use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -120,12 +120,12 @@ final class Fez extends Component
     }
 
     /**
-     * @throws NoFeaturesActiveException
+     * @throws SorryNoFeaturesActive
      */
     private function initialize(): array
     {
         if (empty($features = Feature::enabled())) {
-            throw NoFeaturesActiveException::make();
+            throw SorryNoFeaturesActive::make();
         }
 
         return array_combine($features, array_map([$this->factory, 'make'], $features));

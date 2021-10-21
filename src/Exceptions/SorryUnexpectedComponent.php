@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class UnexpectedComponentException extends Exception
+class SorryUnexpectedComponent extends Exception
 {
     public static function make(string $component): self
     {

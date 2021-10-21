@@ -2,7 +2,7 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Exceptions\UnexpectedComponentException;
+use Dive\Fez\Exceptions\SorryUnexpectedComponent;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -38,7 +38,7 @@ class ComponentFactory
             Feature::meta() => $this->meta(),
             Feature::openGraph() => $this->openGraph(),
             Feature::twitterCards() => $this->twitterCards(),
-            default => throw UnexpectedComponentException::make($component),
+            default => throw SorryUnexpectedComponent::make($component),
         };
     }
 

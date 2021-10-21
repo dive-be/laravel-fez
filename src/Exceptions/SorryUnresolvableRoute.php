@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class UnresolvableRouteException extends Exception
+class SorryUnresolvableRoute extends Exception
 {
     public static function make(): self
     {

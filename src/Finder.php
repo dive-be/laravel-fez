@@ -4,7 +4,7 @@ namespace Dive\Fez;
 
 use Closure;
 use Dive\Fez\Contracts\Metaable;
-use Dive\Fez\Exceptions\UnresolvableRouteException;
+use Dive\Fez\Exceptions\SorryUnresolvableRoute;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -29,7 +29,7 @@ class Finder
         $route = call_user_func($this->routeResolver);
 
         if (! $route instanceof Route) {
-            throw UnresolvableRouteException::make();
+            throw SorryUnresolvableRoute::make();
         }
 
         if (is_string($binding = Arr::pull($route->defaults, static::class))) {
