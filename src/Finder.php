@@ -9,13 +9,11 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-class MetaableFinder
+class Finder
 {
-    public const DEFAULT = 'fez';
-
     private ?Metaable $always = null;
 
-    private Closure $route;
+    public function __construct(private Closure $routeResolver) {}
 
     public function alwaysFind(Metaable $metaable): void
     {
@@ -28,13 +26,13 @@ class MetaableFinder
             return $this->always;
         }
 
-        $route = ($this->route)();
+        $route = call_user_func($this->routeResolver);
 
         if (! $route instanceof Route) {
             throw UnresolvableRouteException::make();
         }
 
-        if (is_string($binding = Arr::pull($route->defaults, self::DEFAULT))) {
+        if (is_string($binding = Arr::pull($route->defaults, static::class))) {
             $metaable = Arr::get($route->parameters, $binding);
 
             if ($metaable instanceof Metaable) {
@@ -44,8 +42,7 @@ class MetaableFinder
 
         return Collection::make($route->parameterNames)
             ->map(fn ($param) => Arr::get($route->parameters, $param))
-            ->reverse()
-            ->first(fn ($param) => $param instanceof Metaable);
+            ->last(fn ($param) => $param instanceof Metaable);
     }
 
     public function whenFound(Closure $callback): void
@@ -55,12 +52,5 @@ class MetaableFinder
         if ($metaable instanceof Metaable) {
             $callback($metaable);
         }
-    }
-
-    public function setRouteResolver(Closure $callback): self
-    {
-        $this->route = $callback;
-
-        return $this;
     }
 }

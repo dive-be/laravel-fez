@@ -28,17 +28,8 @@ class FezServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/fez.php', 'fez');
 
-        $this->app->alias(Fez::class, 'fez');
-        $this->app->alias(StaticPage::class, $staticPage = $this->app['config']['fez.models.static_page']);
-
-        $this->app->singleton(Fez::class, fn (Application $app) => new Fez(
-            $app->make(ComponentFactory::class),
-            $app->make(MetaableFinder::class)->setRouteResolver(fn () => $app->make('router')->getCurrentRoute()),
-        ));
-
-        $this->app->bind(StaticPage::class, function (Application $app) use ($staticPage) {
-            return call_user_func([$staticPage, 'resolve'], $app->make('fez'), $app->make('router')->getCurrentRoute());
-        });
+        $this->registerManager();
+        $this->registerStaticPage();
     }
 
     private function registerBladeDirectives()
@@ -64,11 +55,22 @@ class FezServiceProvider extends ServiceProvider
         ], 'config');
     }
 
+    private function registerManager()
+    {
+        $this->app->singleton('fez', static function (Application $app) {
+            $finder = new Finder(fn () => $app->make('router')->getCurrentRoute());
+
+            return new Fez($app->make(ComponentFactory::class), $finder);
+        });
+
+        $this->app->alias('fez', Fez::class);
+    }
+
     private function registerMacros()
     {
         Route::macro('fez', function (string $binding) {
             /** @var Route $this */
-            return $this->defaults(MetaableFinder::DEFAULT, $binding);
+            return $this->defaults(Finder::class, $binding);
         });
 
         View::macro('withFez', function ($property, $value = null) {
@@ -92,5 +94,13 @@ class FezServiceProvider extends ServiceProvider
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),
             ], 'migrations');
         }
+    }
+
+    private function registerStaticPage()
+    {
+        $this->app->alias(StaticPage::class, $staticPage = $this->app['config']['fez.models.static_page']);
+        $this->app->bind(StaticPage::class, function (Application $app) use ($staticPage) {
+            return call_user_func([$staticPage, 'resolve'], $app->make('fez'), $app->make('router')->getCurrentRoute());
+        });
     }
 }

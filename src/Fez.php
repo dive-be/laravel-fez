@@ -31,7 +31,7 @@ final class Fez extends Component
 
     public function __construct(
         private ComponentFactory $factory,
-        private MetaableFinder $finder,
+        private Finder $finder,
     ) {
         $this->components = $this->initialize();
     }
