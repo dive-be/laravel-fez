@@ -5,16 +5,15 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
-use Dive\Fez\OpenGraph\Objects\Article;
-use Dive\Fez\OpenGraph\Objects\Book;
-use Dive\Fez\OpenGraph\Objects\Profile;
-use Dive\Fez\OpenGraph\Objects\Website;
+use Dive\Fez\OpenGraph\Concerns\StaticFactories;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 final class OpenGraph extends Container implements Hydratable, Imageable
 {
+    use StaticFactories;
+
     private bool $locale;
 
     private bool $url;
@@ -29,26 +28,6 @@ final class OpenGraph extends Container implements Hydratable, Imageable
         $this->url = Arr::pull($defaults, 'url', true);
 
         parent::__construct($defaults);
-    }
-
-    public static function article(): Article
-    {
-        return Article::make();
-    }
-
-    public static function book(): Book
-    {
-        return Book::make();
-    }
-
-    public static function profile(): Profile
-    {
-        return Profile::make();
-    }
-
-    public static function website(): Website
-    {
-        return Website::make();
     }
 
     public function generate(): string

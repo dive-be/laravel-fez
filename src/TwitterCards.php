@@ -5,30 +5,15 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Models\MetaData;
-use Dive\Fez\TwitterCards\Cards\Player;
-use Dive\Fez\TwitterCards\Cards\Summary;
-use Dive\Fez\TwitterCards\Cards\SummaryLargeImage;
+use Dive\Fez\TwitterCards\Concerns\StaticFactories;
 
 final class TwitterCards extends Container implements Hydratable, Imageable
 {
+    use StaticFactories;
+
     public function __construct(private TitleFormatter $formatter, array $defaults)
     {
         parent::__construct($defaults);
-    }
-
-    public static function player(): Player
-    {
-        return Player::make();
-    }
-
-    public static function summary(): Summary
-    {
-        return Summary::make();
-    }
-
-    public static function summaryLargeImage(): SummaryLargeImage
-    {
-        return SummaryLargeImage::make();
     }
 
     public function generate(): string
