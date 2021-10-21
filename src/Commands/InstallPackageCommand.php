@@ -15,7 +15,7 @@ class InstallPackageCommand extends Command
         if ($this->isHidden()) {
             $this->error('🤚  Fez is already installed.');
 
-            return 1;
+            return self::FAILURE;
         }
 
         $this->line('🏎  Installing fez...');
@@ -35,7 +35,7 @@ class InstallPackageCommand extends Command
 
         $this->info('🏁  Fez installed successfully!');
 
-        return 0;
+        return self::SUCCESS;
     }
 
     public function isHidden(): bool
