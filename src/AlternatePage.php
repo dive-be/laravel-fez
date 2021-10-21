@@ -6,9 +6,12 @@ use Closure;
 use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
 use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Traits\Localizable;
 
 final class AlternatePage extends Component
 {
+    use Localizable;
+
     private static ?Closure $url = null;
 
     public function __construct(private array $locales, private Request $request)
@@ -32,19 +35,18 @@ final class AlternatePage extends Component
 
     public function toArray(): array
     {
-        $urlResolver = $this->resolveAlternateUrl();
-
-        return array_combine(
-            $this->locales,
-            array_map(fn ($locale) => $urlResolver($locale, $this->request), $this->locales)
-        );
+        return array_combine($this->locales, array_map($this->urlResolver(), $this->locales));
     }
 
     /**
      * @throws SorryUnspecifiedUrlResolver
      */
-    private function resolveAlternateUrl(): Closure
+    private function urlResolver(): Closure
     {
-        return is_null($resolver = self::$url) ? throw SorryUnspecifiedUrlResolver::make() : $resolver;
+        if (is_null($resolver = self::$url)) {
+            throw SorryUnspecifiedUrlResolver::make();
+        }
+
+        return fn (string $locale) => $this->withLocale($locale, fn () => $resolver($this->request));
     }
 }
