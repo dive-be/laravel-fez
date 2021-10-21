@@ -11,6 +11,7 @@ use Dive\Fez\OpenGraph\Objects\Profile;
 use Dive\Fez\OpenGraph\Objects\Website;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 final class OpenGraph extends Container implements Hydratable, Imageable
 {
@@ -52,13 +53,15 @@ final class OpenGraph extends Container implements Hydratable, Imageable
 
     public function generate(): string
     {
-        return $this
-            ->toCollection()
-            ->map(fn ($content, $prop) => $prop === 'title' ? $this->formatter->format($content) : $content)
-            ->when($this->locale, fn ($props) => $props->put('locale', $this->activeLocale))
-            ->when($this->url, fn ($props) => $props->put('url', $this->urlGenerator->current()))
-            ->map(fn ($content, $prop) => '<meta property="'.self::PREFIX.':'.$prop.'" content="'.$content.'" />')
-            ->join(PHP_EOL);
+        return $this->collect()->map(function (string $content, string $prop) {
+            return $prop === 'title' ? $this->formatter->format($content) : $content;
+        })->when($this->locale, function (Collection $props) {
+            return $props->put('locale', $this->activeLocale);
+        })->when($this->url, function (Collection $props) {
+            return $props->put('url', $this->urlGenerator->current());
+        })->map(static function (string $content, string $prop) {
+            return "<meta property='og:{$prop}' content='{$content}' />";
+        })->join(PHP_EOL);
     }
 
     public function hydrate(MetaData $data): void

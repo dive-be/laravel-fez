@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface Collectable
 {
-    public function toCollection(): Collection;
+    public function collect(): Collection;
 }

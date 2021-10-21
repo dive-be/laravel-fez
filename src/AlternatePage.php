@@ -25,10 +25,9 @@ final class AlternatePage extends Component
 
     public function generate(): string
     {
-        return $this
-            ->toCollection()
-            ->map(fn ($href, $lang) => '<link rel="alternate" href="'.$href.'" hreflang="'.$lang.'" />')
-            ->join(PHP_EOL);
+        return $this->collect()->map(static function (string $href, string $lang) {
+            return "<link rel='alternate' href='{$href}' hreflang='{$lang}' />";
+        })->join(PHP_EOL);
     }
 
     public function toArray(): array

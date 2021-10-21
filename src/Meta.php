@@ -6,6 +6,7 @@ use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Models\MetaData;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 final class Meta extends Container implements Hydratable
 {
@@ -23,16 +24,16 @@ final class Meta extends Container implements Hydratable
 
     public function generate(): string
     {
-        $properties = $this->toCollection();
+        $properties = $this->collect();
         $title = $this->formatter->format($properties->pull('title'));
 
-        return $properties
-            ->map(fn ($content) => is_array($content) ? implode(', ', $content) : $content)
-            ->map(fn ($content, $name) => '<meta name="'.$name.'" content="'.$content.'" />')
-            ->prepend("<title>{$title}</title>")
-            ->when($this->canonical, function ($props) {
-                return $props->push('<link rel="canonical" href="'.$this->url->current().'" />');
-            })->join(PHP_EOL);
+        return $properties->map(static function (array|string $content) {
+            return is_array($content) ? implode(', ', $content) : $content;
+        })->map(static function (string $content, string $name) {
+            return "<meta name='{$name}' content='{$content}' />";
+        })->prepend("<title>{$title}</title>")->when($this->canonical, function (Collection $props) {
+            return $props->push("<link rel='canonical' href='{$this->url->current()}' />");
+        })->join(PHP_EOL);
     }
 
     public function hydrate(MetaData $data): void

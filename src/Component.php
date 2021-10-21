@@ -20,14 +20,14 @@ abstract class Component implements Arrayable, Collectable, Generable, Htmlable,
 
     abstract public function toArray(): array;
 
+    public function collect(): Collection
+    {
+        return Collection::make($this->toArray());
+    }
+
     public function jsonSerialize(): array
     {
         return $this->toArray();
-    }
-
-    public function toCollection(): Collection
-    {
-        return Collection::make($this->toArray());
     }
 
     public function toHtml(): string

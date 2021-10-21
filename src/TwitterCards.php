@@ -33,11 +33,11 @@ final class TwitterCards extends Container implements Hydratable, Imageable
 
     public function generate(): string
     {
-        return $this
-            ->toCollection()
-            ->map(fn ($content, $prop) => $prop === 'title' ? $this->formatter->format($content) : $content)
-            ->map(fn ($content, $name) => '<meta name="'.self::PREFIX.':'.$name.'" content="'.$content.'" />')
-            ->join(PHP_EOL);
+        return $this->collect()->map(function (string $content, string $prop) {
+            return $prop === 'title' ? $this->formatter->format($content) : $content;
+        })->map(static function (string $content, string $prop) {
+            return "<meta property='twitter:{$prop}' content='{$content}' />";
+        })->join(PHP_EOL);
     }
 
     public function hydrate(MetaData $data): void
