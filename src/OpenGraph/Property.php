@@ -6,10 +6,8 @@ use Dive\Fez\Property as Component;
 
 final class Property extends Component
 {
-    public const PREFIX = 'og';
-
-    public function generate(): string
+    public static function prefix(): string
     {
-        return '<meta property="'.self::delimit(self::PREFIX, $this->name).'" content="'.$this->content.'" />';
+        return 'og';
     }
 }

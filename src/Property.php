@@ -8,17 +8,21 @@ abstract class Property extends Component
 
     public function __construct(protected string $name, protected string $content) {}
 
-    public static function delimit(...$values): string
-    {
-        return implode(self::DELIMITER, $values);
-    }
+    abstract public static function prefix(): string;
 
-    public function getContent(): string
+    public function content(): string
     {
         return $this->content;
     }
 
-    public function getName(): string
+    public function generate(): string
+    {
+        $qualifiedName = implode(self::DELIMITER, [static::prefix(), $this->name]);
+
+        return "<meta name='{$qualifiedName}' content='{$this->content}' />";
+    }
+
+    public function name(): string
     {
         return $this->name;
     }
