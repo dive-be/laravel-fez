@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\View;
 
 class FezServiceProvider extends ServiceProvider
@@ -34,8 +35,8 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives()
     {
-        $this->app->make('blade.compiler')->directive('fez', static function ($expression) {
-            return "<?php echo e(fez({$expression})) . PHP_EOL ?>";
+        $this->app->afterResolving('blade.compiler', static function (BladeCompiler $blade) {
+            $blade->directive('fez', static fn (string $expression) => "<?php echo e(fez({$expression})) . PHP_EOL ?>");
         });
     }
 
