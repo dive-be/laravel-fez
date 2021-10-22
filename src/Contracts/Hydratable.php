@@ -2,9 +2,9 @@
 
 namespace Dive\Fez\Contracts;
 
-use Dive\Fez\Models\MetaData;
+use Dive\Fez\Models\Meta;
 
 interface Hydratable
 {
-    public function hydrate(MetaData $data): void;
+    public function hydrate(Meta $meta): void;
 }

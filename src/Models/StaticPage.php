@@ -3,10 +3,10 @@
 namespace Dive\Fez\Models;
 
 use Closure;
-use Dive\Fez\Contracts\Metaable;
+use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Contracts\StaticPage as Contract;
 use Dive\Fez\Fez;
-use Dive\Fez\Models\Concerns\ProvidesMetaData;
+use Dive\Fez\Models\Concerns\HasMetaData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
 
@@ -15,9 +15,9 @@ use Illuminate\Routing\Route;
  * @property string      $key
  * @property string|null $name
  */
-class StaticPage extends Model implements Contract, Metaable
+class StaticPage extends Model implements Contract, Metable
 {
-    use ProvidesMetaData;
+    use HasMetaData;
 
     public const PARAMETER_NAME = 'page';
 

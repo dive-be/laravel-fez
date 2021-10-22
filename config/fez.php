@@ -53,7 +53,7 @@ return [
      * The fully qualified class names of models that should be used.
      */
     'models' => [
-        'meta_data' => Dive\Fez\Models\MetaData::class,
+        'meta' => Dive\Fez\Models\Meta::class,
         'static_page' => Dive\Fez\Models\StaticPage::class,
     ],
 ];

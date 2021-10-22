@@ -2,18 +2,18 @@
 
 namespace Dive\Fez\Models\Concerns;
 
-use Dive\Fez\Models\MetaData;
+use Dive\Fez\Models\Meta;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 
 /**
- * @property MetaData $metaData
+ * @property Meta $meta
  */
-trait ProvidesMetaData
+trait HasMetaData
 {
-    public function getMetaData(): MetaData
+    public function getMetaData(): Meta
     {
-        $relation = $this->getRelationValue('metaData');
+        $relation = $this->getRelationValue('meta');
 
         if (count($this->metaDefaultsArray()) < 1) {
             return $relation;
@@ -30,9 +30,9 @@ trait ProvidesMetaData
         ));
     }
 
-    public function metaData(): MorphOne
+    public function meta(): MorphOne
     {
-        return $this->morphOne(config('fez.models.meta_data'), 'meta_dataable')->withDefault();
+        return $this->morphOne(config('fez.models.meta'), 'metable')->withDefault();
     }
 
     protected function metaDefaultsArray(): array

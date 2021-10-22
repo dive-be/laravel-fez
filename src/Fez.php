@@ -5,7 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Contracts\Metaable;
+use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -87,9 +87,9 @@ final class Fez extends Component
         );
     }
 
-    public function use(Metaable $metaable): self
+    public function use(Metable $metable): self
     {
-        $this->finder->alwaysFind($metaable);
+        $this->finder->alwaysFind($metable);
 
         if ($this->hydrated) {
             $this->components = $this->initialize();
@@ -106,8 +106,8 @@ final class Fez extends Component
             return;
         }
 
-        $this->finder->whenFound(function (Metaable $metaable) {
-            $metaData = $metaable->getMetaData();
+        $this->finder->whenFound(function (Metable $metable) {
+            $metaData = $metable->getMetaData();
 
             foreach ($this->components as $component) {
                 if ($component instanceof Hydratable) {

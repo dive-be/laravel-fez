@@ -2,11 +2,11 @@
 
 namespace Dive\Fez\Database\Factories;
 
-use Dive\Fez\Models\TranslatableMetaData;
+use Dive\Fez\Models\TranslatableMeta;
 
-class TranslatableMetaDataFactory extends MetaDataFactory
+class TranslatableMetaFactory extends MetaFactory
 {
-    protected $model = TranslatableMetaData::class;
+    protected $model = TranslatableMeta::class;
 
     public function definition(): array
     {

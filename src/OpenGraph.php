@@ -4,7 +4,7 @@ namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Models\MetaData;
+use Dive\Fez\Models\Meta;
 use Dive\Fez\OpenGraph\Concerns\StaticFactories;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -43,11 +43,11 @@ final class OpenGraph extends Container implements Hydratable, Imageable
         })->join(PHP_EOL);
     }
 
-    public function hydrate(MetaData $data): void
+    public function hydrate(Meta $meta): void
     {
         $this->properties = array_merge(
             $this->properties,
-            array_merge(array_filter($data->only('description', 'image', 'title')), $data->open_graph ?? []),
+            array_merge(array_filter($meta->only('description', 'image', 'title')), $meta->open_graph ?? []),
         );
     }
 }

@@ -3,7 +3,7 @@
 namespace Dive\Fez;
 
 use Closure;
-use Dive\Fez\Contracts\Metaable;
+use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Exceptions\SorryUnresolvableRoute;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
@@ -11,18 +11,18 @@ use Illuminate\Support\Collection;
 
 class Finder
 {
-    private ?Metaable $always = null;
+    private ?Metable $always = null;
 
     public function __construct(private Closure $routeResolver) {}
 
-    public function alwaysFind(Metaable $metaable): void
+    public function alwaysFind(Metable $metable): void
     {
-        $this->always = $metaable;
+        $this->always = $metable;
     }
 
-    public function find(): ?Metaable
+    public function find(): ?Metable
     {
-        if ($this->always instanceof Metaable) {
+        if ($this->always instanceof Metable) {
             return $this->always;
         }
 
@@ -33,24 +33,24 @@ class Finder
         }
 
         if (is_string($binding = Arr::pull($route->defaults, static::class))) {
-            $metaable = Arr::get($route->parameters, $binding);
+            $metable = Arr::get($route->parameters, $binding);
 
-            if ($metaable instanceof Metaable) {
-                return $metaable;
+            if ($metable instanceof Metable) {
+                return $metable;
             }
         }
 
         return Collection::make($route->parameterNames)
             ->map(fn ($param) => Arr::get($route->parameters, $param))
-            ->last(fn ($param) => $param instanceof Metaable);
+            ->last(fn ($param) => $param instanceof Metable);
     }
 
     public function whenFound(Closure $callback): void
     {
-        $metaable = $this->find();
+        $metable = $this->find();
 
-        if ($metaable instanceof Metaable) {
-            $callback($metaable);
+        if ($metable instanceof Metable) {
+            $callback($metable);
         }
     }
 }

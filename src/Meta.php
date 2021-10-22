@@ -3,7 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Hydratable;
-use Dive\Fez\Models\MetaData;
+use Dive\Fez\Models\Meta as Model;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -36,11 +36,11 @@ final class Meta extends Container implements Hydratable
         })->join(PHP_EOL);
     }
 
-    public function hydrate(MetaData $data): void
+    public function hydrate(Model $meta): void
     {
         $this->properties = array_merge(
             $this->properties,
-            array_filter($data->only('description', 'keywords', 'robots', 'title')),
+            array_filter($meta->only('description', 'keywords', 'robots', 'title')),
         );
     }
 }

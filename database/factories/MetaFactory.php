@@ -2,12 +2,12 @@
 
 namespace Dive\Fez\Database\Factories;
 
-use Dive\Fez\Models\MetaData;
+use Dive\Fez\Models\Meta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MetaDataFactory extends Factory
+class MetaFactory extends Factory
 {
-    protected $model = MetaData::class;
+    protected $model = Meta::class;
 
     public function definition(): array
     {

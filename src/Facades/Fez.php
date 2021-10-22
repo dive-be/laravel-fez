@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Dive\Fez\Component|null get(string $component)
  * @method static \Dive\Fez\Fez set(array|string $property, $value = null)
  * @method static array toArray()
- * @method static \Dive\Fez\Fez use(\Dive\Fez\Contracts\Metaable $metaable)
+ * @method static \Dive\Fez\Fez use(\Dive\Fez\Contracts\Metable $metable)
  */
 class Fez extends Facade
 {

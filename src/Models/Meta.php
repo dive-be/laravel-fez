@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $description
  * @property string|null $image
  * @property string|null $keywords
- * @property mixed       $metaDataable
+ * @property mixed       $metable
  * @property array|null  $open_graph
  * @property string|null $robots
  * @property string      $title
  * @property array|null  $twitter
  */
-class MetaData extends Model
+class Meta extends Model
 {
     protected $casts = [
         'keywords' => DelimitedCast::class,
@@ -35,7 +35,9 @@ class MetaData extends Model
         'twitter',
     ];
 
-    public function metaDataable(): MorphTo
+    protected $table = 'meta';
+
+    public function metable(): MorphTo
     {
         return $this->morphTo();
     }
