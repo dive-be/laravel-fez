@@ -9,6 +9,7 @@ use Dive\Fez\Macros\RouteMacro;
 use Dive\Fez\Macros\ViewMacro;
 use Dive\Fez\Models\Route as RouteModel;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -30,6 +31,7 @@ class FezServiceProvider extends ServiceProvider
 
         $this->registerBladeDirectives();
         $this->registerMacros();
+        $this->registerMorphMap();
     }
 
     public function register()
@@ -105,6 +107,11 @@ class FezServiceProvider extends ServiceProvider
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),
             ], 'migrations');
         }
+    }
+
+    private function registerMorphMap()
+    {
+        Relation::morphMap($this->app['config']['fez.models']);
     }
 
     private function registerRouteModel()
