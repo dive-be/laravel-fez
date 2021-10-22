@@ -4,15 +4,20 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\StaticPage;
+use Dive\Fez\Macros\RouteMacro;
+use Dive\Fez\Macros\ViewMacro;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\View;
 
 class FezServiceProvider extends ServiceProvider
 {
+    private array $macros = [
+        RouteMacro::class,
+        ViewMacro::class,
+    ];
+
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -69,16 +74,9 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerMacros()
     {
-        Route::macro('fez', function (string $binding) {
-            /** @var Route $this */
-            return $this->defaults(Finder::class, $binding);
-        });
-
-        View::macro('withFez', function ($property, $value = null) {
-            app('fez')->set($property, $value);
-
-            return $this;
-        });
+        foreach ($this->macros as $macro) {
+            call_user_func([$macro, 'register']);
+        }
     }
 
     private function registerMigration()
