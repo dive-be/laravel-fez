@@ -23,13 +23,15 @@ final class Meta extends Container
     public function generate(): string
     {
         $properties = $this->collect();
-        $title = $this->formatter->format($properties->pull('title'));
+        $title = $properties->pull('title');
 
         return $properties->map(static function (array|string $content) {
             return is_array($content) ? implode(', ', $content) : $content;
         })->map(static function (string $content, string $name) {
             return "<meta name='{$name}' content='{$content}' />";
-        })->prepend("<title>{$title}</title>")->when($this->canonical, function (Collection $props) {
+        })->when($title, function (Collection $props) use ($title) {
+            return $props->prepend("<title>{$this->formatter->format($title)}</title>");
+        })->when($this->canonical, function (Collection $props) {
             return $props->push("<link rel='canonical' href='{$this->url->current()}' />");
         })->join(PHP_EOL);
     }
