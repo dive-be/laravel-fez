@@ -2,12 +2,10 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Models\Meta;
 use Dive\Fez\TwitterCards\Concerns\StaticFactories;
 
-final class TwitterCards extends Container implements Hydratable, Imageable
+final class TwitterCards extends Container implements Imageable
 {
     use StaticFactories;
 
@@ -23,13 +21,5 @@ final class TwitterCards extends Container implements Hydratable, Imageable
         })->map(static function (string $content, string $prop) {
             return "<meta property='twitter:{$prop}' content='{$content}' />";
         })->join(PHP_EOL);
-    }
-
-    public function hydrate(Meta $meta): void
-    {
-        $this->properties = array_merge(
-            $this->properties,
-            array_merge(array_filter($meta->only('description', 'image', 'title')), $meta->twitter ?? []),
-        );
     }
 }

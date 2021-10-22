@@ -2,15 +2,13 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Models\Meta;
 use Dive\Fez\OpenGraph\Concerns\StaticFactories;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-final class OpenGraph extends Container implements Hydratable, Imageable
+final class OpenGraph extends Container implements Imageable
 {
     use StaticFactories;
 
@@ -41,13 +39,5 @@ final class OpenGraph extends Container implements Hydratable, Imageable
         })->map(static function (string $content, string $prop) {
             return "<meta property='og:{$prop}' content='{$content}' />";
         })->join(PHP_EOL);
-    }
-
-    public function hydrate(Meta $meta): void
-    {
-        $this->properties = array_merge(
-            $this->properties,
-            array_merge(array_filter($meta->only('description', 'image', 'title')), $meta->open_graph ?? []),
-        );
     }
 }

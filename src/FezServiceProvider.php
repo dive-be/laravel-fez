@@ -77,9 +77,8 @@ class FezServiceProvider extends ServiceProvider
             }
 
             $components = array_combine($features, array_map([$app->make(ComponentFactory::class), 'make'], $features));
-            $finder = new Finder(fn () => $app->make('router')->getCurrentRoute());
 
-            return new Fez($finder, $components);
+            return new Fez($components);
         });
 
         $this->app->alias('fez', Fez::class);

@@ -3,9 +3,7 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Generable;
-use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -19,20 +17,16 @@ use Illuminate\Support\Collection;
  */
 final class Fez extends Component
 {
-    private bool $hydrated = false;
-
     private array $propertyMapping = [
         'description' => Container::class,
         'image' => Imageable::class,
         'title' => Container::class,
     ];
 
-    public function __construct(private Finder $finder, private array $components) {}
+    public function __construct(private array $components) {}
 
     public function generate(): string
     {
-        $this->hydrateIfNecessary();
-
         return Collection::make(array_values($this->components))
             ->map(fn (Generable $component) => $component->generate())
             ->join(PHP_EOL . PHP_EOL);
@@ -40,8 +34,6 @@ final class Fez extends Component
 
     public function get(string $component): ?Component
     {
-        $this->hydrateIfNecessary();
-
         return Arr::get($this->components, $component);
     }
 
@@ -50,8 +42,6 @@ final class Fez extends Component
         if (empty($property)) {
             return $this;
         }
-
-        $this->hydrateIfNecessary();
 
         if (is_string($property)) {
             $property = [$property => $value];
@@ -72,31 +62,10 @@ final class Fez extends Component
 
     public function toArray(): array
     {
-        $this->hydrateIfNecessary();
-
         return array_combine(
             array_keys($this->components),
             array_map(fn (Arrayable $component) => $component->toArray(), $this->components),
         );
-    }
-
-    private function hydrateIfNecessary(): void
-    {
-        if ($this->hydrated) {
-            return;
-        }
-
-        $this->finder->whenFound(function (Metable $metable) {
-            $metaData = $metable->getMetaData();
-
-            foreach ($this->components as $component) {
-                if ($component instanceof Hydratable) {
-                    $component->hydrate($metaData);
-                }
-            }
-        });
-
-        $this->hydrated = true;
     }
 
     public function __get(string $name): Component
