@@ -11,38 +11,21 @@ use Illuminate\Support\Collection;
 
 class Finder
 {
-    private ?Metable $always = null;
-
     public function __construct(private Closure $routeResolver) {}
 
-    public function alwaysFind(Metable $metable): void
-    {
-        $this->always = $metable;
-    }
-
+    /**
+     * @throws SorryUnresolvableRoute
+     */
     public function find(): ?Metable
     {
-        if ($this->always instanceof Metable) {
-            return $this->always;
+        $route = $this->resolveRoute();
+        $attempt = $this->seekUsingBinding($route);
+
+        if ($attempt instanceof Metable) {
+            return $attempt;
         }
 
-        $route = call_user_func($this->routeResolver);
-
-        if (! $route instanceof Route) {
-            throw SorryUnresolvableRoute::make();
-        }
-
-        if (is_string($binding = Arr::pull($route->defaults, static::class))) {
-            $metable = Arr::get($route->parameters, $binding);
-
-            if ($metable instanceof Metable) {
-                return $metable;
-            }
-        }
-
-        return Collection::make($route->parameterNames)
-            ->map(fn ($param) => Arr::get($route->parameters, $param))
-            ->last(fn ($param) => $param instanceof Metable);
+        return $this->seekMostRelevant($route);
     }
 
     public function whenFound(Closure $callback): void
@@ -52,5 +35,34 @@ class Finder
         if ($metable instanceof Metable) {
             $callback($metable);
         }
+    }
+
+    private function resolveRoute(): Route
+    {
+        $route = call_user_func($this->routeResolver);
+
+        if (! $route instanceof Route) {
+            throw SorryUnresolvableRoute::make();
+        }
+
+        return $route;
+    }
+
+    private function seekMostRelevant(Route $route): ?Metable
+    {
+        return Collection::make($route->parameterNames)
+            ->map(fn ($param) => Arr::get($route->parameters, $param))
+            ->last(fn ($param) => $param instanceof Metable);
+    }
+
+    private function seekUsingBinding(Route $route): ?Metable
+    {
+        $binding = Arr::pull($route->defaults, static::class);
+
+        if (! is_string($binding)) {
+            return null;
+        }
+
+        return Arr::get($route->parameters, $binding);
     }
 }
