@@ -26,7 +26,7 @@ class FezServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/fez.php', 'fez');
+        $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
 
         $this->registerManager();
         $this->registerStaticPage();
@@ -35,7 +35,7 @@ class FezServiceProvider extends ServiceProvider
     private function registerBladeDirectives()
     {
         $this->app->make('blade.compiler')->directive('fez', static function ($expression) {
-            return "<?php echo e(fez({$expression})).PHP_EOL ?>";
+            return "<?php echo e(fez({$expression})) . PHP_EOL ?>";
         });
     }
 
@@ -51,7 +51,7 @@ class FezServiceProvider extends ServiceProvider
         $config = 'fez.php';
 
         $this->publishes([
-            __DIR__.'/../config/'.$config => $this->app->configPath($config),
+            __DIR__ . '/../config/' . $config => $this->app->configPath($config),
         ], 'config');
     }
 
@@ -88,7 +88,7 @@ class FezServiceProvider extends ServiceProvider
 
         if ($doesntExist) {
             $timestamp = date('Y_m_d_His', time());
-            $stub = __DIR__."/../database/migrations/{$migration}.stub";
+            $stub = __DIR__ . "/../database/migrations/{$migration}.stub";
 
             $this->publishes([
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),

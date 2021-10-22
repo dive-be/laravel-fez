@@ -24,7 +24,7 @@ class TestCase extends BaseTestCase
     {
         $app->make('db')->connection()->getSchemaBuilder()->dropAllTables();
 
-        require_once __DIR__.'/../database/migrations/create_fez_tables.php.stub';
+        require_once __DIR__ . '/../database/migrations/create_fez_tables.php.stub';
 
         (new CreateFezTables())->up();
     }

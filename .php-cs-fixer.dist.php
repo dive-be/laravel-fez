@@ -12,9 +12,6 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->ignoreVCS(true);
 
 $dive = [
-    'binary_operator_spaces' => [
-        'operators' => ['|' => null],
-    ],
     'blank_line_before_statement' => [
         'statements' => [
             'continue',
@@ -25,6 +22,7 @@ $dive = [
         ],
     ],
     'braces' => false,
+    'concat_space' => ['spacing' => 'one'],
     'constant_case' => ['case' => 'lower'],
     'increment_style' => ['style' => 'post'],
     'is_null' => false,

@@ -17,6 +17,6 @@ class TitleFormatter implements Formatter
             return $value ?? '';
         }
 
-        return $value.' '.$this->separator.' '.$this->suffix;
+        return "{$value} {$this->separator} {$this->suffix}";
     }
 }

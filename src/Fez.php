@@ -42,7 +42,7 @@ final class Fez extends Component
 
         return Collection::make(array_values($this->components))
             ->map(fn (Generable $component) => $component->generate())
-            ->join(PHP_EOL.PHP_EOL);
+            ->join(PHP_EOL . PHP_EOL);
     }
 
     public function get(string $component): ?Component

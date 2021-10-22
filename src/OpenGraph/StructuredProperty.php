@@ -11,6 +11,6 @@ abstract class StructuredProperty extends Container
     {
         $prefix = Str::lower(class_basename(static::class));
 
-        return parent::setProperty($name, Property::make($prefix.Property::DELIMITER.$name, $value));
+        return parent::setProperty($name, Property::make($prefix . Property::DELIMITER . $name, $value));
     }
 }

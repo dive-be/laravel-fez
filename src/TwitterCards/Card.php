@@ -22,7 +22,7 @@ abstract class Card extends Container
     public function image(string $image, ?string $alt = null): static
     {
         if (is_string($alt)) {
-            $this->setProperty(__FUNCTION__.Property::DELIMITER.'alt', $alt);
+            $this->setProperty(__FUNCTION__ . Property::DELIMITER . 'alt', $alt);
         }
 
         return $this->setProperty(__FUNCTION__, $image);
