@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 
 /**
- * @property Meta $meta
+ * @property Meta       $meta
+ * @property array|null $metaDefaults
  */
 trait HasMetaData
 {
@@ -37,6 +38,6 @@ trait HasMetaData
 
     protected function metaDefaultsArray(): array
     {
-        return isset($this->metaDefaults) ? $this->metaDefaults : [];
+        return $this->metaDefaults ?? [];
     }
 }
