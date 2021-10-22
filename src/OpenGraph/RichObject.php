@@ -21,7 +21,7 @@ abstract class RichObject extends Container
     public function alternateLocale(array|string $alternateLocale): static
     {
         return $this->pushProperties(array_map(function ($locale) {
-            return ['locale:alternate', $locale];
+            return ['locale' . Property::DELIMITER . 'alternate', $locale];
         }, Arr::wrap($alternateLocale)));
     }
 
