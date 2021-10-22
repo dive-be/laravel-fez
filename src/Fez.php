@@ -6,15 +6,16 @@ use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Metable;
+use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
- * @property \Dive\Fez\AlternatePage|null $alternatePage
- * @property \Dive\Fez\Meta|null          $meta
- * @property \Dive\Fez\OpenGraph|null     $openGraph
- * @property \Dive\Fez\TwitterCards|null  $twitterCards
+ * @property \Dive\Fez\AlternatePage $alternatePage
+ * @property \Dive\Fez\Meta          $meta
+ * @property \Dive\Fez\OpenGraph     $openGraph
+ * @property \Dive\Fez\TwitterCards  $twitterCards
  */
 final class Fez extends Component
 {
@@ -98,8 +99,12 @@ final class Fez extends Component
         $this->hydrated = true;
     }
 
-    public function __get(string $name): ?Component
+    public function __get(string $name): Component
     {
-        return $this->get($name);
+        return tap($this->get($name), static function ($value) use ($name) {
+            if (! $value instanceof Component) {
+                throw SorryPropertyNotFound::make($name);
+            }
+        });
     }
 }

@@ -4,6 +4,8 @@ namespace Dive\Fez;
 
 use ArrayAccess;
 use Dive\Fez\Contracts\Generable;
+use Dive\Fez\Exceptions\SorryBadMethodCall;
+use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Support\Arr;
 
 abstract class Container extends Component implements ArrayAccess
@@ -88,16 +90,24 @@ abstract class Container extends Component implements ArrayAccess
 
     public function __call(string $method, array $arguments)
     {
-        if (empty($arguments)) {
-            return $this->getProperty($method);
+        if (count($arguments)) {
+            return $this->setProperty($method, Arr::get($arguments, 0, ''));
         }
 
-        return $this->setProperty($method, Arr::get($arguments, 0, ''));
+        return tap($this->getProperty($method), static function ($value) use ($method) {
+            if (is_null($value)) {
+                throw SorryBadMethodCall::make(static::class, $method);
+            }
+        });
     }
 
     public function __get(string $name)
     {
-        return $this->getProperty($name);
+        return tap($this->getProperty($name), static function ($value) use ($name) {
+            if (is_null($value)) {
+                throw SorryPropertyNotFound::make($name);
+            }
+        });
     }
 
     public function __isset(string $key): bool
