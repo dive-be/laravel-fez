@@ -3,10 +3,11 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
-use Dive\Fez\Contracts\StaticPage;
+use Dive\Fez\Contracts\Route as RouteContract;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Macros\RouteMacro;
 use Dive\Fez\Macros\ViewMacro;
+use Dive\Fez\Models\Route as RouteModel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -35,8 +36,9 @@ class FezServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
 
+        $this->registerDefaultRouteKeyResolver();
         $this->registerManager();
-        $this->registerStaticPage();
+        $this->registerRouteModel();
     }
 
     private function registerBladeDirectives()
@@ -60,6 +62,11 @@ class FezServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/' . $config => $this->app->configPath($config),
         ], 'config');
+    }
+
+    private function registerDefaultRouteKeyResolver()
+    {
+        RouteModel::keyUsing(static fn ($route) => $route->getName());
     }
 
     private function registerManager()
@@ -101,11 +108,12 @@ class FezServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerStaticPage()
+    private function registerRouteModel()
     {
-        $this->app->alias(StaticPage::class, $staticPage = $this->app['config']['fez.models.static_page']);
-        $this->app->bind(StaticPage::class, function (Application $app) use ($staticPage) {
-            return call_user_func([$staticPage, 'resolve'], $app->make('fez'), $app->make('router')->getCurrentRoute());
+        $this->app->alias(RouteContract::class, $model = $this->app['config']['fez.models.route']);
+
+        $this->app->bind(RouteContract::class, static function (Application $app) use ($model) {
+            return call_user_func([$model, 'resolve'], $app['router']->getCurrentRoute());
         });
     }
 }

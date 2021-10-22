@@ -2,12 +2,12 @@
 
 namespace Dive\Fez\Database\Factories;
 
-use Dive\Fez\Models\StaticPage;
+use Dive\Fez\Models\Route;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StaticPageFactory extends Factory
+class RouteFactory extends Factory
 {
-    protected $model = StaticPage::class;
+    protected $model = Route::class;
 
     public function definition(): array
     {

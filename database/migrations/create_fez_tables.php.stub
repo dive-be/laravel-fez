@@ -21,7 +21,7 @@ class CreateFezTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('static_pages', static function (Blueprint $table) {
+        Schema::create('routes', static function (Blueprint $table) {
             $table->id();
             $table->string('key');
             $table->string('name')->nullable();
@@ -35,6 +35,6 @@ class CreateFezTables extends Migration
     public function down()
     {
         Schema::dropIfExists('meta');
-        Schema::dropIfExists('static_pages');
+        Schema::dropIfExists('routes');
     }
 }

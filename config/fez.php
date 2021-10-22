@@ -1,6 +1,8 @@
 <?php
 
 use Dive\Fez\Feature;
+use Dive\Fez\Models\Meta;
+use Dive\Fez\Models\Route;
 
 return [
     'defaults' => [
@@ -53,7 +55,7 @@ return [
      * The fully qualified class names of models that should be used.
      */
     'models' => [
-        'meta' => Dive\Fez\Models\Meta::class,
-        'static_page' => Dive\Fez\Models\StaticPage::class,
+        'meta' => Meta::class,
+        'route' => Route::class,
     ],
 ];
