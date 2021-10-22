@@ -6,7 +6,6 @@ use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Hydratable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -19,8 +18,6 @@ use Illuminate\Support\Collection;
  */
 final class Fez extends Component
 {
-    private array $components;
-
     private bool $hydrated = false;
 
     private array $propertyMapping = [
@@ -29,12 +26,7 @@ final class Fez extends Component
         'title' => Container::class,
     ];
 
-    public function __construct(
-        private ComponentFactory $factory,
-        private Finder $finder,
-    ) {
-        $this->components = $this->initialize();
-    }
+    public function __construct(private Finder $finder, private array $components) {}
 
     public function generate(): string
     {
@@ -87,19 +79,6 @@ final class Fez extends Component
         );
     }
 
-    public function use(Metable $metable): self
-    {
-        $this->finder->alwaysFind($metable);
-
-        if ($this->hydrated) {
-            $this->components = $this->initialize();
-
-            $this->hydrated = false;
-        }
-
-        return $this;
-    }
-
     private function hydrateIfNecessary(): void
     {
         if ($this->hydrated) {
@@ -117,18 +96,6 @@ final class Fez extends Component
         });
 
         $this->hydrated = true;
-    }
-
-    /**
-     * @throws SorryNoFeaturesActive
-     */
-    private function initialize(): array
-    {
-        if (empty($features = Feature::enabled())) {
-            throw SorryNoFeaturesActive::make();
-        }
-
-        return array_combine($features, array_map([$this->factory, 'make'], $features));
     }
 
     public function __get(string $name): ?Component

@@ -4,6 +4,7 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\StaticPage;
+use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Macros\RouteMacro;
 use Dive\Fez\Macros\ViewMacro;
 use Illuminate\Contracts\Foundation\Application;
@@ -64,9 +65,14 @@ class FezServiceProvider extends ServiceProvider
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
+            if (empty($features = Feature::enabled())) {
+                throw SorryNoFeaturesActive::make();
+            }
+
+            $components = array_combine($features, array_map([$app->make(ComponentFactory::class), 'make'], $features));
             $finder = new Finder(fn () => $app->make('router')->getCurrentRoute());
 
-            return new Fez($app->make(ComponentFactory::class), $finder);
+            return new Fez($finder, $components);
         });
 
         $this->app->alias('fez', Fez::class);
