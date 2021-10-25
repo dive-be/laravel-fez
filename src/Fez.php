@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @property \Dive\Fez\AlternatePage $alternatePage
- * @property \Dive\Fez\Meta          $meta
+ * @property \Dive\Fez\MetaElements  $meta
  * @property \Dive\Fez\OpenGraph     $openGraph
  * @property \Dive\Fez\TwitterCards  $twitterCards
  */
