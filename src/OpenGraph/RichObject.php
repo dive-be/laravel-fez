@@ -18,16 +18,16 @@ abstract class RichObject extends Container
         $this->setProperty('type', Str::lower(class_basename(static::class)));
     }
 
-    public function alternateLocale(array|string $alternateLocale): static
+    public function alternateLocale(array|string $alternateLocales): static
     {
         return $this->pushProperties(array_map(function ($locale) {
             return ['locale' . Property::DELIMITER . 'alternate', $locale];
-        }, Arr::wrap($alternateLocale)));
+        }, Arr::wrap($alternateLocales)));
     }
 
-    public function audio(Audio|string $audio): static
+    public function audio(Audio|string $audioOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $audio]);
+        return $this->pushProperty([__FUNCTION__, $audioOrUrl]);
     }
 
     public function description(string $description): static
@@ -40,9 +40,9 @@ abstract class RichObject extends Container
         return $this->setProperty(__FUNCTION__, $determiner);
     }
 
-    public function image(Image|string $image): static
+    public function image(Image|string $imageOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $image]);
+        return $this->pushProperty([__FUNCTION__, $imageOrUrl]);
     }
 
     public function locale(string $locale): static
@@ -77,8 +77,8 @@ abstract class RichObject extends Container
         return $this->setProperty(__FUNCTION__, $url);
     }
 
-    public function video(Video|string $video): static
+    public function video(Video|string $videoOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $video]);
+        return $this->pushProperty([__FUNCTION__, $videoOrUrl]);
     }
 }
