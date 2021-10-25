@@ -50,18 +50,6 @@ abstract class RichObject extends Container
         return $this->setProperty(__FUNCTION__, $locale);
     }
 
-    public function pushProperty($value): static
-    {
-        [$name, $value] = $value;
-
-        return parent::pushProperty(is_string($value) ? Property::make($name, $value) : $value);
-    }
-
-    public function setProperty(string $name, $value): static
-    {
-        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
-    }
-
     public function siteName(string $siteName): static
     {
         return $this->setProperty('site_name', $siteName);
@@ -80,5 +68,17 @@ abstract class RichObject extends Container
     public function video(Video|string $videoOrUrl): static
     {
         return $this->pushProperty([__FUNCTION__, $videoOrUrl]);
+    }
+
+    protected function pushProperty($value): static
+    {
+        [$name, $value] = $value;
+
+        return parent::pushProperty(is_string($value) ? Property::make($name, $value) : $value);
+    }
+
+    protected function setProperty(string $name, $value): static
+    {
+        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
     }
 }

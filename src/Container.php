@@ -32,7 +32,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this->properties;
     }
 
-    public function pushProperties(array $properties): static
+    protected function pushProperties(array $properties): static
     {
         foreach ($properties as $property) {
             $this->pushProperty($property);
@@ -41,7 +41,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    public function pushProperty($value): static
+    protected function pushProperty($value): static
     {
         if (! empty($value)) {
             $this->properties[] = $value;
@@ -50,20 +50,13 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    public function setProperty(string $name, $value): static
+    protected function setProperty(string $name, $value): static
     {
-        $name = $this->normalizeName($name);
-
-        if (! empty($name) && ! empty($value)) {
+        if (! empty($value)) {
             Arr::set($this->properties, $name, $value);
         }
 
         return $this;
-    }
-
-    protected function normalizeName(string $value): string
-    {
-        return trim($value);
     }
 
     public function offsetExists($offset): bool

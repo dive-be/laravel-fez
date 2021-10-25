@@ -8,7 +8,7 @@ use Illuminate\Support\Stringable;
 
 abstract class StructuredProperty extends Container
 {
-    public function setProperty(string $name, $value): static
+    protected function setProperty(string $name, $value): static
     {
         $name = (string) Str::of(static::class)
             ->classBasename()
