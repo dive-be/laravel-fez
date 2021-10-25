@@ -2,24 +2,24 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\TwitterCards\Concerns\StaticFactories;
+use Dive\Fez\TwitterCards\Cards\Player;
+use Dive\Fez\TwitterCards\Cards\Summary;
+use Dive\Fez\TwitterCards\Cards\SummaryLargeImage;
 
-final class TwitterCards extends Container implements Imageable
+final class TwitterCards
 {
-    use StaticFactories;
-
-    public function __construct(private TitleFormatter $formatter, array $defaults)
+    public static function player(): Player
     {
-        parent::__construct($defaults);
+        return Player::make();
     }
 
-    public function generate(): string
+    public static function summary(): Summary
     {
-        return $this->collect()->map(function (string $content, string $prop) {
-            return $prop === 'title' ? $this->formatter->format($content) : $content;
-        })->map(static function (string $content, string $prop) {
-            return "<meta property='twitter:{$prop}' content='{$content}' />";
-        })->join(PHP_EOL);
+        return Summary::make();
+    }
+
+    public static function summaryLargeImage(): SummaryLargeImage
+    {
+        return SummaryLargeImage::make();
     }
 }
