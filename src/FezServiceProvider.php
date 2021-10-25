@@ -74,13 +74,11 @@ class FezServiceProvider extends ServiceProvider
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
-            if (empty($features = Feature::enabled())) {
+            if (empty(Feature::enabled())) {
                 throw SorryNoFeaturesActive::make();
             }
 
-            $components = array_combine($features, array_map([$app->make(ComponentFactory::class), 'make'], $features));
-
-            return new Fez($components);
+            return new Fez([]);
         });
 
         $this->app->alias('fez', Fez::class);
