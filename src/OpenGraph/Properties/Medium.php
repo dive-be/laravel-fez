@@ -13,7 +13,7 @@ abstract class Medium extends StructuredProperty
 
     public function secureUrl(string $url): static
     {
-        return $this->setProperty('', $url)->setProperty('secure_url', $url);
+        return $this->setProperty(null, $url)->setProperty('secure_url', $url);
     }
 
     public function url(string $url, bool $secure = false): static
@@ -22,6 +22,6 @@ abstract class Medium extends StructuredProperty
             return $this->secureUrl($url);
         }
 
-        return $this->setProperty('', $url)->setProperty(__FUNCTION__, $url);
+        return $this->setProperty(null, $url)->setProperty(__FUNCTION__, $url);
     }
 }

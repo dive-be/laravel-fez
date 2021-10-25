@@ -2,55 +2,54 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Generable;
 use Illuminate\Support\Arr;
 
 abstract class Container extends Component
 {
-    public function __construct(protected array $properties = []) {}
+    public function __construct(protected array $components = []) {}
 
     public function generate(): string
     {
         return $this
             ->collect()
-            ->sortBy(static fn ($prop, $key) => is_numeric($key))
+            ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
             ->values()
-            ->map(static fn (Generable $prop) => $prop->generate())
+            ->map(static fn (Component $component) => $component->generate())
             ->join(PHP_EOL);
     }
 
-    public function getProperty(string $name): ?Component
+    public function get(string $name): ?Component
     {
-        return Arr::get($this->properties, $name);
+        return Arr::get($this->components, $name);
     }
 
-    public function getProperties(): array
+    public function getComponents(): array
     {
-        return $this->properties;
+        return $this->components;
     }
 
-    protected function pushProperties(array $properties): static
+    protected function pushMany(array $components): static
     {
-        foreach ($properties as $property) {
-            $this->pushProperty($property);
+        foreach ($components as $component) {
+            $this->push($component);
         }
 
         return $this;
     }
 
-    protected function pushProperty(Component $value): static
+    protected function push(Component $component): static
     {
-        if (! empty($value)) {
-            $this->properties[] = $value;
+        if (! empty($component)) {
+            $this->components[] = $component;
         }
 
         return $this;
     }
 
-    protected function setProperty(string $name, Component $value): static
+    protected function set(string $name, Component $component): static
     {
-        if (! empty($value)) {
-            Arr::set($this->properties, $name, $value);
+        if (! empty($component)) {
+            Arr::set($this->components, $name, $component);
         }
 
         return $this;
@@ -58,6 +57,6 @@ abstract class Container extends Component
 
     public function toArray(): array
     {
-        return $this->properties;
+        return $this->components;
     }
 }

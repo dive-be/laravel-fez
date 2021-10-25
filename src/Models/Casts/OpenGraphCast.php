@@ -52,7 +52,7 @@ class OpenGraphCast implements CastsAttributes
 
     private function getStructuredProperty(string $name): string
     {
-        return match (Str::before($name, Property::DELIMITER)) {
+        return match (Str::before($name, ':')) {
             'audio' => Audio::class,
             'image' => Image::class,
             'video' => Video::class,

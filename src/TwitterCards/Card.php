@@ -24,7 +24,7 @@ abstract class Card extends Container
         $this->setProperty(__FUNCTION__, $image);
 
         if (is_string($alt)) {
-            $this->setProperty(__FUNCTION__ . Property::DELIMITER . 'alt', $alt);
+            $this->setProperty('image:alt', $alt);
         }
 
         return $this;
@@ -40,8 +40,8 @@ abstract class Card extends Container
         return $this->setProperty(__FUNCTION__, $title);
     }
 
-    protected function setProperty(string $name, $value): static
+    protected function setProperty(string $name, string $value): static
     {
-        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
+        return parent::set($name, Property::make($name, $value));
     }
 }

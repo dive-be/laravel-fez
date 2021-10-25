@@ -2,6 +2,7 @@
 
 namespace Dive\Fez\OpenGraph;
 
+use Dive\Fez\Component;
 use Dive\Fez\Container;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
@@ -20,14 +21,14 @@ abstract class RichObject extends Container
 
     public function alternateLocale(array|string $alternateLocales): static
     {
-        return $this->pushProperties(array_map(function ($locale) {
-            return ['locale' . Property::DELIMITER . 'alternate', $locale];
-        }, Arr::wrap($alternateLocales)));
+        return $this->pushMany(
+            array_map(fn (string $locale) => $this->value('locale:alternate', $locale), Arr::wrap($alternateLocales))
+        );
     }
 
     public function audio(Audio|string $audioOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $audioOrUrl]);
+        return $this->pushProperty(__FUNCTION__, $audioOrUrl);
     }
 
     public function description(string $description): static
@@ -42,7 +43,7 @@ abstract class RichObject extends Container
 
     public function image(Image|string $imageOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $imageOrUrl]);
+        return $this->pushProperty(__FUNCTION__, $imageOrUrl);
     }
 
     public function locale(string $locale): static
@@ -67,18 +68,21 @@ abstract class RichObject extends Container
 
     public function video(Video|string $videoOrUrl): static
     {
-        return $this->pushProperty([__FUNCTION__, $videoOrUrl]);
+        return $this->pushProperty(__FUNCTION__, $videoOrUrl);
     }
 
-    protected function pushProperty($value): static
+    protected function pushProperty(string $name, Component|string $value): static
     {
-        [$name, $value] = $value;
-
-        return parent::pushProperty(is_string($value) ? Property::make($name, $value) : $value);
+        return parent::push($this->value($name, $value));
     }
 
-    protected function setProperty(string $name, $value): static
+    protected function setProperty(string $name, Component|string $value): static
     {
-        return parent::setProperty($name, is_string($value) ? Property::make($name, $value) : $value);
+        return parent::set($name, $this->value($name, $value));
+    }
+
+    private function value(string $name, Component|string $value): Component
+    {
+        return is_string($value) ? Property::make($name, $value) : $value;
     }
 }
