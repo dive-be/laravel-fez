@@ -21,11 +21,13 @@ abstract class Card extends Container
 
     public function image(string $image, ?string $alt = null): static
     {
+        $this->setProperty(__FUNCTION__, $image);
+
         if (is_string($alt)) {
             $this->setProperty(__FUNCTION__ . Property::DELIMITER . 'alt', $alt);
         }
 
-        return $this->setProperty(__FUNCTION__, $image);
+        return $this;
     }
 
     public function setProperty(string $name, $value): static
