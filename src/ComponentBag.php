@@ -4,7 +4,7 @@ namespace Dive\Fez;
 
 use Illuminate\Support\Arr;
 
-abstract class Container extends Component
+abstract class ComponentBag extends Component
 {
     public function __construct(protected array $components = []) {}
 

@@ -3,14 +3,14 @@
 namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Component;
-use Dive\Fez\Container;
+use Dive\Fez\ComponentBag;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
 use Dive\Fez\OpenGraph\Properties\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-abstract class RichObject extends Container
+abstract class RichObject extends ComponentBag
 {
     public function __construct(array $properties = [])
     {

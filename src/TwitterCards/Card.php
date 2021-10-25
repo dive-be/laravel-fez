@@ -2,10 +2,10 @@
 
 namespace Dive\Fez\TwitterCards;
 
-use Dive\Fez\Container;
+use Dive\Fez\ComponentBag;
 use Illuminate\Support\Str;
 
-abstract class Card extends Container
+abstract class Card extends ComponentBag
 {
     public function __construct(array $properties = [])
     {

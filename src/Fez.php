@@ -18,9 +18,9 @@ use Illuminate\Support\Collection;
 final class Fez extends Component
 {
     private array $propertyMapping = [
-        'description' => Container::class,
+        'description' => ComponentBag::class,
         'image' => Imageable::class,
-        'title' => Container::class,
+        'title' => ComponentBag::class,
     ];
 
     public function __construct(private array $components) {}

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-final class Meta extends Container
+final class Meta extends ComponentBag
 {
     private bool $canonical;
 
