@@ -4,13 +4,17 @@ namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Container;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 abstract class StructuredProperty extends Container
 {
     public function setProperty(string $name, $value): static
     {
-        $prefix = Str::lower(class_basename(static::class));
+        $name = (string) Str::of(static::class)
+            ->classBasename()
+            ->lower()
+            ->unless(empty($name), fn (Stringable $str) => $str->append(Property::DELIMITER . $name));
 
-        return parent::setProperty($name, Property::make($prefix . Property::DELIMITER . $name, $value));
+        return parent::setProperty($name, Property::make($name, $value));
     }
 }
