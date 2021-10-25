@@ -2,13 +2,10 @@
 
 namespace Dive\Fez;
 
-use ArrayAccess;
 use Dive\Fez\Contracts\Generable;
-use Dive\Fez\Exceptions\SorryBadMethodCall;
-use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Support\Arr;
 
-abstract class Container extends Component implements ArrayAccess
+abstract class Container extends Component
 {
     public function __construct(protected array $properties = []) {}
 
@@ -22,9 +19,9 @@ abstract class Container extends Component implements ArrayAccess
             ->join(PHP_EOL);
     }
 
-    public function getProperty(string $property, ?string $default = null)
+    public function getProperty(string $name): ?Component
     {
-        return Arr::get($this->properties, $property, $default);
+        return Arr::get($this->properties, $name);
     }
 
     public function getProperties(): array
@@ -41,7 +38,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    protected function pushProperty($value): static
+    protected function pushProperty(Component $value): static
     {
         if (! empty($value)) {
             $this->properties[] = $value;
@@ -50,7 +47,7 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    protected function setProperty(string $name, $value): static
+    protected function setProperty(string $name, Component $value): static
     {
         if (! empty($value)) {
             Arr::set($this->properties, $name, $value);
@@ -59,65 +56,8 @@ abstract class Container extends Component implements ArrayAccess
         return $this;
     }
 
-    public function offsetExists($offset): bool
-    {
-        return Arr::has($this->properties, $offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->getProperty($offset);
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->setProperty($offset, $value);
-    }
-
-    public function offsetUnset($offset): void
-    {
-        Arr::forget($this->properties, $offset);
-    }
-
     public function toArray(): array
     {
-        return array_filter($this->properties);
-    }
-
-    public function __call(string $method, array $arguments)
-    {
-        if (count($arguments)) {
-            return $this->setProperty($method, Arr::get($arguments, 0, ''));
-        }
-
-        return tap($this->getProperty($method), static function ($value) use ($method) {
-            if (is_null($value)) {
-                throw SorryBadMethodCall::make(static::class, $method);
-            }
-        });
-    }
-
-    public function __get(string $name)
-    {
-        return tap($this->getProperty($name), static function ($value) use ($name) {
-            if (is_null($value)) {
-                throw SorryPropertyNotFound::make($name);
-            }
-        });
-    }
-
-    public function __isset(string $key): bool
-    {
-        return $this->offsetExists($key);
-    }
-
-    public function __set(string $name, $value): void
-    {
-        $this->setProperty($name, $value);
-    }
-
-    public function __unset(string $key): void
-    {
-        $this->offsetUnset($key);
+        return $this->properties;
     }
 }
