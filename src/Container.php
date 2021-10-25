@@ -14,9 +14,12 @@ abstract class Container extends Component implements ArrayAccess
 
     public function generate(): string
     {
-        return $this->collect()->values()->map(static function (Generable $prop) {
-            return $prop->generate();
-        })->join(PHP_EOL);
+        return $this
+            ->collect()
+            ->sortBy(static fn ($prop, $key) => is_numeric($key))
+            ->values()
+            ->map(static fn (Generable $prop) => $prop->generate())
+            ->join(PHP_EOL);
     }
 
     public function getProperty(string $property, ?string $default = null)
