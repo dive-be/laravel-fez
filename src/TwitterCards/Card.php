@@ -11,7 +11,7 @@ abstract class Card extends Container
     {
         parent::__construct($properties);
 
-        $this->setProperty('card', Str::lower(Str::snake(class_basename(static::class))));
+        $this->setProperty('card', (string) Str::of(static::class)->classBasename()->snake()->lower());
     }
 
     public function description(string $description): static

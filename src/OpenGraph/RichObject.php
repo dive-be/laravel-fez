@@ -15,7 +15,7 @@ abstract class RichObject extends Container
     {
         parent::__construct($properties);
 
-        $this->setProperty('type', Str::lower(class_basename(static::class)));
+        $this->setProperty('type', (string) Str::of(static::class)->classBasename()->lower());
     }
 
     public function alternateLocale(array|string $alternateLocales): static
