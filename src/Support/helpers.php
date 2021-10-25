@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (! function_exists('fez')) {
     function fez(array|string|null $component = null)

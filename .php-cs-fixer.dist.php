@@ -12,6 +12,7 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->ignoreVCS(true);
 
 $dive = [
+    'blank_line_after_opening_tag' => false,
     'blank_line_before_statement' => [
         'statements' => [
             'continue',
@@ -24,8 +25,10 @@ $dive = [
     'braces' => false,
     'concat_space' => ['spacing' => 'one'],
     'constant_case' => ['case' => 'lower'],
+    'declare_strict_types' => true,
     'increment_style' => ['style' => 'post'],
     'is_null' => false,
+    'linebreak_after_opening_tag' => false,
     'method_argument_space' => [
         'on_multiline' => 'ensure_fully_multiline',
         'keep_multiple_spaces_after_comma' => true,
