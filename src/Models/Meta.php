@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Models;
 
-use Dive\Fez\Models\Casts\DelimitedCast;
+use Dive\Fez\Models\Casts\ElementsCast;
 use Dive\Fez\Models\Casts\OpenGraphCast;
 use Dive\Fez\Models\Casts\TwitterCardsCast;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property string|null                         $description
+ * @property array                               $elements
  * @property string|null                         $image
  * @property string|null                         $keywords
  * @property mixed                               $metable
@@ -21,9 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Meta extends Model
 {
     protected $casts = [
-        'keywords' => DelimitedCast::class,
+        'elements' => ElementsCast::class,
         'open_graph' => OpenGraphCast::class,
-        'robots' => DelimitedCast::class,
         'twitter' => TwitterCardsCast::class,
     ];
 
