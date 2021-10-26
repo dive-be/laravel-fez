@@ -12,6 +12,15 @@ abstract class ComponentBag extends Component
 
     protected array $components = [];
 
+    public function generate(): string
+    {
+        return Collection::make($this->components)
+            ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
+            ->values()
+            ->map(static fn (Component $component) => $component->generate())
+            ->join(PHP_EOL);
+    }
+
     public function get(string $name): ?Component
     {
         return Arr::get($this->components, $name);
@@ -20,6 +29,11 @@ abstract class ComponentBag extends Component
     public function getComponents(): array
     {
         return $this->components;
+    }
+
+    public function toArray(): array
+    {
+        return array_map(static fn (Component $component) => $component->toArray(), $this->components);
     }
 
     protected function pushMany(array $components): static
@@ -47,19 +61,5 @@ abstract class ComponentBag extends Component
         }
 
         return $this;
-    }
-
-    public function generate(): string
-    {
-        return Collection::make($this->components)
-            ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
-            ->values()
-            ->map(static fn (Component $component) => $component->generate())
-            ->join(PHP_EOL);
-    }
-
-    public function toArray(): array
-    {
-        return array_map(static fn (Component $component) => $component->toArray(), $this->components);
     }
 }

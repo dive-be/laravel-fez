@@ -39,6 +39,11 @@ class OpenGraphFactory
             );
     }
 
+    protected function newRichObject(): RichObject
+    {
+        return call_user_func([$this->getClass($this->config['type']), 'make']);
+    }
+
     private function getClass(string $type): string
     {
         return match ($type) {
@@ -48,10 +53,5 @@ class OpenGraphFactory
             'website' => Website::class,
             default => throw SorryUnknownOpenGraphObjectType::make($type),
         };
-    }
-
-    private function newRichObject(): RichObject
-    {
-        return call_user_func([$this->getClass($this->config['type']), 'make']);
     }
 }

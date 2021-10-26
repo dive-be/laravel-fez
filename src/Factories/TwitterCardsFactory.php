@@ -29,6 +29,11 @@ class TwitterCardsFactory
             );
     }
 
+    protected function newCard(): Card
+    {
+        return call_user_func([$this->getClass($this->config['type']), 'make']);
+    }
+
     private function getClass(string $type): string
     {
         return match ($type) {
@@ -37,10 +42,5 @@ class TwitterCardsFactory
             'summary_large_image' => SummaryLargeImage::class,
             default => throw SorryUnknownTwitterCardsType::make($type),
         };
-    }
-
-    private function newCard(): Card
-    {
-        return call_user_func([$this->getClass($this->config['type']), 'make']);
     }
 }
