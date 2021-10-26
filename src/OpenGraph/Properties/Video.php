@@ -2,6 +2,6 @@
 
 namespace Dive\Fez\OpenGraph\Properties;
 
-final class Video extends VisualMedium
+class Video extends VisualMedium
 {
 }

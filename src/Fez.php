@@ -4,7 +4,7 @@ namespace Dive\Fez;
 
 use Illuminate\Support\Collection;
 
-final class Fez extends Component
+class Fez extends Component
 {
     public function __construct(
         private array $components,

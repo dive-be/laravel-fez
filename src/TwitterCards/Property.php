@@ -4,7 +4,7 @@ namespace Dive\Fez\TwitterCards;
 
 use Dive\Fez\Component;
 
-final class Property extends Component
+class Property extends Component
 {
     public function __construct(
         private string $name,

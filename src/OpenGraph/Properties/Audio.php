@@ -2,6 +2,6 @@
 
 namespace Dive\Fez\OpenGraph\Properties;
 
-final class Audio extends Medium
+class Audio extends Medium
 {
 }

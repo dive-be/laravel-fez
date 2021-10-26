@@ -4,7 +4,7 @@ namespace Dive\Fez\OpenGraph\Objects;
 
 use DateTimeInterface;
 
-final class Article extends Writing
+class Article extends Writing
 {
     public function expirationTime(DateTimeInterface $expirationTime): self
     {

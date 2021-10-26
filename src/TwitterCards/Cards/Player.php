@@ -4,7 +4,7 @@ namespace Dive\Fez\TwitterCards\Cards;
 
 use Dive\Fez\TwitterCards\Card;
 
-final class Player extends Card
+class Player extends Card
 {
     public function height(int $height): self
     {

@@ -10,7 +10,7 @@ use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
 use Dive\Fez\OpenGraph\Properties\Video;
 
-final class OpenGraph
+class OpenGraph
 {
     public static function article(): Article
     {

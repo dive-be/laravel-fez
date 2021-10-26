@@ -4,7 +4,7 @@ namespace Dive\Fez\OpenGraph\Objects;
 
 use DateTimeInterface;
 
-final class Book extends Writing
+class Book extends Writing
 {
     public function isbn(string $isbn): self
     {

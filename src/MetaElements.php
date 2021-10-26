@@ -6,7 +6,7 @@ use Dive\Fez\MetaElements\Canonical;
 use Dive\Fez\MetaElements\Element;
 use Dive\Fez\MetaElements\Title;
 
-final class MetaElements extends ComponentBag
+class MetaElements extends ComponentBag
 {
     public function canonical(string $url): self
     {

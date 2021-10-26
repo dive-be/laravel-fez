@@ -4,7 +4,7 @@ namespace Dive\Fez\OpenGraph\Objects;
 
 use Dive\Fez\OpenGraph\RichObject;
 
-final class Profile extends RichObject
+class Profile extends RichObject
 {
     public function firstName(string $firstName): self
     {

@@ -6,7 +6,7 @@ use Dive\Fez\TwitterCards\Cards\Player;
 use Dive\Fez\TwitterCards\Cards\Summary;
 use Dive\Fez\TwitterCards\Cards\SummaryLargeImage;
 
-final class TwitterCards
+class TwitterCards
 {
     public static function player(): Player
     {

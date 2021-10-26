@@ -8,7 +8,7 @@ use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-final class AlternatePage extends Component
+class AlternatePage extends Component
 {
     private static ?Closure $urlUsing = null;
 

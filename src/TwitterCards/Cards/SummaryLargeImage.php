@@ -4,7 +4,7 @@ namespace Dive\Fez\TwitterCards\Cards;
 
 use Dive\Fez\TwitterCards\Card;
 
-final class SummaryLargeImage extends Card
+class SummaryLargeImage extends Card
 {
     public function creator(string $creator): self
     {
