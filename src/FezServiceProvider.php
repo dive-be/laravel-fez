@@ -79,7 +79,8 @@ class FezServiceProvider extends ServiceProvider
             }
 
             $factory = FeatureFactory::make($app['config']['fez'])
-                ->setRequestResolver(static fn () => $app['request']);
+                ->setRequestResolver(static fn () => $app['request'])
+                ->setUrlResolver(static fn () => $app['url']);
 
             return new Fez(
                 array_combine($features, array_map([$factory, 'create'], $features))

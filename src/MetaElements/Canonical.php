@@ -3,26 +3,20 @@
 namespace Dive\Fez\MetaElements;
 
 use Dive\Fez\Component;
-use Illuminate\Contracts\Routing\UrlGenerator;
 
 class Canonical extends Component
 {
-    public function __construct(private UrlGenerator $url) {}
+    public function __construct(private string $url) {}
 
     public function generate(): string
     {
         return <<<HTML
-<link rel="canonical" href="{$this->link()}" />
+<link rel="canonical" href="{$this->url}" />
 HTML;
     }
 
     public function toArray(): array
     {
-        return ['canonical' => $this->link()];
-    }
-
-    private function link(): string
-    {
-        return $this->url->current();
+        return ['canonical' => $this->url];
     }
 }

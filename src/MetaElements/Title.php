@@ -7,20 +7,15 @@ use Dive\Fez\Contracts\Formatter;
 
 class Title extends Component
 {
-    public function __construct(private Formatter $formatter, private string $value) {}
+    public function __construct(private string $value) {}
 
     public function generate(): string
     {
-        return "<title>{$this->formatted()}</title>";
+        return "<title>{$this->value}</title>";
     }
 
     public function toArray(): array
     {
-        return ['title' => $this->formatted()];
-    }
-
-    private function formatted(): string
-    {
-        return $this->formatter->format($this->value);
+        return ['title' => $this->value];
     }
 }
