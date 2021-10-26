@@ -4,9 +4,12 @@ namespace Dive\Fez;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Traits\Conditionable;
 
 abstract class ComponentBag extends Component
 {
+    use Conditionable;
+
     protected array $components = [];
 
     public function get(string $name): ?Component

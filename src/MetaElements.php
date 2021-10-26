@@ -2,22 +2,15 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\MetaElements\Canonical;
 use Dive\Fez\MetaElements\Element;
 use Dive\Fez\MetaElements\Title;
-use Illuminate\Contracts\Routing\UrlGenerator;
 
 final class MetaElements extends ComponentBag
 {
-    public function __construct(
-        private UrlGenerator $url,
-        private Formatter $formatter,
-    ) {}
-
-    public function canonical(): self
+    public function canonical(string $url): self
     {
-        return $this->set(__FUNCTION__, Canonical::make($this->url->current()));
+        return $this->set(__FUNCTION__, Canonical::make($url));
     }
 
     public function description(string $description): self
@@ -37,6 +30,6 @@ final class MetaElements extends ComponentBag
 
     public function title(string $title): self
     {
-        return $this->set(__FUNCTION__, Title::make($this->formatter->format($title)));
+        return $this->set(__FUNCTION__, Title::make($title));
     }
 }

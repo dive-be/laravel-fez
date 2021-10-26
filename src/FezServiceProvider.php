@@ -5,6 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\Route as RouteContract;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
+use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Macros\RouteMacro;
 use Dive\Fez\Macros\ViewMacro;
 use Dive\Fez\Models\Route as RouteModel;
@@ -79,6 +80,7 @@ class FezServiceProvider extends ServiceProvider
             }
 
             $factory = FeatureFactory::make($app['config']['fez'])
+                ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
