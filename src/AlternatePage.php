@@ -36,10 +36,17 @@ final class AlternatePage extends Component
         return fn (string $locale) => $resolver($locale, $this->request);
     }
 
+    private function tag(string $href, string $lang): string
+    {
+        return <<<HTML
+<link rel="alternate" href="{$href}" hreflang="{$lang}" />
+HTML;
+    }
+
     public function generate(): string
     {
         return Collection::make($this->toArray())
-            ->map(fn (string $href, string $lang) => "<link rel='alternate' href='{$href}' hreflang='{$lang}' />")
+            ->map(fn (string $href, string $lang) => $this->tag($href, $lang))
             ->join(PHP_EOL);
     }
 

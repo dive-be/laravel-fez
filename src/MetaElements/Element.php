@@ -10,7 +10,9 @@ class Element extends Component
 
     public function generate(): string
     {
-        return "<meta name='{$this->name}' content='{$this->content}' />";
+        return <<<HTML
+<meta name="{$this->name}" content="{$this->content}" />
+HTML;
     }
 
     public function toArray(): array

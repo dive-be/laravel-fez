@@ -15,7 +15,9 @@ final class Property extends Component
 
     public function generate(): string
     {
-        return "<meta name='og:{$this->name}' content='{$this->content}' />";
+        return <<<HTML
+<meta name="og:{$this->name}" content="{$this->content}" />
+HTML;
     }
 
     public function name(): string

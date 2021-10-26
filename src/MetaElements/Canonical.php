@@ -11,7 +11,9 @@ class Canonical extends Component
 
     public function generate(): string
     {
-        return "<link rel='canonical' href='{$this->link()}' />";
+        return <<<HTML
+<link rel="canonical" href="{$this->link()}" />
+HTML;
     }
 
     public function toArray(): array
