@@ -26,7 +26,9 @@ class FeatureFactory
 
     private Closure $urlResolver;
 
-    public function __construct(private array $config) {}
+    public function __construct(
+        private array $config,
+    ) {}
 
     public function create(string $feature): Component
     {

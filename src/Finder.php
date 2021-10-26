@@ -11,7 +11,9 @@ use Illuminate\Support\Collection;
 
 class Finder
 {
-    public function __construct(private Closure $routeResolver) {}
+    public function __construct(
+        private Closure $routeResolver,
+    ) {}
 
     /**
      * @throws SorryUnresolvableRoute

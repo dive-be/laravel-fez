@@ -11,7 +11,9 @@ class FormatterFactory
 {
     use Makeable;
 
-    public function __construct(private array|string|null $config) {}
+    public function __construct(
+        private array|string|null $config,
+    ) {}
 
     public function create(): Formatter
     {

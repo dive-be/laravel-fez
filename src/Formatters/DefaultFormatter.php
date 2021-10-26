@@ -9,7 +9,10 @@ class DefaultFormatter implements Formatter
 {
     use Makeable;
 
-    public function __construct(private string $suffix, private string $separator) {}
+    public function __construct(
+        private string $suffix,
+        private string $separator,
+    ) {}
 
     public function format(string $value = ''): string
     {

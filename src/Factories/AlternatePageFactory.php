@@ -10,7 +10,10 @@ class AlternatePageFactory
 {
     use Makeable;
 
-    public function __construct(private array $locales, private Request $request) {}
+    public function __construct(
+        private array $locales,
+        private Request $request,
+    ) {}
 
     public function create(): AlternatePage
     {

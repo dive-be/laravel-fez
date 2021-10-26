@@ -6,7 +6,9 @@ use Dive\Fez\Component;
 
 class Canonical extends Component
 {
-    public function __construct(private string $url) {}
+    public function __construct(
+        private string $url,
+    ) {}
 
     public function generate(): string
     {

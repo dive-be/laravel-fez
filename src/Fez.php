@@ -6,7 +6,9 @@ use Illuminate\Support\Collection;
 
 final class Fez extends Component
 {
-    public function __construct(private array $components) {}
+    public function __construct(
+        private array $components,
+    ) {}
 
     public function generate(): string
     {

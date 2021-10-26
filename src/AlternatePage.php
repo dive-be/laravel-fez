@@ -12,8 +12,10 @@ final class AlternatePage extends Component
 {
     private static ?Closure $urlUsing = null;
 
-    public function __construct(private array $locales, private Request $request)
-    {
+    public function __construct(
+        private array $locales,
+        private Request $request,
+    ) {
         if (count($locales) < 2) {
             throw SorryTooFewLocalesSpecified::make();
         }

@@ -7,7 +7,9 @@ use Dive\Fez\Contracts\Formatter;
 
 class Title extends Component
 {
-    public function __construct(private string $value) {}
+    public function __construct(
+        private string $value,
+    ) {}
 
     public function generate(): string
     {

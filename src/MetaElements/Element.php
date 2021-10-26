@@ -6,7 +6,10 @@ use Dive\Fez\Component;
 
 class Element extends Component
 {
-    public function __construct(private string $name, private string $content) {}
+    public function __construct(
+        private string $name,
+        private string $content,
+    ) {}
 
     public function generate(): string
     {
