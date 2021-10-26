@@ -6,6 +6,7 @@ use Closure;
 use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
 use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 final class AlternatePage extends Component
 {
@@ -23,18 +24,6 @@ final class AlternatePage extends Component
         self::$urlUsing = $callback;
     }
 
-    public function generate(): string
-    {
-        return $this->collect()->map(static function (string $href, string $lang) {
-            return "<link rel='alternate' href='{$href}' hreflang='{$lang}' />";
-        })->join(PHP_EOL);
-    }
-
-    public function toArray(): array
-    {
-        return array_combine($this->locales, array_map($this->urlResolver(), $this->locales));
-    }
-
     /**
      * @throws SorryUnspecifiedUrlResolver
      */
@@ -45,5 +34,17 @@ final class AlternatePage extends Component
         }
 
         return fn (string $locale) => $resolver($locale, $this->request);
+    }
+
+    public function generate(): string
+    {
+        return Collection::make($this->toArray())
+            ->map(fn (string $href, string $lang) => "<link rel='alternate' href='{$href}' hreflang='{$lang}' />")
+            ->join(PHP_EOL);
+    }
+
+    public function toArray(): array
+    {
+        return array_combine($this->locales, array_map($this->urlResolver(), $this->locales));
     }
 }

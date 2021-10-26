@@ -3,20 +3,11 @@
 namespace Dive\Fez;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 abstract class ComponentBag extends Component
 {
     public function __construct(protected array $components = []) {}
-
-    public function generate(): string
-    {
-        return $this
-            ->collect()
-            ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
-            ->values()
-            ->map(static fn (Component $component) => $component->generate())
-            ->join(PHP_EOL);
-    }
 
     public function get(string $name): ?Component
     {
@@ -55,8 +46,17 @@ abstract class ComponentBag extends Component
         return $this;
     }
 
+    public function generate(): string
+    {
+        return Collection::make($this->components)
+            ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
+            ->values()
+            ->map(static fn (Component $component) => $component->generate())
+            ->join(PHP_EOL);
+    }
+
     public function toArray(): array
     {
-        return $this->components;
+        return array_map(static fn (Component $component) => $component->toArray(), $this->components);
     }
 }
