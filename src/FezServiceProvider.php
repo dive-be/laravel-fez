@@ -17,11 +17,6 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class FezServiceProvider extends ServiceProvider
 {
-    private array $macros = [
-        RouteMacro::class,
-        ViewMacro::class,
-    ];
-
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -94,9 +89,8 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerMacros()
     {
-        foreach ($this->macros as $macro) {
-            call_user_func([$macro, 'register']);
-        }
+        RouteMacro::register();
+        ViewMacro::register();
     }
 
     private function registerMigration()
