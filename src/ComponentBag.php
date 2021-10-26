@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 abstract class ComponentBag extends Component
 {
-    public function __construct(protected array $components = []) {}
+    protected array $components = [];
 
     public function get(string $name): ?Component
     {

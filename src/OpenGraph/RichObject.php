@@ -12,10 +12,8 @@ use Illuminate\Support\Str;
 
 abstract class RichObject extends ComponentBag
 {
-    public function __construct(array $properties = [])
+    public function __construct()
     {
-        parent::__construct($properties);
-
         $this->setProperty('type', (string) Str::of(static::class)->classBasename()->lower());
     }
 

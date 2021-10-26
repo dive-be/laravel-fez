@@ -7,10 +7,8 @@ use Illuminate\Support\Str;
 
 abstract class Card extends ComponentBag
 {
-    public function __construct(array $properties = [])
+    public function __construct()
     {
-        parent::__construct($properties);
-
         $this->setProperty('card', (string) Str::of(static::class)->classBasename()->snake()->lower());
     }
 
