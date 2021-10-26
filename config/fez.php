@@ -9,15 +9,12 @@ return [
         'general' => [
             'description' => null,
             'image' => null, // Relative path or absolute URL
-            'separator' => '|', // Separation symbol used in title generation when a suffix is set
-            'suffix' => env('APP_NAME'),
-            'title' => null,
         ],
 
         Feature::metaElements() => [
             'canonical' => true, // Uses Url::current when enabled
-            'keywords' => null, // An array of default keywords
-            'robots' => ['index', 'follow'], // Any valid combination of index/follow, noindex/nofollow or all/none
+            'keywords' => null, // Comma separated default keywords
+            'robots' => 'index, follow', // Any valid combination of index/follow, noindex/nofollow or all/none
         ],
 
         Feature::openGraph() => [
@@ -57,5 +54,15 @@ return [
     'models' => [
         'meta' => Meta::class,
         'route' => Route::class,
+    ],
+
+    /**
+     * Define how your page titles should be formatted here.
+     *
+     * Assign null to disable title formatting: 'title' => null
+     */
+    'title' => [
+        'separator' => '|',
+        'suffix' => env('APP_NAME'),
     ],
 ];
