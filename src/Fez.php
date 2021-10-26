@@ -13,6 +13,7 @@ final class Fez extends Component
         return Collection::make($this->components)
             ->map(static fn (Component $component) => $component->generate())
             ->values()
+            ->filter()
             ->join(PHP_EOL . PHP_EOL);
     }
 
