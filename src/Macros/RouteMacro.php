@@ -3,11 +3,10 @@
 namespace Dive\Fez\Macros;
 
 use Closure;
-use Dive\Fez\Contracts\MacroRegistrar;
 use Dive\Fez\Finder;
 use Illuminate\Routing\Route;
 
-class RouteMacro implements MacroRegistrar
+class RouteMacro
 {
     public static function register()
     {

@@ -3,10 +3,9 @@
 namespace Dive\Fez\Macros;
 
 use Closure;
-use Dive\Fez\Contracts\MacroRegistrar;
 use Illuminate\View\View;
 
-class ViewMacro implements MacroRegistrar
+class ViewMacro
 {
     public static function register()
     {
