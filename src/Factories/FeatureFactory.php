@@ -6,7 +6,7 @@ use Closure;
 use Dive\Fez\AlternatePage;
 use Dive\Fez\Component;
 use Dive\Fez\Contracts\Formatter;
-use Dive\Fez\Exceptions\SorryUnexpectedComponent;
+use Dive\Fez\Exceptions\SorryUnknownFeature;
 use Dive\Fez\Feature;
 use Dive\Fez\MetaElements;
 use Dive\Fez\OpenGraph\RichObject;
@@ -36,7 +36,7 @@ class FeatureFactory
             Feature::metaElements() => $this->metaElements(),
             Feature::openGraph() => $this->openGraph(),
             Feature::twitterCards() => $this->twitterCards(),
-            default => throw SorryUnexpectedComponent::make($feature),
+            default => throw SorryUnknownFeature::make($feature),
         };
     }
 
