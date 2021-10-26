@@ -11,8 +11,12 @@ class DefaultFormatter implements Formatter
 
     public function __construct(private string $suffix, private string $separator) {}
 
-    public function format(string $value): string
+    public function format(string $value = ''): string
     {
+        if (empty($value)) {
+            return $this->suffix;
+        }
+
         return "{$value} {$this->separator} {$this->suffix}";
     }
 }
