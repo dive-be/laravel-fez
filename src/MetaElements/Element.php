@@ -1,0 +1,23 @@
+<?php declare(strict_types=1);
+
+namespace Dive\Fez\MetaElements;
+
+use Dive\Fez\Component;
+
+class Element extends Component
+{
+    public function __construct(private string $name, private string $content) {}
+
+    public function generate(): string
+    {
+        return "<meta name='{$this->name}' content='{$this->content}' />";
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'content' => $this->content,
+            'name' => $this->name,
+        ];
+    }
+}
