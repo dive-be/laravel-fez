@@ -11,6 +11,11 @@ abstract class ComponentBag extends Component
     use Conditionable;
 
     protected array $components = [];
+    
+    public function components(): array
+    {
+        return $this->components;
+    }
 
     public function generate(): string
     {
@@ -24,11 +29,6 @@ abstract class ComponentBag extends Component
     public function get(string $name): ?Component
     {
         return Arr::get($this->components, $name);
-    }
-
-    public function getComponents(): array
-    {
-        return $this->components;
     }
 
     public function toArray(): array
