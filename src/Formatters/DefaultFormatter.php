@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+
+namespace Dive\Fez\Formatters;
+
+use Dive\Fez\Contracts\Formatter;
+use Dive\Fez\Support\Makeable;
+
+class DefaultFormatter implements Formatter
+{
+    use Makeable;
+
+    public function __construct(private string $suffix, private string $separator) {}
+
+    public function format(string $value): string
+    {
+        return "{$value} {$this->separator} {$this->suffix}";
+    }
+}
