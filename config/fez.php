@@ -14,7 +14,7 @@ return [
             'title' => null,
         ],
 
-        Feature::meta() => [
+        Feature::metaElements() => [
             'canonical' => true, // Uses Url::current when enabled
             'keywords' => null, // An array of default keywords
             'robots' => ['index', 'follow'], // Any valid combination of index/follow, noindex/nofollow or all/none
@@ -38,7 +38,7 @@ return [
      * The order of these features also defines the order in which the tags are generated when rendering your views.
      */
     'features' => [
-        Feature::meta(),
+        Feature::metaElements(),
         Feature::openGraph(),
         Feature::twitterCards(),
         // Feature::alternatePage(),

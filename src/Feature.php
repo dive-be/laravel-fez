@@ -10,7 +10,7 @@ class Feature
     {
         return [
             static::alternatePage(),
-            static::meta(),
+            static::metaElements(),
             static::openGraph(),
             static::twitterCards(),
         ];
@@ -26,7 +26,7 @@ class Feature
         return array_intersect(array_unique(Config::get('fez.features')), static::all());
     }
 
-    public static function meta(): string
+    public static function metaElements(): string
     {
         return __FUNCTION__;
     }

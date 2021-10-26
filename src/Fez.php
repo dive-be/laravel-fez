@@ -2,16 +2,14 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Contracts\Generable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
  * @property \Dive\Fez\AlternatePage $alternatePage
- * @property \Dive\Fez\MetaElements  $meta
+ * @property \Dive\Fez\MetaElements  $metaElements
  * @property \Dive\Fez\OpenGraph     $openGraph
  * @property \Dive\Fez\TwitterCards  $twitterCards
  */
@@ -24,13 +22,6 @@ final class Fez extends Component
     ];
 
     public function __construct(private array $components) {}
-
-    public function generate(): string
-    {
-        return Collection::make(array_values($this->components))
-            ->map(fn (Generable $component) => $component->generate())
-            ->join(PHP_EOL . PHP_EOL);
-    }
 
     public function get(string $component): ?Component
     {
@@ -60,12 +51,17 @@ final class Fez extends Component
         return $this;
     }
 
+    public function generate(): string
+    {
+        return Collection::make($this->components)
+            ->map(static fn (Component $component) => $component->generate())
+            ->values()
+            ->join(PHP_EOL . PHP_EOL);
+    }
+
     public function toArray(): array
     {
-        return array_combine(
-            array_keys($this->components),
-            array_map(fn (Arrayable $component) => $component->toArray(), $this->components),
-        );
+        return array_map(static fn (Component $component) => $component->toArray(), $this->components);
     }
 
     public function __get(string $name): Component
