@@ -19,13 +19,13 @@ class MetaElementsFactory
     {
         return MetaElements::make()
             ->when($description = $this->config['description'],
-                fn (MetaElements $meta) => $meta->description($description)
+                static fn (MetaElements $meta) => $meta->description($description)
             )->when($this->config['canonical'],
-                fn (MetaElements $meta) => $meta->canonical($this->url->current())
+                static fn (MetaElements $meta) => $meta->canonical($this->url->current())
             )->when($keywords = $this->config['keywords'],
-                fn (MetaElements $meta) => $meta->keywords($keywords)
+                static fn (MetaElements $meta) => $meta->keywords($keywords)
             )->when($robots = $this->config['robots'],
-                fn (MetaElements $meta) => $meta->robots($robots)
+                static fn (MetaElements $meta) => $meta->robots($robots)
             );
     }
 }

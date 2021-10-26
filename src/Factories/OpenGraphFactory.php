@@ -25,17 +25,17 @@ class OpenGraphFactory
     {
         return $this->newRichObject()
             ->when($image = $this->config['image'],
-                fn (RichObject $object) => $object->image($image)
+                static fn (RichObject $object) => $object->image($image)
             )->when($description = $this->config['description'],
-                fn (RichObject $object) => $object->description($description)
+                static fn (RichObject $object) => $object->description($description)
             )->when($siteName = $this->config['site_name'],
-                fn (RichObject $object) => $object->siteName($siteName)
+                static fn (RichObject $object) => $object->siteName($siteName)
             )->when($this->config['url'],
                 fn (RichObject $object) => $object->url($this->url->current())
             )->when($locale = $this->config['locale'],
                 fn (RichObject $object) => $object->locale($this->locale),
             )->when($locale && ($alternates = $this->config['alternates']),
-                fn (RichObject $object) => $object->alternateLocale($alternates),
+                static fn (RichObject $object) => $object->alternateLocale($alternates),
             );
     }
 

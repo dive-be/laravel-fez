@@ -21,11 +21,11 @@ class TwitterCardsFactory
     {
         return $this->newCard()
             ->when($image = $this->config['image'],
-                fn (Card $card) => $card->image($image),
+                static fn (Card $card) => $card->image($image),
             )->when($description = $this->config['description'],
-                fn (Card $card) => $card->description($description)
+                static fn (Card $card) => $card->description($description)
             )->when($site = $this->config['site'],
-                fn (Card $card) => $card->site($site)
+                static fn (Card $card) => $card->site($site)
             );
     }
 
