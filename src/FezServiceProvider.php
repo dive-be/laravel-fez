@@ -79,7 +79,7 @@ class FezServiceProvider extends ServiceProvider
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            return new Fez(
+            return Fez::make(
                 array_combine($features, array_map([$factory, 'create'], $features))
             );
         });
