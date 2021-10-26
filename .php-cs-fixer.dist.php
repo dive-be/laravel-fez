@@ -29,10 +29,6 @@ $dive = [
     'increment_style' => ['style' => 'post'],
     'is_null' => false,
     'linebreak_after_opening_tag' => false,
-    'method_argument_space' => [
-        'on_multiline' => 'ensure_fully_multiline',
-        'keep_multiple_spaces_after_comma' => true,
-    ],
     'native_constant_invocation' => false,
     'native_function_invocation' => false,
     'not_operator_with_successor_space' => true,

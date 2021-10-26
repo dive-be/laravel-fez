@@ -3,7 +3,6 @@
 namespace Dive\Fez\MetaElements;
 
 use Dive\Fez\Component;
-use Dive\Fez\Contracts\Formatter;
 
 class Title extends Component
 {
