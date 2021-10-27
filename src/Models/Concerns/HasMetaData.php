@@ -12,32 +12,37 @@ use Illuminate\Support\Arr;
  */
 trait HasMetaData
 {
-    public function getMetaData(): Meta
+    public function gatherMetaData(): array
     {
-        $relation = $this->getRelationValue('meta');
+        $defaults = Arr::only(array_filter($this->metaDefaults()), ['description', 'image', 'title']);
 
-        if (count($this->metaDefaultsArray()) < 1) {
+        if (is_null($relation = $this->meta()->getResults())) {
+            return $defaults;
+        }
+
+        $relation = array_filter($relation->toArray());
+
+        if (empty($defaults)) {
             return $relation;
         }
 
-        [
-            $metaAttributes,
-            $modelAttributes
-        ] = Arr::divide(Arr::only($this->metaDefaultsArray(), $relation->getFillable()));
-
-        return $relation->fill(array_merge(
-            array_combine($metaAttributes, array_values($this->only($modelAttributes))),
-            array_filter($relation->only($relation->getFillable())),
-        ));
+        return array_merge($defaults, $relation);
     }
 
     public function meta(): MorphOne
     {
-        return $this->morphOne(config('fez.models.meta'), 'metable')->withDefault();
+        return $this->morphOne(MorphOne::getMorphedModel(__FUNCTION__), 'metable');
     }
 
-    protected function metaDefaultsArray(): array
+    protected function metaDefaults(): array
     {
-        return $this->metaDefaults ?? [];
+        if (! property_exists($this, __FUNCTION__)) {
+            return [];
+        }
+
+        return array_map(
+            fn (string $attribute) => $this->getAttribute($attribute),
+            $this->{__FUNCTION__},
+        );
     }
 }

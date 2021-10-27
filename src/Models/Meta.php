@@ -2,32 +2,30 @@
 
 namespace Dive\Fez\Models;
 
-use Dive\Fez\Models\Casts\ElementsCast;
-use Dive\Fez\Models\Casts\OpenGraphCast;
-use Dive\Fez\Models\Casts\TwitterCardsCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * @property string|null                         $description
- * @property array                               $elements
- * @property string|null                         $image
- * @property string|null                         $keywords
- * @property mixed                               $metable
- * @property \Dive\Fez\OpenGraph\RichObject|null $open_graph
- * @property string|null                         $robots
- * @property string                              $title
- * @property \Dive\Fez\TwitterCards\Card|null    $twitter
+ * @property string|null $description
+ * @property array       $elements
+ * @property string|null $image
+ * @property string|null $keywords
+ * @property mixed       $metable
+ * @property array|null  $open_graph
+ * @property string|null $robots
+ * @property string      $title
+ * @property array|null  $twitter
  */
 class Meta extends Model
 {
     protected $casts = [
-        'elements' => ElementsCast::class,
-        'open_graph' => OpenGraphCast::class,
-        'twitter' => TwitterCardsCast::class,
+        'open_graph' => 'array',
+        'twitter' => 'array',
     ];
 
-    protected $fillable = [
+    protected $guarded = ['id'];
+
+    protected $visible = [
         'description',
         'image',
         'keywords',
