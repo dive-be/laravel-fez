@@ -72,15 +72,6 @@ class FeatureFactory
         )->create();
     }
 
-    private function formatter(): Formatter
-    {
-        if (isset($this->formatter)) {
-            return $this->formatter;
-        }
-
-        return $this->formatter = FormatterFactory::make($this->config['title'])->create();
-    }
-
     private function locales(): array
     {
         return $this->config[__FUNCTION__];
