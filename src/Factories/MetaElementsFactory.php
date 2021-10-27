@@ -21,7 +21,7 @@ class MetaElementsFactory
             ->when($description = $this->config['description'],
                 static fn (MetaElements $meta) => $meta->description($description)
             )->when($this->config['canonical'],
-                static fn (MetaElements $meta) => $meta->canonical($this->url->current())
+                fn (MetaElements $meta) => $meta->canonical($this->url->current())
             )->when($keywords = $this->config['keywords'],
                 static fn (MetaElements $meta) => $meta->keywords($keywords)
             )->when($robots = $this->config['robots'],
