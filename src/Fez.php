@@ -2,13 +2,18 @@
 
 namespace Dive\Fez;
 
+use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Illuminate\Support\Collection;
 
 class Fez extends Component
 {
     public function __construct(
         private array $components,
-    ) {}
+    ) {
+        if (empty($this->components)) {
+            throw SorryNoFeaturesActive::make();
+        }
+    }
 
     public function generate(): string
     {

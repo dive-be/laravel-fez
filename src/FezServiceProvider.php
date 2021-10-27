@@ -4,7 +4,6 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\Route as RouteContract;
-use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Macros\RouteMacro;
 use Dive\Fez\Macros\ViewMacro;
@@ -70,17 +69,13 @@ class FezServiceProvider extends ServiceProvider
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
-            if (empty($features = Feature::enabled())) {
-                throw SorryNoFeaturesActive::make();
-            }
-
             $factory = FeatureFactory::make($app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
             return Fez::make(
-                array_combine($features, array_map([$factory, 'create'], $features))
+                array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
             );
         });
 
