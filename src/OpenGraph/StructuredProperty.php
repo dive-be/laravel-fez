@@ -17,4 +17,12 @@ abstract class StructuredProperty extends ComponentBag
 
         return parent::set($name, Property::make($name, $value));
     }
+
+    public function toArray(): array
+    {
+        return [
+            'properties' => parent::toArray(),
+            'type' => (string) Str::of(static::class)->classBasename()->lower(),
+        ];
+    }
 }

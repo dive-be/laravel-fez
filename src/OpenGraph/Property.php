@@ -31,8 +31,11 @@ HTML;
     public function toArray(): array
     {
         return [
-            'content' => $this->content,
-            'name' => $this->name,
+            'attributes' => [
+                'content' => $this->content,
+                'name' => $this->name,
+            ],
+            'type' => 'property',
         ];
     }
 }

@@ -12,9 +12,11 @@ use Illuminate\Support\Str;
 
 abstract class RichObject extends ComponentBag
 {
+    private const TYPE = 'type';
+
     public function __construct()
     {
-        $this->setProperty('type', (string) Str::of(static::class)->classBasename()->lower());
+        $this->setProperty(self::TYPE, $this->type());
     }
 
     public function alternateLocale(array|string $alternateLocales): static
@@ -79,8 +81,21 @@ abstract class RichObject extends ComponentBag
         return parent::set($name, $this->value($name, $value));
     }
 
+    private function type(): string
+    {
+        return (string) Str::of(static::class)->classBasename()->lower();
+    }
+
     private function value(string $name, Component|string $value): Component
     {
         return is_string($value) ? Property::make($name, $value) : $value;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'properties' => parent::toArray(),
+            'type' => $this->type(),
+        ];
     }
 }

@@ -19,6 +19,11 @@ HTML;
 
     public function toArray(): array
     {
-        return ['canonical' => $this->url];
+        return [
+            'attributes' => [
+                'url' => $this->url,
+            ],
+            'type' => 'canonical',
+        ];
     }
 }

@@ -11,7 +11,7 @@ abstract class ComponentBag extends Component
     use Conditionable;
 
     protected array $components = [];
-    
+
     public function components(): array
     {
         return $this->components;
@@ -26,14 +26,14 @@ abstract class ComponentBag extends Component
             ->join(PHP_EOL);
     }
 
-    public function get(string $name): ?Component
+    public function get(string $name)
     {
         return Arr::get($this->components, $name);
     }
 
     public function toArray(): array
     {
-        return array_map(static fn (Component $component) => $component->toArray(), $this->components);
+        return array_values(array_map(static fn (Component $component) => $component->toArray(), $this->components));
     }
 
     protected function pushMany(array $components): static

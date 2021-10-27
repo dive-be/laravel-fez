@@ -17,6 +17,11 @@ class Title extends Component
 
     public function toArray(): array
     {
-        return ['title' => $this->value];
+        return [
+            'attributes' => [
+                'value' => $this->value,
+            ],
+            'type' => 'title',
+        ];
     }
 }

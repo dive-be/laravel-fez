@@ -7,9 +7,11 @@ use Illuminate\Support\Str;
 
 abstract class Card extends ComponentBag
 {
+    public const TYPE = 'card';
+
     public function __construct()
     {
-        $this->setProperty('card', (string) Str::of(static::class)->classBasename()->snake()->lower());
+        $this->setProperty(self::TYPE, $this->type());
     }
 
     public function description(string $description): static
@@ -41,5 +43,18 @@ abstract class Card extends ComponentBag
     protected function setProperty(string $name, string $value): static
     {
         return parent::set($name, Property::make($name, $value));
+    }
+
+    private function type(): string
+    {
+        return (string) Str::of(static::class)->classBasename()->snake()->lower();
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'properties' => parent::toArray(),
+            'type' => $this->type(),
+        ];
     }
 }
