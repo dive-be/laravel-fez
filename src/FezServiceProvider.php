@@ -76,6 +76,8 @@ class FezServiceProvider extends ServiceProvider
 
             return Fez::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
+            )->when($route = $app['router']->getCurrentRoute(),
+                static fn (Fez $manager) => $manager->for(Finder::make($route)->find())
             );
         });
 

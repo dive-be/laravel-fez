@@ -2,17 +2,26 @@
 
 namespace Dive\Fez;
 
+use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Traits\Conditionable;
 
 class Fez extends Component
 {
+    use Conditionable;
+
     public function __construct(
         private array $components,
     ) {
         if (empty($this->components)) {
             throw SorryNoFeaturesActive::make();
         }
+    }
+
+    public function for(?Metable $metable): self
+    {
+        return $this;
     }
 
     public function generate(): string

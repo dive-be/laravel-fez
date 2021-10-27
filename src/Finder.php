@@ -2,69 +2,40 @@
 
 namespace Dive\Fez;
 
-use Closure;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Exceptions\SorryUnresolvableRoute;
+use Dive\Fez\Support\Makeable;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class Finder
 {
+    use Makeable;
+
     public function __construct(
-        private Closure $routeResolver,
+        private Route $route,
     ) {}
 
-    /**
-     * @throws SorryUnresolvableRoute
-     */
     public function find(): ?Metable
     {
-        $route = $this->resolveRoute();
-        $attempt = $this->seekUsingBinding($route);
-
-        if ($attempt instanceof Metable) {
-            return $attempt;
-        }
-
-        return $this->seekMostRelevant($route);
+        return $this->seekUsingBinding() ?? $this->seekMostRelevant();
     }
 
-    public function whenFound(Closure $callback): void
+    private function seekMostRelevant(): ?Metable
     {
-        $metable = $this->find();
-
-        if ($metable instanceof Metable) {
-            $callback($metable);
-        }
-    }
-
-    private function resolveRoute(): Route
-    {
-        $route = call_user_func($this->routeResolver);
-
-        if (! $route instanceof Route) {
-            throw SorryUnresolvableRoute::make();
-        }
-
-        return $route;
-    }
-
-    private function seekMostRelevant(Route $route): ?Metable
-    {
-        return Collection::make($route->parameterNames)
-            ->map(fn ($param) => Arr::get($route->parameters, $param))
+        return Collection::make($this->route->parameterNames)
+            ->map(fn ($param) => Arr::get($this->route->parameters, $param))
             ->last(fn ($param) => $param instanceof Metable);
     }
 
-    private function seekUsingBinding(Route $route): ?Metable
+    private function seekUsingBinding(): ?Metable
     {
-        $binding = Arr::pull($route->defaults, static::class);
+        $binding = Arr::pull($this->route->defaults, static::class);
 
         if (! is_string($binding)) {
             return null;
         }
 
-        return Arr::get($route->parameters, $binding);
+        return Arr::get($this->route->parameters, $binding);
     }
 }
