@@ -4,13 +4,14 @@ namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Component;
 use Dive\Fez\ComponentBag;
+use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
 use Dive\Fez\OpenGraph\Properties\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-abstract class RichObject extends ComponentBag
+abstract class RichObject extends ComponentBag implements Titleable
 {
     private const TYPE = 'type';
 

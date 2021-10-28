@@ -3,8 +3,8 @@
 namespace Dive\Fez\Pipes;
 
 use Closure;
+use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\Factories\FormatterFactory;
-use Dive\Fez\Feature;
 use Dive\Fez\Fez;
 use Illuminate\Contracts\Config\Repository;
 
@@ -24,19 +24,15 @@ class SetTitle
 
         $formatter = FormatterFactory::make($this->config['fez.title'])->create();
 
-        foreach ($this->titlables($fez) as $feature) {
-            $feature->title($formatter->format($title));
+        foreach ($this->titleables($fez->features()) as $titleable) {
+            $titleable->title($formatter->format($title));
         }
 
         return $next($fez);
     }
 
-    private function titlables(Fez $fez): array
+    private function titleables(array $features): array
     {
-        return $fez->features(
-            Feature::metaElements(),
-            Feature::openGraph(),
-            Feature::twitterCards(),
-        );
+        return array_filter($features, static fn ($feature) => $feature instanceof Titleable);
     }
 }
