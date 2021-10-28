@@ -5,7 +5,7 @@ namespace Dive\Fez\Pipes;
 use Closure;
 use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\Factories\FormatterFactory;
-use Dive\Fez\Fez;
+use Dive\Fez\FezManager;
 use Illuminate\Contracts\Config\Repository;
 
 class SetTitle
@@ -14,7 +14,7 @@ class SetTitle
         private Repository $config,
     ) {}
 
-    public function handle(Fez $fez, Closure $next): Fez
+    public function handle(FezManager $fez, Closure $next): FezManager
     {
         if (is_null($title = $fez->metaData()->title())) {
             return $next($fez);

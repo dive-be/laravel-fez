@@ -4,11 +4,11 @@ namespace Dive\Fez\Pipes;
 
 use Closure;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\Fez;
+use Dive\Fez\FezManager;
 
 class SetImage
 {
-    public function handle(Fez $fez, Closure $next): Fez
+    public function handle(FezManager $fez, Closure $next): FezManager
     {
         if (is_null($image = $fez->metaData()->image())) {
             return $next($fez);

@@ -15,11 +15,11 @@ use Illuminate\Support\Traits\Conditionable;
 
 /**
  * @method AlternatePage        alternatePage()
- * @method Fez                  description(string $description)
- * @method Fez                  image(string $image)
+ * @method FezManager           description(string $description)
+ * @method FezManager           image(string $image)
  * @method MetaElements         metaElements()
  * @method OpenGraph\RichObject openGraph()
- * @method Fez                  title(string $title)
+ * @method FezManager           title(string $title)
  * @method TwitterCards\Card    twitterCards()
  *
  * @property AlternatePage        $alternatePage
@@ -30,7 +30,7 @@ use Illuminate\Support\Traits\Conditionable;
  * @property string               $title
  * @property TwitterCards\Card    $twitterCards
  */
-class Fez extends Component
+class FezManager extends Component
 {
     use Conditionable;
 

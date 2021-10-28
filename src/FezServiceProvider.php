@@ -74,14 +74,14 @@ class FezServiceProvider extends ServiceProvider
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            return Fez::make(
+            return FezManager::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
             )->when($route = $app['router']->getCurrentRoute(),
-                static fn (Fez $manager) => $manager->for(Finder::make($route)->find())
+                static fn (FezManager $fez) => $fez->for(Finder::make($route)->find())
             );
         });
 
-        $this->app->alias('fez', Fez::class);
+        $this->app->alias('fez', FezManager::class);
     }
 
     private function registerMacros()

@@ -28,20 +28,20 @@ class HydrationPipeline extends Pipeline
         return array_keys(static::$mapping);
     }
 
-    public static function only(Fez $manager, array $only): Fez
+    public static function only(FezManager $fez, array $only): FezManager
     {
-        return static::prepare($manager)
+        return static::prepare($fez)
             ->through(Arr::only(static::$mapping, $only))
             ->thenReturn();
     }
 
-    public static function run(Fez $manager): Fez
+    public static function run(FezManager $fez): FezManager
     {
-        return static::prepare($manager)->thenReturn();
+        return static::prepare($fez)->thenReturn();
     }
 
-    private static function prepare(Fez $manager): self
+    private static function prepare(FezManager $fez): self
     {
-        return App::make(static::class)->send($manager);
+        return App::make(static::class)->send($fez);
     }
 }

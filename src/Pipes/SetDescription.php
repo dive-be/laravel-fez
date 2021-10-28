@@ -4,14 +4,14 @@ namespace Dive\Fez\Pipes;
 
 use Closure;
 use Dive\Fez\Contracts\Describable;
-use Dive\Fez\Fez;
+use Dive\Fez\FezManager;
 use Illuminate\Support\Str;
 
 class SetDescription
 {
     public const MAX_LENGTH = 140;
 
-    public function handle(Fez $fez, Closure $next): Fez
+    public function handle(FezManager $fez, Closure $next): FezManager
     {
         if (is_null($description = $fez->metaData()->description())) {
             return $next($fez);
