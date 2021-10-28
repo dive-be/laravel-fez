@@ -2,12 +2,13 @@
 
 namespace Dive\Fez;
 
+use Dive\Fez\Contracts\Describable;
 use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\MetaElements\Canonical;
 use Dive\Fez\MetaElements\Element;
 use Dive\Fez\MetaElements\Title;
 
-class MetaElements extends ComponentBag implements Titleable
+class MetaElements extends ComponentBag implements Describable, Titleable
 {
     public function canonical(string $url): self
     {
