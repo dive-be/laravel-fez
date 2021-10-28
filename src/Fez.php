@@ -47,6 +47,15 @@ class Fez extends Component
         return $this->features;
     }
 
+    public function flush(): self
+    {
+        foreach ($this->features as $feature) {
+            $feature?->flush();
+        }
+
+        return $this;
+    }
+
     public function for(Metable $model): self
     {
         $this->metaData = $model->gatherMetaData();

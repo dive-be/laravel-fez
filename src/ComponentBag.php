@@ -17,6 +17,13 @@ abstract class ComponentBag extends Component
         return $this->components;
     }
 
+    public function flush(): static
+    {
+        $this->components = [];
+
+        return $this;
+    }
+
     public function generate(): string
     {
         return Collection::make($this->components)
