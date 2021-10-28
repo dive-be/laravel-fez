@@ -23,6 +23,6 @@ class Article extends Writing
 
     public function section(string $section): self
     {
-        return $this->setProperty(__FUNCTION__, $section);
+        return $this->setProperty('section', $section);
     }
 }

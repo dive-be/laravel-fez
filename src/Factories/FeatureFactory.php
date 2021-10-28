@@ -51,7 +51,7 @@ class FeatureFactory
     protected function metaElements(): MetaElements
     {
         return MetaElementsFactory::make(
-            $this->mergeDefaults(__FUNCTION__),
+            $this->mergeDefaults(Feature::metaElements()),
             call_user_func($this->urlResolver),
         )->create();
     }
@@ -59,7 +59,7 @@ class FeatureFactory
     protected function openGraph(): RichObject
     {
         return OpenGraphFactory::make(
-            $this->mergeDefaults(__FUNCTION__) + ['alternates' => $this->locales()],
+            $this->mergeDefaults(Feature::openGraph()) + ['alternates' => $this->locales()],
             call_user_func($this->localeResolver),
             call_user_func($this->urlResolver),
         )->create();
@@ -68,13 +68,13 @@ class FeatureFactory
     protected function twitterCards(): Card
     {
         return TwitterCardsFactory::make(
-            $this->mergeDefaults(__FUNCTION__),
+            $this->mergeDefaults(Feature::twitterCards()),
         )->create();
     }
 
     private function locales(): array
     {
-        return $this->config[__FUNCTION__];
+        return $this->config['locales'];
     }
 
     private function mergeDefaults(string $feature): array

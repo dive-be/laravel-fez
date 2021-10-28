@@ -6,16 +6,16 @@ abstract class VisualMedium extends Medium
 {
     public function alt(string $alt): static
     {
-        return $this->setProperty(__FUNCTION__, $alt);
+        return $this->setProperty('alt', $alt);
     }
 
     public function height(string $height): static
     {
-        return $this->setProperty(__FUNCTION__, $height);
+        return $this->setProperty('height', $height);
     }
 
     public function width(string $width): static
     {
-        return $this->setProperty(__FUNCTION__, $width);
+        return $this->setProperty('width', $width);
     }
 }

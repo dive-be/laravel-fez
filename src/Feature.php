@@ -18,7 +18,7 @@ class Feature
 
     public static function alternatePage(): string
     {
-        return __FUNCTION__;
+        return 'alternatePage';
     }
 
     public static function enabled(): array
@@ -28,16 +28,16 @@ class Feature
 
     public static function metaElements(): string
     {
-        return __FUNCTION__;
+        return 'metaElements';
     }
 
     public static function openGraph(): string
     {
-        return __FUNCTION__;
+        return 'openGraph';
     }
 
     public static function twitterCards(): string
     {
-        return __FUNCTION__;
+        return 'twitterCards';
     }
 }

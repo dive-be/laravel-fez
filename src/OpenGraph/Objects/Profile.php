@@ -13,7 +13,7 @@ class Profile extends RichObject
 
     public function gender(string $gender): self
     {
-        return $this->setProperty(__FUNCTION__, $gender);
+        return $this->setProperty('gender', $gender);
     }
 
     public function lastName(string $lastName): self
@@ -23,6 +23,6 @@ class Profile extends RichObject
 
     public function username(string $username): self
     {
-        return $this->setProperty(__FUNCTION__, $username);
+        return $this->setProperty('username', $username);
     }
 }

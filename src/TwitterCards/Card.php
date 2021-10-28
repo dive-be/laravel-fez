@@ -19,12 +19,12 @@ abstract class Card extends ComponentBag implements Describable, Imageable, Titl
 
     public function description(string $description): static
     {
-        return $this->setProperty(__FUNCTION__, $description);
+        return $this->setProperty('description', $description);
     }
 
     public function image(string $image, ?string $alt = null): static
     {
-        $this->setProperty(__FUNCTION__, $image);
+        $this->setProperty('image', $image);
 
         if (is_string($alt)) {
             $this->setProperty('image:alt', $alt);
@@ -35,12 +35,12 @@ abstract class Card extends ComponentBag implements Describable, Imageable, Titl
 
     public function site(string $site): static
     {
-        return $this->setProperty(__FUNCTION__, $site);
+        return $this->setProperty('site', $site);
     }
 
     public function title(string $title): static
     {
-        return $this->setProperty(__FUNCTION__, $title);
+        return $this->setProperty('title', $title);
     }
 
     protected function setProperty(string $name, string $value): static

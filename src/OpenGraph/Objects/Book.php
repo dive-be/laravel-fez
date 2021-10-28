@@ -8,7 +8,7 @@ class Book extends Writing
 {
     public function isbn(string $isbn): self
     {
-        return $this->setProperty(__FUNCTION__, $isbn);
+        return $this->setProperty('isbn', $isbn);
     }
 
     public function releaseDate(DateTimeInterface $releaseDate): self

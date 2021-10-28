@@ -13,14 +13,14 @@ if (! function_exists('fez')) {
     function fez(array|string|null $key = null)
     {
         if (is_null($key)) {
-            return app(__FUNCTION__);
+            return app('fez');
         }
 
         if (is_array($key)) {
-            return app(__FUNCTION__)->set($key);
+            return app('fez')->set($key);
         }
 
-        return app(__FUNCTION__)->get($key);
+        return app('fez')->get($key);
     }
 }
 

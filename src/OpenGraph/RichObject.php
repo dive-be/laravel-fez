@@ -31,27 +31,27 @@ abstract class RichObject extends ComponentBag implements Describable, Imageable
 
     public function audio(Audio|string $audioOrUrl): static
     {
-        return $this->setProperty(__FUNCTION__, $audioOrUrl);
+        return $this->setProperty('audio', $audioOrUrl);
     }
 
     public function description(string $description): static
     {
-        return $this->setProperty(__FUNCTION__, $description);
+        return $this->setProperty('description', $description);
     }
 
     public function determiner(string $determiner): static
     {
-        return $this->setProperty(__FUNCTION__, $determiner);
+        return $this->setProperty('determiner', $determiner);
     }
 
     public function image(Image|string $imageOrUrl): static
     {
-        return $this->setProperty(__FUNCTION__, $imageOrUrl);
+        return $this->setProperty('image', $imageOrUrl);
     }
 
     public function locale(string $locale): static
     {
-        return $this->setProperty(__FUNCTION__, $locale);
+        return $this->setProperty('locale', $locale);
     }
 
     public function siteName(string $siteName): static
@@ -61,17 +61,17 @@ abstract class RichObject extends ComponentBag implements Describable, Imageable
 
     public function title(string $title): static
     {
-        return $this->setProperty(__FUNCTION__, $title);
+        return $this->setProperty('title', $title);
     }
 
     public function url(string $url): static
     {
-        return $this->setProperty(__FUNCTION__, $url);
+        return $this->setProperty('url', $url);
     }
 
     public function video(Video|string $videoOrUrl): static
     {
-        return $this->setProperty(__FUNCTION__, $videoOrUrl);
+        return $this->setProperty('video', $videoOrUrl);
     }
 
     protected function pushProperty(string $name, Component|string $value): static

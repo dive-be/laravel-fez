@@ -22,6 +22,6 @@ abstract class Medium extends StructuredProperty
             return $this->secureUrl($url);
         }
 
-        return $this->setProperty(null, $url)->setProperty(__FUNCTION__, $url);
+        return $this->setProperty(null, $url)->setProperty('url', $url);
     }
 }

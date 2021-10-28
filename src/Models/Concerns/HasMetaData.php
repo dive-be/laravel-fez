@@ -32,18 +32,18 @@ trait HasMetaData
 
     public function meta(): MorphOne
     {
-        return $this->morphOne(MorphOne::getMorphedModel(__FUNCTION__), 'metable');
+        return $this->morphOne(MorphOne::getMorphedModel('meta'), 'metable');
     }
 
     protected function metaDefaults(): array
     {
-        if (! property_exists($this, __FUNCTION__)) {
+        if (! property_exists($this, 'metaDefaults')) {
             return [];
         }
 
         return array_map(
             fn (string $attribute) => $this->getAttribute($attribute),
-            $this->{__FUNCTION__},
+            $this->metaDefaults,
         );
     }
 }

@@ -12,26 +12,26 @@ class MetaElements extends ComponentBag implements Describable, Titleable
 {
     public function canonical(string $url): self
     {
-        return $this->set(__FUNCTION__, Canonical::make($url));
+        return $this->set('canonical', Canonical::make($url));
     }
 
     public function description(string $description): self
     {
-        return $this->set(__FUNCTION__, Element::make(__FUNCTION__, $description));
+        return $this->set('description', Element::make('description', $description));
     }
 
     public function keywords(string $keywords): self
     {
-        return $this->set(__FUNCTION__, Element::make(__FUNCTION__, $keywords));
+        return $this->set('keywords', Element::make('keywords', $keywords));
     }
 
     public function robots(string $robots): self
     {
-        return $this->set(__FUNCTION__, Element::make(__FUNCTION__, $robots));
+        return $this->set('robots', Element::make('robots', $robots));
     }
 
     public function title(string $title): self
     {
-        return $this->set(__FUNCTION__, Title::make($title));
+        return $this->set('title', Title::make($title));
     }
 }
