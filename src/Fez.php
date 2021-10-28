@@ -23,11 +23,11 @@ use Illuminate\Support\Traits\Conditionable;
  * @method TwitterCards\Card    twitterCards()
  *
  * @property AlternatePage        $alternatePage
- * @property-write string         $description
- * @property-write string         $image
+ * @property string               $description
+ * @property string               $image
  * @property MetaElements         $metaElements
  * @property OpenGraph\RichObject $openGraph
- * @property-write string         $title
+ * @property string               $title
  * @property TwitterCards\Card    $twitterCards
  */
 class Fez extends Component

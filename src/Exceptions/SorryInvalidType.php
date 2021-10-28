@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Dive\Fez\Exceptions;
 
 use TypeError;
 
 /**
- * @method static self string(string $value)
+ * @method static self string(mixed $value)
  */
 class SorryInvalidType extends TypeError
 {
