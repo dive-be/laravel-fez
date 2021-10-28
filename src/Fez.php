@@ -8,6 +8,7 @@ use Dive\Fez\Exceptions\SorryBadMethodCall;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Dive\Fez\Exceptions\SorryUnknownFeature;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 
@@ -34,6 +35,11 @@ class Fez extends Component
         if (empty($this->features)) {
             throw SorryNoFeaturesActive::make();
         }
+    }
+
+    public function description(string $description): self
+    {
+        return $this->hydrateOnly('description', $description);
     }
 
     public function features(): array
@@ -66,9 +72,34 @@ class Fez extends Component
         return $this->features[$feature];
     }
 
+    public function image(string $pathOrUrl): self
+    {
+        return $this->hydrateOnly('image', $pathOrUrl);
+    }
+
     public function metaData(): MetaData
     {
         return $this->metaData ?? MetaData::make();
+    }
+
+    public function set(array|string $property, $value = null): self
+    {
+        if (is_string($property)) {
+            $property = [$property => $value];
+        }
+
+        $properties = Arr::only($property, HydrationPipeline::mappedProperties());
+
+        if (empty($properties)) {
+            return $this;
+        }
+
+        return $this->hydrateOnly($properties);
+    }
+
+    public function title(string $title): self
+    {
+        return $this->hydrateOnly('title', $title);
     }
 
     public function toArray(): array
@@ -79,6 +110,19 @@ class Fez extends Component
     private function doesntExist(string $feature)
     {
         return ! array_key_exists($feature, $this->features);
+    }
+
+    private function hydrateOnly(array|string $key, ?string $value = null): self
+    {
+        if (is_string($key)) {
+            $key = [$key => $value];
+        }
+
+        $this->metaData = new MetaData(...$key);
+
+        HydrationPipeline::only($this, array_keys($key));
+
+        return $this;
     }
 
     public function __call(string $name, array $arguments): Component
