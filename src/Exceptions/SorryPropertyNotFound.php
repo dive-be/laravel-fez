@@ -6,8 +6,8 @@ use Exception;
 
 class SorryPropertyNotFound extends Exception
 {
-    public static function make(string $property): self
+    public static function make(string $class, string $property): self
     {
-        return new self("Property [\${$property}] could not be found.");
+        return new self("Property {$class}::\${$property} could not be found.");
     }
 }

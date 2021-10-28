@@ -4,16 +4,23 @@ namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\DataTransferObjects\MetaData;
+use Dive\Fez\Exceptions\SorryBadMethodCall;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
+use Dive\Fez\Exceptions\SorryUnknownFeature;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 
 /**
- * @property \Dive\Fez\AlternatePage        $alternatePage
- * @property \Dive\Fez\MetaElements         $metaElements
- * @property \Dive\Fez\OpenGraph\RichObject $openGraph
- * @property \Dive\Fez\TwitterCards\Card    $twitterCards
+ * @method AlternatePage        alternatePage()
+ * @method MetaElements         metaElements()
+ * @method OpenGraph\RichObject openGraph()
+ * @method TwitterCards\Card    twitterCards()
+ *
+ * @property AlternatePage        $alternatePage
+ * @property MetaElements         $metaElements
+ * @property OpenGraph\RichObject $openGraph
+ * @property TwitterCards\Card    $twitterCards
  */
 class Fez extends Component
 {
@@ -29,16 +36,16 @@ class Fez extends Component
         }
     }
 
+    public function features(): array
+    {
+        return $this->features;
+    }
+
     public function for(Metable $model): self
     {
         $this->metaData = $model->gatherMetaData();
 
         return HydrationPipeline::run($this);
-    }
-
-    public function features(): array
-    {
-        return $this->features;
     }
 
     public function generate(): string
@@ -48,6 +55,15 @@ class Fez extends Component
             ->values()
             ->filter()
             ->join(PHP_EOL . PHP_EOL);
+    }
+
+    public function get(string $feature): Component
+    {
+        if ($this->doesntExist($feature)) {
+            throw SorryUnknownFeature::make($feature);
+        }
+
+        return $this->features[$feature];
     }
 
     public function metaData(): MetaData
@@ -60,12 +76,26 @@ class Fez extends Component
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
     }
 
-    public function __get(string $name): Component
+    private function doesntExist(string $feature)
     {
-        if (! array_key_exists($name, $this->features)) {
-            throw SorryPropertyNotFound::make($name);
+        return ! array_key_exists($feature, $this->features);
+    }
+
+    public function __call(string $name, array $arguments): Component
+    {
+        if (count($arguments) || $this->doesntExist($name)) {
+            throw SorryBadMethodCall::make(static::class, $name);
         }
 
-        return $this->features[$name];
+        return $this->get($name);
+    }
+
+    public function __get(string $name): Component
+    {
+        if ($this->doesntExist($name)) {
+            throw SorryPropertyNotFound::make(static::class, $name);
+        }
+
+        return $this->get($name);
     }
 }
