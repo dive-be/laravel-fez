@@ -5,9 +5,16 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
+use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 
+/**
+ * @property \Dive\Fez\AlternatePage        $alternatePage
+ * @property \Dive\Fez\MetaElements         $metaElements
+ * @property \Dive\Fez\OpenGraph\RichObject $openGraph
+ * @property \Dive\Fez\TwitterCards\Card    $twitterCards
+ */
 class Fez extends Component
 {
     use Conditionable;
@@ -51,5 +58,14 @@ class Fez extends Component
     public function toArray(): array
     {
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
+    }
+
+    public function __get(string $name): Component
+    {
+        if (! array_key_exists($name, $this->features)) {
+            throw SorryPropertyNotFound::make($name);
+        }
+
+        return $this->features[$name];
     }
 }
