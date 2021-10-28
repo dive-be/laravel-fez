@@ -2,6 +2,7 @@
 
 namespace Dive\Fez\Models\Concerns;
 
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Models\Meta;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
@@ -12,21 +13,21 @@ use Illuminate\Support\Arr;
  */
 trait HasMetaData
 {
-    public function gatherMetaData(): array
+    public function gatherMetaData(): MetaData
     {
         $defaults = Arr::only(array_filter($this->metaDefaults()), ['description', 'image', 'title']);
 
         if (is_null($relation = $this->meta()->getResults())) {
-            return $defaults;
+            return MetaData::make(...$defaults);
         }
 
         $relation = array_filter($relation->toArray());
 
         if (empty($defaults)) {
-            return $relation;
+            return MetaData::make(...$relation);
         }
 
-        return array_merge($defaults, $relation);
+        return MetaData::make(...array_merge($defaults, $relation));
     }
 
     public function meta(): MorphOne

@@ -3,8 +3,8 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Metable;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 
@@ -12,7 +12,7 @@ class Fez extends Component
 {
     use Conditionable;
 
-    private Metable $model;
+    private MetaData $metaData;
 
     public function __construct(
         private array $features,
@@ -22,20 +22,16 @@ class Fez extends Component
         }
     }
 
-    public function for(?Metable $model): self
+    public function for(Metable $model): self
     {
-        if (is_null($model)) {
-            return $this;
-        }
+        $this->metaData = $model->gatherMetaData();
 
-        $this->model = $model;
-
-        return HydrateManagerPipeline::run($this);
+        return HydrationPipeline::run($this);
     }
 
-    public function features(string ...$only): array
+    public function features(): array
     {
-        return empty($only) ? $this->features : Arr::only($this->features, $only);
+        return $this->features;
     }
 
     public function generate(): string
@@ -47,9 +43,9 @@ class Fez extends Component
             ->join(PHP_EOL . PHP_EOL);
     }
 
-    public function model(): Metable
+    public function metaData(): MetaData
     {
-        return $this->model;
+        return $this->metaData ?? MetaData::make();
     }
 
     public function toArray(): array

@@ -16,22 +16,22 @@ class SetTitle
 
     public function handle(Fez $fez, Closure $next): Fez
     {
-        ['title' => $title] = $fez->model()->gatherMetaData();
-
-        if (is_null($title)) {
+        if (is_null($title = $fez->metaData()->title())) {
             return $next($fez);
         }
 
-        $formatter = FormatterFactory::make($this->config['fez.title'])->create();
+        $formatter = FormatterFactory::make(
+            $this->config['fez.title']
+        )->create();
 
-        foreach ($this->titleables($fez->features()) as $titleable) {
-            $titleable->title($formatter->format($title));
+        foreach ($this->getTitleables($fez->features()) as $feature) {
+            $feature->title($formatter->format($title));
         }
 
         return $next($fez);
     }
 
-    private function titleables(array $features): array
+    private function getTitleables(array $features): array
     {
         return array_filter($features, static fn ($feature) => $feature instanceof Titleable);
     }

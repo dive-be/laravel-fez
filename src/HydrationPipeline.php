@@ -6,7 +6,7 @@ use Dive\Fez\Pipes\SetTitle;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\App;
 
-class HydrateManagerPipeline extends Pipeline
+class HydrationPipeline extends Pipeline
 {
     protected $pipes = [
         SetTitle::class,
