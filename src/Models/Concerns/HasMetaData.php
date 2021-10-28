@@ -32,7 +32,7 @@ trait HasMetaData
 
     public function meta(): MorphOne
     {
-        return $this->morphOne(MorphOne::getMorphedModel('meta'), 'metable');
+        return $this->morphOne(MorphOne::getMorphedModel('meta'), 'metable')->withDefault();
     }
 
     protected function metaDefaults(): array
