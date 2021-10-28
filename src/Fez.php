@@ -5,6 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Exceptions\SorryBadMethodCall;
+use Dive\Fez\Exceptions\SorryInvalidType;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Dive\Fez\Exceptions\SorryUnknownFeature;
@@ -14,13 +15,19 @@ use Illuminate\Support\Traits\Conditionable;
 
 /**
  * @method AlternatePage        alternatePage()
+ * @method Fez                  description(string $description)
+ * @method Fez                  image(string $image)
  * @method MetaElements         metaElements()
  * @method OpenGraph\RichObject openGraph()
+ * @method Fez                  title(string $title)
  * @method TwitterCards\Card    twitterCards()
  *
  * @property AlternatePage        $alternatePage
+ * @property-write string         $description
+ * @property-write string         $image
  * @property MetaElements         $metaElements
  * @property OpenGraph\RichObject $openGraph
+ * @property-write string         $title
  * @property TwitterCards\Card    $twitterCards
  */
 class Fez extends Component
@@ -35,11 +42,6 @@ class Fez extends Component
         if (empty($this->features)) {
             throw SorryNoFeaturesActive::make();
         }
-    }
-
-    public function description(string $description): self
-    {
-        return $this->hydrateOnly('description', $description);
     }
 
     public function features(): array
@@ -74,16 +76,11 @@ class Fez extends Component
 
     public function get(string $feature): Component
     {
-        if ($this->doesntExist($feature)) {
+        if ($this->doesntHaveFeature($feature)) {
             throw SorryUnknownFeature::make($feature);
         }
 
         return $this->features[$feature];
-    }
-
-    public function image(string $pathOrUrl): self
-    {
-        return $this->hydrateOnly('image', $pathOrUrl);
     }
 
     public function metaData(): MetaData
@@ -97,7 +94,7 @@ class Fez extends Component
             $property = [$property => $value];
         }
 
-        $properties = Arr::only($property, HydrationPipeline::mappedProperties());
+        $properties = Arr::only($property, HydrationPipeline::properties());
 
         if (empty($properties)) {
             return $this;
@@ -106,19 +103,19 @@ class Fez extends Component
         return $this->hydrateOnly($properties);
     }
 
-    public function title(string $title): self
-    {
-        return $this->hydrateOnly('title', $title);
-    }
-
     public function toArray(): array
     {
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
     }
 
-    private function doesntExist(string $feature)
+    private function doesntHaveFeature(string $feature): bool
     {
         return ! array_key_exists($feature, $this->features);
+    }
+
+    private function doesntHaveProperty(string $property): bool
+    {
+        return ! in_array($property, HydrationPipeline::properties());
     }
 
     private function hydrateOnly(array|string $key, ?string $value = null): self
@@ -134,21 +131,46 @@ class Fez extends Component
         return $this;
     }
 
-    public function __call(string $name, array $arguments): Component
+    public function __call(string $name, array $arguments): Component|self
     {
-        if (count($arguments) || $this->doesntExist($name)) {
+        if (empty($arguments)) {
+            if ($this->doesntHaveFeature($name)) {
+                throw SorryBadMethodCall::make(static::class, $name);
+            }
+
+            return $this->get($name);
+        }
+
+        if (count($arguments) > 1 || $this->doesntHaveProperty($name)) {
             throw SorryBadMethodCall::make(static::class, $name);
+        }
+
+        if (! is_string($value = $arguments[0])) {
+            throw SorryInvalidType::string($value);
+        }
+
+        return $this->hydrateOnly($name, $value);
+    }
+
+    public function __get(string $name): Component
+    {
+        if ($this->doesntHaveFeature($name)) {
+            throw SorryPropertyNotFound::make(static::class, $name);
         }
 
         return $this->get($name);
     }
 
-    public function __get(string $name): Component
+    public function __set(string $name, $value)
     {
-        if ($this->doesntExist($name)) {
+        if ($this->doesntHaveProperty($name)) {
             throw SorryPropertyNotFound::make(static::class, $name);
         }
 
-        return $this->get($name);
+        if (! is_string($value)) {
+            throw SorryInvalidType::string($value);
+        }
+
+        $this->hydrateOnly($name, $value);
     }
 }

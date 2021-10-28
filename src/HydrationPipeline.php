@@ -23,7 +23,7 @@ class HydrationPipeline extends Pipeline
         SetTitle::class,
     ];
 
-    public static function mappedProperties(): array
+    public static function properties(): array
     {
         return array_keys(static::$mapping);
     }
