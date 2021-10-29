@@ -11,7 +11,7 @@ class RouteConfig implements Arrayable
 
     private array $attributes = [];
 
-    private ?string $strategy = null;
+    private ?string $strategy = 'null';
 
     public function binding(string $parameterName): self
     {
@@ -30,7 +30,7 @@ class RouteConfig implements Arrayable
 
     public function none(): self
     {
-        $this->strategy = null;
+        $this->strategy = 'null';
 
         return $this;
     }

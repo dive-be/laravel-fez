@@ -3,11 +3,10 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
-use Dive\Fez\Contracts\Route as RouteContract;
 use Dive\Fez\Factories\FeatureFactory;
+use Dive\Fez\Factories\ReaperFactory;
 use Dive\Fez\Macros\RouteConfigurator;
 use Dive\Fez\Macros\PropertySetter;
-use Dive\Fez\Models\Route as RouteModel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -33,9 +32,7 @@ class FezServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
 
-        $this->registerDefaultRouteKeyResolver();
         $this->registerManager();
-        $this->registerRouteModel();
     }
 
     private function registerBladeDirectives()
@@ -61,21 +58,27 @@ class FezServiceProvider extends ServiceProvider
         ], 'config');
     }
 
-    private function registerDefaultRouteKeyResolver()
-    {
-        RouteModel::keyUsing(static fn ($route) => $route->getName());
-    }
-
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
-            $factory = FeatureFactory::make($app['config']['fez'])
+            $factory = FeatureFactory::make($config = $app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            return FezManager::make(
+            $manager = FezManager::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
+            );
+
+            if (is_null($route = $app['router']->getCurrentRoute())) {
+                return $manager;
+            }
+
+            $reaper = ReaperFactory::make()
+                ->create(...($route->defaults['fez'] ?? $config['reaper']));
+
+            return $manager->when($metable = $reaper->reap($route),
+                static fn (FezManager $manager) => $manager->for($metable)
             );
         });
 
@@ -107,14 +110,5 @@ class FezServiceProvider extends ServiceProvider
     private function registerMorphMap()
     {
         Relation::morphMap($this->app['config']['fez.models']);
-    }
-
-    private function registerRouteModel()
-    {
-        $this->app->alias(RouteContract::class, $model = $this->app['config']['fez.models.route']);
-
-        $this->app->bind(RouteContract::class, static function (Application $app) use ($model) {
-            return call_user_func([$model, 'resolve'], $app['router']->getCurrentRoute());
-        });
     }
 }
