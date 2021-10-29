@@ -9,6 +9,7 @@ use Dive\Fez\Exceptions\SorryInvalidType;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Dive\Fez\Exceptions\SorryUnknownFeature;
+use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
@@ -94,13 +95,9 @@ class FezManager extends Component
             $property = [$property => $value];
         }
 
-        $properties = Arr::only($property, HydrationPipeline::properties());
-
-        if (empty($properties)) {
-            return $this;
-        }
-
-        return $this->hydrateOnly($properties);
+        return $this->onlyHydrate(
+            Arr::only($property, HydrationPipeline::properties())
+        );
     }
 
     public function toArray(): array
@@ -118,7 +115,7 @@ class FezManager extends Component
         return ! in_array($property, HydrationPipeline::properties());
     }
 
-    private function hydrateOnly(array|string $key, ?string $value = null): self
+    private function onlyHydrate(array|string $key, ?string $value = null): self
     {
         if (is_string($key)) {
             $key = [$key => $value];
@@ -126,9 +123,7 @@ class FezManager extends Component
 
         $this->metaData = new MetaData(...$key);
 
-        HydrationPipeline::only($this, array_keys($key));
-
-        return $this;
+        return HydrationPipeline::run($this, array_keys($key));
     }
 
     public function __call(string $name, array $arguments): Component|self
@@ -149,7 +144,7 @@ class FezManager extends Component
             throw SorryInvalidType::string($value);
         }
 
-        return $this->hydrateOnly($name, $value);
+        return $this->onlyHydrate($name, $value);
     }
 
     public function __get(string $name): Component
@@ -171,6 +166,6 @@ class FezManager extends Component
             throw SorryInvalidType::string($value);
         }
 
-        $this->hydrateOnly($name, $value);
+        $this->onlyHydrate($name, $value);
     }
 }

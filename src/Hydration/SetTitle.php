@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Pipes;
+namespace Dive\Fez\Hydration;
 
 use Closure;
 use Dive\Fez\Contracts\Titleable;

@@ -1,10 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez;
+namespace Dive\Fez\Hydration;
 
-use Dive\Fez\Pipes\SetDescription;
-use Dive\Fez\Pipes\SetImage;
-use Dive\Fez\Pipes\SetTitle;
+use Dive\Fez\FezManager;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
@@ -28,20 +26,12 @@ class HydrationPipeline extends Pipeline
         return array_keys(static::$mapping);
     }
 
-    public static function only(FezManager $fez, array $only): FezManager
+    public static function run(FezManager $fez, ?array $only = null): FezManager
     {
-        return static::prepare($fez)
-            ->through(Arr::only(static::$mapping, $only))
-            ->thenReturn();
-    }
-
-    public static function run(FezManager $fez): FezManager
-    {
-        return static::prepare($fez)->thenReturn();
-    }
-
-    private static function prepare(FezManager $fez): self
-    {
-        return App::make(static::class)->send($fez);
+        return tap(App::make(static::class)->send($fez), static function (self $pipeline) use ($only) {
+            if (is_array($only)) {
+                $pipeline->through(Arr::only(static::$mapping, $only));
+            }
+        })->thenReturn();
     }
 }
