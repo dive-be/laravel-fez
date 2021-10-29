@@ -105,9 +105,11 @@ class FezManager extends Component
             $property = [$property => $value];
         }
 
-        return $this->onlyHydrate(
-            Arr::only($property, HydrationPipeline::properties())
-        );
+        $property = Arr::only($property, HydrationPipeline::properties());
+
+        $this->metaData = new MetaData(...$property);
+
+        return HydrationPipeline::run($this, array_keys($property));
     }
 
     public function toArray(): array
@@ -123,17 +125,6 @@ class FezManager extends Component
     private function doesntHaveProperty(string $property): bool
     {
         return ! in_array($property, HydrationPipeline::properties());
-    }
-
-    private function onlyHydrate(array|string $key, ?string $value = null): self
-    {
-        if (is_string($key)) {
-            $key = [$key => $value];
-        }
-
-        $this->metaData = new MetaData(...$key);
-
-        return HydrationPipeline::run($this, array_keys($key));
     }
 
     public function __call(string $name, array $arguments): Component|self
