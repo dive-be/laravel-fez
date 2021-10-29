@@ -43,12 +43,12 @@ abstract class Card extends ComponentBag implements Describable, Imageable, Titl
         return $this->setProperty('title', $title);
     }
 
-    protected function setProperty(string $name, string $value): static
+    public function setProperty(string $name, string $content): static
     {
-        return parent::set($name, Property::make($name, $value));
+        return parent::set($name, Property::make($name, $content));
     }
 
-    private function type(): string
+    public function type(): string
     {
         return (string) Str::of(static::class)->classBasename()->snake()->lower();
     }

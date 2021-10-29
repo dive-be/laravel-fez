@@ -89,7 +89,18 @@ class FezManager extends Component
         return $this->metaData ?? MetaData::make();
     }
 
-    public function set(array|string $property, $value = null): self
+    public function setFeature(string $name, Component $feature): self
+    {
+        if ($this->doesntHaveFeature($name)) {
+            throw SorryUnknownFeature::make($name);
+        }
+
+        $this->features[$name] = $feature;
+
+        return $this;
+    }
+
+    public function setProperty(array|string $property, ?string $value = null): self
     {
         if (is_string($property)) {
             $property = [$property => $value];
@@ -140,11 +151,7 @@ class FezManager extends Component
             throw SorryBadMethodCall::make(static::class, $name);
         }
 
-        if (! is_string($value = $arguments[0])) {
-            throw SorryInvalidType::string($value);
-        }
-
-        return $this->onlyHydrate($name, $value);
+        return $this->setProperty($name, $arguments[0]);
     }
 
     public function __get(string $name): Component
@@ -158,14 +165,14 @@ class FezManager extends Component
 
     public function __set(string $name, $value)
     {
-        if ($this->doesntHaveProperty($name)) {
+        if ($this->doesntHaveProperty($name) && $this->doesntHaveFeature($name)) {
             throw SorryPropertyNotFound::make(static::class, $name);
         }
 
-        if (! is_string($value)) {
-            throw SorryInvalidType::string($value);
+        if ($this->doesntHaveFeature($name)) {
+            $this->setProperty($name, $value);
+        } else {
+            $this->setFeature($name, $value);
         }
-
-        $this->onlyHydrate($name, $value);
     }
 }
