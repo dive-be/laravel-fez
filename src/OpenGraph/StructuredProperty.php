@@ -13,7 +13,7 @@ abstract class StructuredProperty extends ComponentBag
         $name = (string) Str::of(static::class)
             ->classBasename()
             ->lower()
-            ->unless(is_null($name), fn (Stringable $str) => $str->append(":{$name}"));
+            ->unless(is_null($name), static fn (Stringable $str) => $str->append(":{$name}"));
 
         return parent::set($name, Property::make($name, $value));
     }
