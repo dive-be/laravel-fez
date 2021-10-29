@@ -4,7 +4,6 @@ namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\ComponentBag;
 use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
 
 abstract class StructuredProperty extends ComponentBag
 {

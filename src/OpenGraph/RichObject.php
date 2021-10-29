@@ -31,7 +31,7 @@ abstract class RichObject extends ComponentBag implements Describable, Imageable
 
     public function audio(Audio|string $audioOrUrl): static
     {
-        return $this->setProperty('audio', $audioOrUrl);
+        return $this->pushProperty('audio', $audioOrUrl);
     }
 
     public function description(string $description): static
@@ -46,7 +46,7 @@ abstract class RichObject extends ComponentBag implements Describable, Imageable
 
     public function image(Image|string $imageOrUrl): static
     {
-        return $this->setProperty('image', $imageOrUrl);
+        return $this->pushProperty('image', $imageOrUrl);
     }
 
     public function locale(string $locale): static
@@ -71,20 +71,20 @@ abstract class RichObject extends ComponentBag implements Describable, Imageable
 
     public function video(Video|string $videoOrUrl): static
     {
-        return $this->setProperty('video', $videoOrUrl);
+        return $this->pushProperty('video', $videoOrUrl);
     }
 
-    protected function pushProperty(string $name, Component|string $value): static
+    public function pushProperty(string $name, Component|string $content): static
     {
-        return parent::push($this->value($name, $value));
+        return parent::push($this->value($name, $content));
     }
 
-    protected function setProperty(string $name, Component|string $value): static
+    public function setProperty(string $name, Component|string $content): static
     {
-        return parent::set($name, $this->value($name, $value));
+        return parent::set($name, $this->value($name, $content));
     }
 
-    private function type(): string
+    public function type(): string
     {
         return (string) Str::of(static::class)->classBasename()->lower();
     }
