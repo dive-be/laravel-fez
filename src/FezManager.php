@@ -45,9 +45,9 @@ class FezManager extends Component
         }
     }
 
-    public function features(): array
+    public function features(): Collection
     {
-        return $this->features;
+        return Collection::make($this->features);
     }
 
     public function flush(): self

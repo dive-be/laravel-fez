@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\App;
 class HydrationPipeline extends Pipeline
 {
     protected static array $mapping = [
-        'description' => SetDescription::class,
-        'image' => SetImage::class,
-        'title' => SetTitle::class,
+        'description' => SetDescriptions::class,
+        'image' => SetImages::class,
+        'title' => SetTitles::class,
     ];
 
     protected $pipes = [
-        SetDescription::class,
-        SetImage::class,
-        SetTitle::class,
+        SetDescriptions::class,
+        SetImages::class,
+        SetTitles::class,
     ];
 
     public static function properties(): array

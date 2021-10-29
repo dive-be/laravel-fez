@@ -7,7 +7,7 @@ use Dive\Fez\Contracts\Describable;
 use Dive\Fez\FezManager;
 use Illuminate\Support\Str;
 
-class SetDescription
+class SetDescriptions
 {
     public const MAX_LENGTH = 140;
 
@@ -19,9 +19,9 @@ class SetDescription
 
         $description = $this->format($description);
 
-        foreach ($this->getDescribables($fez->features()) as $feature) {
-            $feature->description($description);
-        }
+        $fez->features()
+            ->filter(static fn ($feature) => $feature instanceof Describable)
+            ->each(static fn (Describable $feature) => $feature->description($description));
 
         return $next($fez);
     }
@@ -29,10 +29,5 @@ class SetDescription
     private function format(string $description): string
     {
         return Str::limit($description, self::MAX_LENGTH);
-    }
-
-    private function getDescribables(array $features): array
-    {
-        return array_filter($features, static fn ($feature) => $feature instanceof Describable);
     }
 }

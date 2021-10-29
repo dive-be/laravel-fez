@@ -3,12 +3,13 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
+use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\FezManager;
 use Illuminate\Contracts\Config\Repository;
 
-class SetTitle
+class SetTitles
 {
     public function __construct(
         private Repository $config,
@@ -20,19 +21,19 @@ class SetTitle
             return $next($fez);
         }
 
-        $formatter = FormatterFactory::make(
-            $this->config['fez.title']
-        )->create();
+        $title = $this->createFormatter()->format($title);
 
-        foreach ($this->getTitleables($fez->features()) as $feature) {
-            $feature->title($formatter->format($title));
-        }
+        $fez->features()
+            ->filter(static fn ($feature) => $feature instanceof Titleable)
+            ->each(static fn (Titleable $feature) => $feature->title($title));
 
         return $next($fez);
     }
 
-    private function getTitleables(array $features): array
+    private function createFormatter(): Formatter
     {
-        return array_filter($features, static fn ($feature) => $feature instanceof Titleable);
+        return FormatterFactory::make(
+            $this->config['fez.title']
+        )->create();
     }
 }
