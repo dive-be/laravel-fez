@@ -14,9 +14,15 @@ class SetImages
             return $next($fez);
         }
 
-        $fez->features()
-            ->filter(static fn ($feature) => $feature instanceof Imageable)
-            ->each(static fn (Imageable $feature) => $feature->image($image));
+        $features = $fez
+            ->features()
+            ->filter(static fn ($feature) => $feature instanceof Imageable);
+
+        if ($features->isEmpty()) {
+            return $next($fez);
+        }
+
+        $features->each(static fn (Imageable $feature) => $feature->image($image));
 
         return $next($fez);
     }

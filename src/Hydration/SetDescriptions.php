@@ -17,11 +17,17 @@ class SetDescriptions
             return $next($fez);
         }
 
+        $features = $fez
+            ->features()
+            ->filter(static fn ($feature) => $feature instanceof Describable);
+
+        if ($features->isEmpty()) {
+            return $next($fez);
+        }
+
         $description = $this->format($description);
 
-        $fez->features()
-            ->filter(static fn ($feature) => $feature instanceof Describable)
-            ->each(static fn (Describable $feature) => $feature->description($description));
+        $features->each(static fn (Describable $feature) => $feature->description($description));
 
         return $next($fez);
     }

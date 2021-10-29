@@ -21,11 +21,17 @@ class SetTitles
             return $next($fez);
         }
 
+        $features = $fez
+            ->features()
+            ->filter(static fn ($feature) => $feature instanceof Titleable);
+
+        if ($features->isEmpty()) {
+            return $next($fez);
+        }
+
         $title = $this->createFormatter()->format($title);
 
-        $fez->features()
-            ->filter(static fn ($feature) => $feature instanceof Titleable)
-            ->each(static fn (Titleable $feature) => $feature->title($title));
+        $features->each(static fn (Titleable $feature) => $feature->title($title));
 
         return $next($fez);
     }

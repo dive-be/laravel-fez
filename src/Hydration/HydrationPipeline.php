@@ -19,6 +19,7 @@ class HydrationPipeline extends Pipeline
         SetDescriptions::class,
         SetImages::class,
         SetTitles::class,
+        SetTwitterProperties::class,
     ];
 
     public static function properties(): array
