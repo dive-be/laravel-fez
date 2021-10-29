@@ -7,9 +7,8 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
-use Stringable;
 
-abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializable, Stringable
+abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializable
 {
     use Makeable;
 
