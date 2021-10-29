@@ -1,12 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Factories;
+namespace Dive\Fez\Factories\Feature;
 
-use Dive\Fez\Exceptions\SorryUnknownOpenGraphObjectType;
-use Dive\Fez\OpenGraph\Objects\Article;
-use Dive\Fez\OpenGraph\Objects\Book;
-use Dive\Fez\OpenGraph\Objects\Profile;
-use Dive\Fez\OpenGraph\Objects\Website;
+use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\OpenGraph\RichObject;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -15,15 +11,19 @@ class OpenGraphFactory
 {
     use Makeable;
 
+    private RichObjectFactory $factory;
+
     public function __construct(
         private array $config,
         private string $locale,
         private UrlGenerator $url,
-    ) {}
+    ) {
+        $this->factory = RichObjectFactory::make();
+    }
 
     public function create(): RichObject
     {
-        return $this->newRichObject()
+        return $this->factory->create($this->config['type'])
             ->when($image = $this->config['image'],
                 static fn (RichObject $object) => $object->image($image)
             )->when($description = $this->config['description'],
@@ -37,21 +37,5 @@ class OpenGraphFactory
             )->when($locale && ($alternates = $this->config['alternates']),
                 static fn (RichObject $object) => $object->alternateLocale($alternates),
             );
-    }
-
-    protected function newRichObject(): RichObject
-    {
-        return call_user_func([$this->getClass($this->config['type']), 'make']);
-    }
-
-    private function getClass(string $type): string
-    {
-        return match ($type) {
-            'article' => Article::class,
-            'book' => Book::class,
-            'profile' => Profile::class,
-            'website' => Website::class,
-            default => throw SorryUnknownOpenGraphObjectType::make($type),
-        };
     }
 }

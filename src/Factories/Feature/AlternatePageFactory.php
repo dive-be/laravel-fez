@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Factories;
+namespace Dive\Fez\Factories\Feature;
 
 use Dive\Fez\AlternatePage;
 use Dive\Fez\Support\Makeable;

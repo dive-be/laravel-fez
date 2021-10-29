@@ -3,11 +3,10 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
-use Dive\Fez\Exceptions\SorryUnknownOpenGraphObjectType;
+use Dive\Fez\Factories\RichObjectFactory;
+use Dive\Fez\Factories\StructuredPropertyFactory;
 use Dive\Fez\FezManager;
-use Dive\Fez\OpenGraph;
 use Dive\Fez\OpenGraph\RichObject;
-use Dive\Fez\OpenGraph\StructuredProperty;
 
 class AssignOpenGraphProperties
 {
@@ -24,7 +23,7 @@ class AssignOpenGraphProperties
             return $next($fez);
         }
 
-        $target = $this->selectTarget($fez->openGraph, $source);
+        $target = $this->selectTarget($fez->openGraph, $source['type']);
         $target = $this->assign($target, $source);
 
         $fez->openGraph = $target;
@@ -43,33 +42,12 @@ class AssignOpenGraphProperties
                 ['type' => $type] = $property;
 
                 $target->{$this->method($type, $depth)}($type,
-                    $this->assign($this->createStructuredProperty($type), $property, $depth + 1)
+                    $this->assign(StructuredPropertyFactory::make()->create($type), $property, $depth + 1)
                 );
             }
         }
 
         return $target;
-    }
-
-    private function createRichObject(string $type): RichObject
-    {
-        return match ($type) {
-            'article' => OpenGraph::article(),
-            'book' => OpenGraph::book(),
-            'profile' => OpenGraph::profile(),
-            'website' => OpenGraph::website(),
-            default => throw SorryUnknownOpenGraphObjectType::make($type),
-        };
-    }
-
-    private function createStructuredProperty(string $type): StructuredProperty
-    {
-        return match ($type) {
-            'audio' => OpenGraph::audio(),
-            'image' => OpenGraph::image(),
-            'video' => OpenGraph::video(),
-            default => throw SorryUnknownOpenGraphObjectType::make($type),
-        };
     }
 
     private function method(string $name, int $depth): string
@@ -80,14 +58,10 @@ class AssignOpenGraphProperties
         return $method;
     }
 
-    private function selectTarget(RichObject $current, array $source): RichObject
+    private function selectTarget(RichObject $current, string $source): RichObject
     {
-        $type = $source['type'];
-
-        if ($current->type() === $type) {
-            return $current;
-        }
-
-        return $this->createRichObject($type);
+        return $current->type() === $source
+            ? $current
+            : RichObjectFactory::make()->create($source);
     }
 }

@@ -3,9 +3,8 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
-use Dive\Fez\Exceptions\SorryUnknownTwitterCardsType;
+use Dive\Fez\Factories\CardFactory;
 use Dive\Fez\FezManager;
-use Dive\Fez\TwitterCards;
 use Dive\Fez\TwitterCards\Card;
 
 class AssignTwitterProperties
@@ -16,7 +15,7 @@ class AssignTwitterProperties
             return $next($fez);
         }
 
-        $target = $this->selectTarget($fez->twitterCards, $source);
+        $target = $this->selectTarget($fez->twitterCards, $source['type']);
         $target = $this->assign($target, $source);
 
         $fez->twitterCards = $target;
@@ -33,24 +32,10 @@ class AssignTwitterProperties
         return $target;
     }
 
-    private function createCard(string $type): Card
+    private function selectTarget(Card $current, string $source): Card
     {
-        return match ($type) {
-            'player' => TwitterCards::player(),
-            'summary' => TwitterCards::summary(),
-            'summary_large_image' => TwitterCards::summaryLargeImage(),
-            default => throw SorryUnknownTwitterCardsType::make($type),
-        };
-    }
-
-    private function selectTarget(Card $current, array $source): Card
-    {
-        $type = $source['type'];
-
-        if ($current->type() === $type) {
-            return $current;
-        }
-
-        return $this->createCard($type);
+        return $current->type() === $source
+            ? $current
+            : CardFactory::make()->create($source);
     }
 }
