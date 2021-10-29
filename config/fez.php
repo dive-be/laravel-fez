@@ -57,9 +57,24 @@ return [
     ],
 
     /**
+     * A (Route) Reaper is responsible for "reaping" a metable object from/by way of an active route
+     * which will then be used to fill various features that are enabled.
+     */
+    'reaper' => [
+
+        /**
+         * Define the default strategy.
+         *
+         * Supported values: "relevance", "name" or "null"
+         */
+        'strategy' => 'relevance',
+    ],
+
+    /**
      * Define how your page titles should be formatted here.
      *
-     * Assign null to disable title formatting: 'title' => null
+     * - Assign null to disable title formatting: 'title' => null
+     * - Replace the default formatter with your own: 'title' => App\Formatters\MyTitleFormatter::class
      */
     'title' => [
         'separator' => '|',

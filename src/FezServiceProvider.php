@@ -5,8 +5,8 @@ namespace Dive\Fez;
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\Route as RouteContract;
 use Dive\Fez\Factories\FeatureFactory;
-use Dive\Fez\Macros\RouteMacro;
-use Dive\Fez\Macros\ViewMacro;
+use Dive\Fez\Macros\RouteConfigurator;
+use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Models\Route as RouteModel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -76,8 +76,6 @@ class FezServiceProvider extends ServiceProvider
 
             return FezManager::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
-            )->when($route = $app['router']->getCurrentRoute(),
-                static fn (FezManager $fez) => $fez->for(Finder::make($route)->find())
             );
         });
 
@@ -86,8 +84,8 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerMacros()
     {
-        RouteMacro::register();
-        ViewMacro::register();
+        PropertySetter::register();
+        RouteConfigurator::register();
     }
 
     private function registerMigration()
