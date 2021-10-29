@@ -8,14 +8,21 @@ use Illuminate\Support\Stringable;
 
 abstract class StructuredProperty extends ComponentBag
 {
-    protected function setProperty(?string $name, string $value): static
-    {
-        $name = (string) Str::of(static::class)
-            ->classBasename()
-            ->lower()
-            ->unless(is_null($name), static fn (Stringable $str) => $str->append(":{$name}"));
+    protected string $type;
 
-        return parent::set($name, Property::make($name, $value));
+    public function __construct()
+    {
+        $this->type = (string) Str::of(static::class)->classBasename()->lower();
+    }
+
+    public function setProperty(string $name, string $content): static
+    {
+        return parent::set($name, Property::make($name, $content));
+    }
+
+    public function type(): string
+    {
+        return $this->type;
     }
 
     public function toArray(): array

@@ -8,12 +8,12 @@ abstract class Medium extends StructuredProperty
 {
     public function mime(string $mime): static
     {
-        return $this->setProperty('type', $mime);
+        return $this->setProperty("{$this->type}:type", $mime);
     }
 
     public function secureUrl(string $url): static
     {
-        return $this->setProperty(null, $url)->setProperty('secure_url', $url);
+        return $this->setProperty($this->type, $url)->setProperty("{$this->type}:secure_url", $url);
     }
 
     public function url(string $url, bool $secure = false): static
@@ -22,6 +22,6 @@ abstract class Medium extends StructuredProperty
             return $this->secureUrl($url);
         }
 
-        return $this->setProperty(null, $url)->setProperty('url', $url);
+        return $this->setProperty($this->type, $url)->setProperty("{$this->type}:url", $url);
     }
 }
