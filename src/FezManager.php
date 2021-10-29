@@ -44,6 +44,13 @@ class FezManager extends Component
         }
     }
 
+    public function except(...$features): self
+    {
+        return tap(clone $this, function (self $that) use ($features) {
+            $that->features = Arr::except($this->features, $features);
+        });
+    }
+
     public function features(): Collection
     {
         return Collection::make($this->features);
@@ -86,6 +93,13 @@ class FezManager extends Component
     public function metaData(): MetaData
     {
         return $this->metaData ?? MetaData::make();
+    }
+
+    public function only(...$features): self
+    {
+        return tap(clone $this, function (self $that) use ($features) {
+            $that->features = Arr::only($this->features, $features);
+        });
     }
 
     public function setFeature(string $name, Component $feature): self
