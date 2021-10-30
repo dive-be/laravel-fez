@@ -2,10 +2,10 @@
 
 namespace Dive\Fez\OpenGraph;
 
-use Dive\Fez\ComponentBag;
+use Dive\Fez\Container;
 use Illuminate\Support\Str;
 
-abstract class StructuredProperty extends ComponentBag
+abstract class StructuredProperty extends Container
 {
     protected string $type;
 

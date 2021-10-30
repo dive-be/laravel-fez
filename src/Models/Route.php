@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string|null $description
- * @property string $name
+ * @property string      $name
  */
 class Route extends Model implements Metable
 {
