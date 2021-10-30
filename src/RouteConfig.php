@@ -13,33 +13,25 @@ class RouteConfig implements Arrayable
 
     private ?string $strategy = 'null';
 
-    public function binding(string $parameterName): self
+    public function binding(string $parameterName)
     {
         $this->strategy = 'binding';
         $this->attributes = compact('parameterName');
-
-        return $this;
     }
 
-    public function name(): self
+    public function name()
     {
         $this->strategy = 'name';
-
-        return $this;
     }
 
-    public function none(): self
+    public function none()
     {
         $this->strategy = 'null';
-
-        return $this;
     }
 
-    public function relevance(): self
+    public function relevance()
     {
         $this->strategy = 'relevance';
-
-        return $this;
     }
 
     public function toArray()

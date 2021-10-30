@@ -15,11 +15,15 @@ class RouteConfigurator
 
     private static function macro(): Closure
     {
-        return function (Closure $callback) {
+        return function (Closure|string $value, ...$arguments) {
             /** @var Route $this */
             $config = RouteConfig::make();
 
-            $callback($config);
+            if (is_string($value)) {
+                call_user_func_array([$config, $value], $arguments);
+            } else {
+                $value($config);
+            }
 
             return $this->defaults('fez', $config->toArray());
         };
