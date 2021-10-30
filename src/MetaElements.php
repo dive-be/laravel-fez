@@ -8,7 +8,7 @@ use Dive\Fez\MetaElements\Canonical;
 use Dive\Fez\MetaElements\Element;
 use Dive\Fez\MetaElements\Title;
 
-class MetaElements extends ComponentBag implements Describable, Titleable
+class MetaElements extends Container implements Describable, Titleable
 {
     public function canonical(string $url): self
     {

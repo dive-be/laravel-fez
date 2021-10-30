@@ -2,13 +2,13 @@
 
 namespace Dive\Fez\TwitterCards;
 
-use Dive\Fez\ComponentBag;
+use Dive\Fez\Container;
 use Dive\Fez\Contracts\Describable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Titleable;
 use Illuminate\Support\Str;
 
-abstract class Card extends ComponentBag implements Describable, Imageable, Titleable
+abstract class Card extends Container implements Describable, Imageable, Titleable
 {
     public const TYPE = 'card';
 

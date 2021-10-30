@@ -3,7 +3,7 @@
 namespace Dive\Fez\OpenGraph;
 
 use Dive\Fez\Component;
-use Dive\Fez\ComponentBag;
+use Dive\Fez\Container;
 use Dive\Fez\Contracts\Describable;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\Contracts\Titleable;
@@ -13,7 +13,7 @@ use Dive\Fez\OpenGraph\Properties\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-abstract class RichObject extends ComponentBag implements Describable, Imageable, Titleable
+abstract class RichObject extends Container implements Describable, Imageable, Titleable
 {
     private const TYPE = 'type';
 

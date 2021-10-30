@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 
-abstract class ComponentBag extends Component
+abstract class Container extends Component
 {
     use Conditionable;
 
