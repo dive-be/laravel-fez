@@ -3,6 +3,7 @@
 namespace Dive\Fez\Factories;
 
 use Dive\Fez\Contracts\Reaper;
+use Dive\Fez\Exceptions\SorryUnknownReaperStrategy;
 use Dive\Fez\Reapers\BindingReaper;
 use Dive\Fez\Reapers\NameReaper;
 use Dive\Fez\Reapers\NullReaper;
@@ -20,6 +21,7 @@ class ReaperFactory
             'name' => NameReaper::make(),
             'null' => NullReaper::make(),
             'relevance' => RelevanceReaper::make(),
+            default => throw SorryUnknownReaperStrategy::make($strategy),
         };
     }
 }
