@@ -16,16 +16,16 @@ class Property extends Component
         return $this->content;
     }
 
-    public function generate(): string
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function render(): string
     {
         return <<<HTML
 <meta name="og:{$this->name}" content="{$this->content}" />
 HTML;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
     }
 
     public function toArray(): array

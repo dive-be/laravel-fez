@@ -10,7 +10,7 @@ class Canonical extends Component
         private string $url,
     ) {}
 
-    public function generate(): string
+    public function render(): string
     {
         return <<<HTML
 <link rel="canonical" href="{$this->url}" />

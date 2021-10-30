@@ -11,7 +11,7 @@ class Element extends Component
         private string $content,
     ) {}
 
-    public function generate(): string
+    public function render(): string
     {
         return <<<HTML
 <meta name="{$this->name}" content="{$this->content}" />

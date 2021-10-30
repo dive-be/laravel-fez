@@ -24,18 +24,18 @@ abstract class ComponentBag extends Component
         return $this;
     }
 
-    public function generate(): string
+    public function get(string $name)
+    {
+        return Arr::get($this->components, $name);
+    }
+
+    public function render(): string
     {
         return Collection::make($this->components)
             ->sortBy(static fn (Component $component, int|string $key) => is_numeric($key))
             ->values()
-            ->map(static fn (Component $component) => $component->generate())
+            ->map(static fn (Component $component) => $component->render())
             ->join(PHP_EOL);
-    }
-
-    public function get(string $name)
-    {
-        return Arr::get($this->components, $name);
     }
 
     public function toArray(): array

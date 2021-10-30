@@ -26,7 +26,7 @@ class AlternatePage extends Component
         self::$urlUsing = $callback;
     }
 
-    public function generate(): string
+    public function render(): string
     {
         return Collection::make($this->toArray())
             ->map(fn (string $href, string $lang) => $this->tag($href, $lang))

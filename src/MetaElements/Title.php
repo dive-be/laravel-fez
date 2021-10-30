@@ -10,7 +10,7 @@ class Title extends Component
         private string $value,
     ) {}
 
-    public function generate(): string
+    public function render(): string
     {
         return "<title>{$this->value}</title>";
     }

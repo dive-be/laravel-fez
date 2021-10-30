@@ -16,7 +16,7 @@ class Property extends Component
         return $this->content;
     }
 
-    public function generate(): string
+    public function render(): string
     {
         return <<<HTML
 <meta name="twitter:{$this->name}" content="{$this->content}" />

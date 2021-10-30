@@ -12,7 +12,7 @@ abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializa
 {
     use Makeable;
 
-    abstract public function generate(): string;
+    abstract public function render(): string;
 
     abstract public function toArray(): array;
 
@@ -23,7 +23,7 @@ abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializa
 
     public function toHtml(): string
     {
-        return $this->generate();
+        return $this->render();
     }
 
     public function toJson($options = 0): string
@@ -33,6 +33,6 @@ abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializa
 
     public function __toString(): string
     {
-        return $this->generate();
+        return $this->render();
     }
 }

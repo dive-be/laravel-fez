@@ -72,15 +72,6 @@ class FezManager extends Component
         return HydrationPipeline::run($this);
     }
 
-    public function generate(): string
-    {
-        return Collection::make($this->features)
-            ->map(static fn (Component $feature) => $feature->generate())
-            ->values()
-            ->filter()
-            ->join(PHP_EOL . PHP_EOL);
-    }
-
     public function get(string $feature): Component
     {
         if ($this->doesntHaveFeature($feature)) {
@@ -100,6 +91,15 @@ class FezManager extends Component
         return tap(clone $this, function (self $that) use ($features) {
             $that->features = Arr::only($this->features, $features);
         });
+    }
+
+    public function render(): string
+    {
+        return Collection::make($this->features)
+            ->map(static fn (Component $feature) => $feature->render())
+            ->values()
+            ->filter()
+            ->join(PHP_EOL . PHP_EOL);
     }
 
     public function setFeature(string $name, Component $feature): self
