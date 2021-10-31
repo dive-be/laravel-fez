@@ -5,6 +5,7 @@ namespace Dive\Fez;
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Factories\FinderFactory;
+use Dive\Fez\Macros\MetableFinder;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
 use Illuminate\Contracts\Foundation\Application;
@@ -68,18 +69,9 @@ class FezServiceProvider extends ServiceProvider
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            $manager = FezManager::make(
+            return FezManager::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
-            );
-
-            if (is_null($route = $app['router']->getCurrentRoute())) {
-                return $manager;
-            }
-
-            $finder = FinderFactory::make()
-                ->create(...($route->defaults['fez'] ?? $config['finder']));
-
-            return $manager->when($metable = $finder->find($route),
+            )->when($metable = $app['router']->current()?->metable(),
                 static fn (FezManager $manager) => $manager->for($metable)
             );
         });
@@ -89,6 +81,7 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerMacros()
     {
+        MetableFinder::register();
         PropertySetter::register();
         RouteConfigurator::register();
     }
