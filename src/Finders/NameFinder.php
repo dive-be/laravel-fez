@@ -13,7 +13,12 @@ class NameFinder implements Finder
 {
     use Makeable;
 
-    private static Closure $transformNameUsing;
+    private static ?Closure $transformer = null;
+
+    public static function transformNameUsing(Closure $callback)
+    {
+        static::$transformer = $callback;
+    }
 
     public function find(Route $route): ?Metable
     {
@@ -21,8 +26,8 @@ class NameFinder implements Finder
 
         // This will be handy for developers that add some kind of localization token
         // to the route's name
-        if (isset(static::$transformNameUsing)) {
-            $name = call_user_func(static::$transformNameUsing, $name);
+        if (! is_null(static::$transformer)) {
+            $name = call_user_func(static::$transformer, $name);
         }
 
         return Model::query()->where(compact('name'))->first();
