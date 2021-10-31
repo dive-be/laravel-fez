@@ -36,6 +36,8 @@ class FezManager extends Component
 
     private MetaData $metaData;
 
+    private ?Metable $model = null;
+
     public function __construct(
         private array $features,
     ) {
@@ -68,6 +70,7 @@ class FezManager extends Component
     public function for(Metable $model): self
     {
         $this->metaData = $model->gatherMetaData();
+        $this->model = $model;
 
         return HydrationPipeline::run($this);
     }
@@ -91,6 +94,11 @@ class FezManager extends Component
         return $this->metaData ?? MetaData::make();
     }
 
+    public function model(): ?Metable
+    {
+        return $this->model;
+    }
+
     public function only(...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
@@ -100,7 +108,8 @@ class FezManager extends Component
 
     public function render(): string
     {
-        return Collection::make($this->features)
+        return $this
+            ->features()
             ->map(static fn (Component $feature) => $feature->render())
             ->values()
             ->filter()
