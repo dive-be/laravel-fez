@@ -16,7 +16,7 @@ class PropertySetter
     public static function macro(): Closure
     {
         return function (array|string $property, ?string $value = null): View {
-            Fez::setProperty($property, $value);
+            Fez::set($property, $value);
 
             return $this;
         };

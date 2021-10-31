@@ -17,7 +17,7 @@ if (! function_exists('fez')) {
         }
 
         if (is_array($key)) {
-            return app('fez')->setProperty($key);
+            return app('fez')->set($key);
         }
 
         return app('fez')->get($key);

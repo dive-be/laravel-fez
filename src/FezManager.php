@@ -46,6 +46,17 @@ class FezManager extends Component
         }
     }
 
+    public function assign(string $name, Component $feature): self
+    {
+        if (! $this->has($name)) {
+            throw SorryUnknownFeature::make($name);
+        }
+
+        $this->features[$name] = $feature;
+
+        return $this;
+    }
+
     public function except(...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
@@ -116,18 +127,7 @@ class FezManager extends Component
             ->join(PHP_EOL . PHP_EOL);
     }
 
-    public function setFeature(string $name, Component $feature): self
-    {
-        if (! $this->has($name)) {
-            throw SorryUnknownFeature::make($name);
-        }
-
-        $this->features[$name] = $feature;
-
-        return $this;
-    }
-
-    public function setProperty(array|string $property, ?string $value = null): self
+    public function set(array|string $property, ?string $value = null): self
     {
         if (is_string($property)) {
             $property = [$property => $value];
@@ -183,9 +183,9 @@ class FezManager extends Component
         }
 
         if ($this->has($name)) {
-            $this->setFeature($name, $value);
+            $this->assign($name, $value);
         } else {
-            $this->setProperty($name, $value);
+            $this->set($name, $value);
         }
     }
 }
