@@ -15,11 +15,13 @@ class RouteConfigurator
 
     private static function macro(): Closure
     {
-        return function (Closure|string $value, ...$arguments): Route {
+        return function (Closure|string|null $value, ...$arguments): Route {
             $config = RouteConfig::make();
 
             if (is_string($value)) {
                 call_user_func_array([$config, $value], $arguments);
+            } elseif (is_null($value)) {
+                $config->none();
             } else {
                 $value($config);
             }
