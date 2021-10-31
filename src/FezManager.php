@@ -74,11 +74,16 @@ class FezManager extends Component
 
     public function get(string $feature): Component
     {
-        if ($this->doesntHaveFeature($feature)) {
+        if (! $this->has($feature)) {
             throw SorryUnknownFeature::make($feature);
         }
 
         return $this->features[$feature];
+    }
+
+    public function has(string $feature): bool
+    {
+        return array_key_exists($feature, $this->features);
     }
 
     public function metaData(): MetaData
@@ -104,7 +109,7 @@ class FezManager extends Component
 
     public function setFeature(string $name, Component $feature): self
     {
-        if ($this->doesntHaveFeature($name)) {
+        if (! $this->has($name)) {
             throw SorryUnknownFeature::make($name);
         }
 
@@ -131,11 +136,6 @@ class FezManager extends Component
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
     }
 
-    private function doesntHaveFeature(string $feature): bool
-    {
-        return ! array_key_exists($feature, $this->features);
-    }
-
     private function doesntHaveProperty(string $property): bool
     {
         return ! in_array($property, HydrationPipeline::properties());
@@ -144,7 +144,7 @@ class FezManager extends Component
     public function __call(string $name, array $arguments): Component|self
     {
         if (empty($arguments)) {
-            if ($this->doesntHaveFeature($name)) {
+            if (! $this->has($name)) {
                 throw SorryBadMethodCall::make(static::class, $name);
             }
 
@@ -160,7 +160,7 @@ class FezManager extends Component
 
     public function __get(string $name): Component
     {
-        if ($this->doesntHaveFeature($name)) {
+        if (! $this->has($name)) {
             throw SorryPropertyNotFound::make(static::class, $name);
         }
 
@@ -169,14 +169,14 @@ class FezManager extends Component
 
     public function __set(string $name, $value)
     {
-        if ($this->doesntHaveProperty($name) && $this->doesntHaveFeature($name)) {
+        if ($this->doesntHaveProperty($name) && ! $this->has($name)) {
             throw SorryPropertyNotFound::make(static::class, $name);
         }
 
-        if ($this->doesntHaveFeature($name)) {
-            $this->setProperty($name, $value);
-        } else {
+        if ($this->has($name)) {
             $this->setFeature($name, $value);
+        } else {
+            $this->setProperty($name, $value);
         }
     }
 }

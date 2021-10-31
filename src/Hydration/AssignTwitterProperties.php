@@ -4,6 +4,7 @@ namespace Dive\Fez\Hydration;
 
 use Closure;
 use Dive\Fez\Factories\CardFactory;
+use Dive\Fez\Feature;
 use Dive\Fez\FezManager;
 use Dive\Fez\TwitterCards\Card;
 
@@ -11,7 +12,10 @@ class AssignTwitterProperties
 {
     public function handle(FezManager $fez, Closure $next): FezManager
     {
-        if (empty($source = $fez->metaData()->twitterCards())) {
+        if (
+            ! $fez->has(Feature::twitterCards()) ||
+            empty($source = $fez->metaData()->twitterCards())
+        ) {
             return $next($fez);
         }
 

@@ -5,6 +5,7 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\Factories\StructuredPropertyFactory;
+use Dive\Fez\Feature;
 use Dive\Fez\FezManager;
 use Dive\Fez\OpenGraph\RichObject;
 
@@ -19,7 +20,10 @@ class AssignOpenGraphProperties
 
     public function handle(FezManager $fez, Closure $next): FezManager
     {
-        if (empty($source = $fez->metaData()->openGraph())) {
+        if (
+            ! $fez->has(Feature::openGraph()) ||
+            empty($source = $fez->metaData()->openGraph())
+        ) {
             return $next($fez);
         }
 
