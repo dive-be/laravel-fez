@@ -15,8 +15,7 @@ class RouteConfigurator
 
     private static function macro(): Closure
     {
-        return function (Closure|string $value, ...$arguments) {
-            /** @var Route $this */
+        return function (Closure|string $value, ...$arguments): Route {
             $config = RouteConfig::make();
 
             if (is_string($value)) {
