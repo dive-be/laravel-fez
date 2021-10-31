@@ -24,7 +24,7 @@ class Property extends Component
     public function render(): string
     {
         return <<<HTML
-<meta name="og:{$this->name}" content="{$this->content}" />
+<meta property="og:{$this->name}" content="{$this->content}" />
 HTML;
     }
 
