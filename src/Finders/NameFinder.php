@@ -3,8 +3,8 @@
 namespace Dive\Fez\Finders;
 
 use Closure;
-use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Contracts\Finder;
+use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Models\Route as Model;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Routing\Route;

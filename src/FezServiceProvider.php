@@ -4,7 +4,6 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Factories\FeatureFactory;
-use Dive\Fez\Factories\FinderFactory;
 use Dive\Fez\Macros\MetableFinder;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
@@ -64,14 +63,22 @@ class FezServiceProvider extends ServiceProvider
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
-            $factory = FeatureFactory::make($config = $app['config']['fez'])
+            $factory = FeatureFactory::make($app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
             return FezManager::make(
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
-            )->when($metable = $app['router']->current()?->metable(),
+            );
+        });
+
+        $this->app->afterResolving('fez', static function (FezManager $fez, Application $app) {
+            if (is_null($route = $app['router']->current())) {
+                return;
+            }
+
+            $fez->when($metable = $route->metable(),
                 static fn (FezManager $manager) => $manager->for($metable)
             );
         });

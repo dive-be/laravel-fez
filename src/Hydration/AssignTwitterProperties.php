@@ -3,6 +3,7 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\CardFactory;
 use Dive\Fez\Feature;
 use Dive\Fez\FezManager;
@@ -10,21 +11,25 @@ use Dive\Fez\TwitterCards\Card;
 
 class AssignTwitterProperties
 {
-    public function handle(FezManager $fez, Closure $next): FezManager
+    public function __construct(
+        private FezManager $fez,
+    ) {}
+
+    public function handle(MetaData $data, Closure $next): MetaData
     {
         if (
-            ! $fez->has(Feature::twitterCards()) ||
-            empty($source = $fez->metaData()->twitterCards())
+            ! $this->fez->has(Feature::twitterCards()) ||
+            empty($source = $data->twitterCards())
         ) {
-            return $next($fez);
+            return $next($data);
         }
 
-        $target = $this->selectTarget($fez->twitterCards, $source['type']);
+        $target = $this->selectTarget($this->fez->twitterCards, $source['type']);
         $target = $this->assign($target, $source);
 
-        $fez->twitterCards = $target;
+        $this->fez->twitterCards = $target;
 
-        return $next($fez);
+        return $next($data);
     }
 
     private function assign(Card $target, array $source): Card

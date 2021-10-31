@@ -4,26 +4,31 @@ namespace Dive\Fez\Hydration;
 
 use Closure;
 use Dive\Fez\Contracts\Imageable;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\FezManager;
 
 class SetImages
 {
-    public function handle(FezManager $fez, Closure $next): FezManager
+    public function __construct(
+        private FezManager $fez,
+    ) {}
+
+    public function handle(MetaData $data, Closure $next): MetaData
     {
-        if (is_null($image = $fez->metaData()->image())) {
-            return $next($fez);
+        if (is_null($image = $data->image())) {
+            return $next($data);
         }
 
-        $features = $fez
+        $features = $this->fez
             ->features()
             ->filter(static fn ($feature) => $feature instanceof Imageable);
 
         if ($features->isEmpty()) {
-            return $next($fez);
+            return $next($data);
         }
 
         $features->each(static fn (Imageable $feature) => $feature->image($image));
 
-        return $next($fez);
+        return $next($data);
     }
 }

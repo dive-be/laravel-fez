@@ -3,24 +3,29 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
 use Dive\Fez\FezManager;
 use Dive\Fez\MetaElements;
 
 class AssignMetaProperties
 {
-    public function handle(FezManager $fez, Closure $next): FezManager
+    public function __construct(
+        private FezManager $fez,
+    ) {}
+
+    public function handle(MetaData $data, Closure $next): MetaData
     {
         if (
-            ! $fez->has(Feature::metaElements())
-            || empty($source = $fez->metaData()->elements())
+            ! $this->fez->has(Feature::metaElements())
+            || empty($source = $data->elements())
         ) {
-            return $next($fez);
+            return $next($data);
         }
 
-        $this->assign($fez->metaElements, $source);
+        $this->assign($this->fez->metaElements, $source);
 
-        return $next($fez);
+        return $next($data);
     }
 
     private function assign(MetaElements $meta, array $source)

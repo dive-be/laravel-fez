@@ -5,6 +5,7 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Contracts\Titleable;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\FezManager;
 use Illuminate\Contracts\Config\Repository;
@@ -13,27 +14,28 @@ class SetTitles
 {
     public function __construct(
         private Repository $config,
+        private FezManager $fez,
     ) {}
 
-    public function handle(FezManager $fez, Closure $next): FezManager
+    public function handle(MetaData $data, Closure $next): MetaData
     {
-        if (is_null($title = $fez->metaData()->title())) {
-            return $next($fez);
+        if (is_null($title = $data->title())) {
+            return $next($data);
         }
 
-        $features = $fez
+        $features = $this->fez
             ->features()
             ->filter(static fn ($feature) => $feature instanceof Titleable);
 
         if ($features->isEmpty()) {
-            return $next($fez);
+            return $next($data);
         }
 
         $title = $this->createFormatter()->format($title);
 
         $features->each(static fn (Titleable $feature) => $feature->title($title));
 
-        return $next($fez);
+        return $next($data);
     }
 
     private function createFormatter(): Formatter

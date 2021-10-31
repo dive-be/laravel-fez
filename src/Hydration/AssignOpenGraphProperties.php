@@ -3,6 +3,7 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
+use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\Factories\StructuredPropertyFactory;
 use Dive\Fez\Feature;
@@ -13,26 +14,27 @@ class AssignOpenGraphProperties
 {
     private array $pushables = ['audio', 'author', 'image', 'tag', 'video'];
 
-    public function __construct()
-    {
+    public function __construct(
+        private FezManager $fez,
+    ) {
         $this->pushables = array_flip($this->pushables);
     }
 
-    public function handle(FezManager $fez, Closure $next): FezManager
+    public function handle(MetaData $data, Closure $next): MetaData
     {
         if (
-            ! $fez->has(Feature::openGraph()) ||
-            empty($source = $fez->metaData()->openGraph())
+            ! $this->fez->has(Feature::openGraph()) ||
+            empty($source = $data->openGraph())
         ) {
-            return $next($fez);
+            return $next($data);
         }
 
-        $target = $this->selectTarget($fez->openGraph, $source['type']);
+        $target = $this->selectTarget($this->fez->openGraph, $source['type']);
         $target = $this->assign($target, $source);
 
-        $fez->openGraph = $target;
+        $this->fez->openGraph = $target;
 
-        return $next($fez);
+        return $next($data);
     }
 
     private function assign($target, array $source, int $depth = 0)

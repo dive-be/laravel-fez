@@ -34,8 +34,6 @@ class FezManager extends Component
 {
     use Conditionable;
 
-    private MetaData $metaData;
-
     private ?Metable $model = null;
 
     public function __construct(
@@ -80,10 +78,11 @@ class FezManager extends Component
 
     public function for(Metable $model): self
     {
-        $this->metaData = $model->gatherMetaData();
         $this->model = $model;
 
-        return HydrationPipeline::run($this);
+        HydrationPipeline::run($model->gatherMetaData());
+
+        return $this;
     }
 
     public function get(string $feature): Component
@@ -98,11 +97,6 @@ class FezManager extends Component
     public function has(string $feature): bool
     {
         return array_key_exists($feature, $this->features);
-    }
-
-    public function metaData(): MetaData
-    {
-        return $this->metaData ?? MetaData::make();
     }
 
     public function model(): ?Metable
@@ -135,19 +129,14 @@ class FezManager extends Component
 
         $property = Arr::only($property, HydrationPipeline::properties());
 
-        $this->metaData = new MetaData(...$property);
+        HydrationPipeline::run(new MetaData(...$property), array_keys($property));
 
-        return HydrationPipeline::run($this, array_keys($property));
+        return $this;
     }
 
     public function toArray(): array
     {
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
-    }
-
-    private function doesntHaveProperty(string $property): bool
-    {
-        return ! in_array($property, HydrationPipeline::properties());
     }
 
     public function __call(string $name, array $arguments): Component|self
@@ -160,11 +149,11 @@ class FezManager extends Component
             return $this->get($name);
         }
 
-        if (count($arguments) > 1 || $this->doesntHaveProperty($name)) {
+        if (count($arguments) > 1 || ! HydrationPipeline::has($name)) {
             throw SorryBadMethodCall::make(static::class, $name);
         }
 
-        return $this->setProperty($name, $arguments[0]);
+        return $this->set($name, $arguments[0]);
     }
 
     public function __get(string $name): Component
@@ -178,7 +167,7 @@ class FezManager extends Component
 
     public function __set(string $name, $value)
     {
-        if ($this->doesntHaveProperty($name) && ! $this->has($name)) {
+        if (! HydrationPipeline::has($name) && ! $this->has($name)) {
             throw SorryPropertyNotFound::make(static::class, $name);
         }
 
