@@ -63,12 +63,12 @@ class FezServiceProvider extends ServiceProvider
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
-            $factory = FeatureFactory::make($app['config']['fez'])
+            $factory = FeatureFactory::make($config = $app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            return FezManager::make(
+            return FezManager::make($config,
                 array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
             );
         });

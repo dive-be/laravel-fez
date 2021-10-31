@@ -17,7 +17,7 @@ class MetableFinder
     private static function macro(): Closure
     {
         return function (): ?Metable {
-            $config = $this->defaults['fez'] ?? $this->container['config']['fez.finder'];
+            $config = $this->defaults['fez'] ?? $this->container['fez']->config('finder');
 
             return FinderFactory::make()
                 ->create(...$config)
