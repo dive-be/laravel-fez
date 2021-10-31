@@ -83,9 +83,16 @@ class FeatureFactory
 
     private function mergeDefaults(string $feature): array
     {
-        $defaults = $this->config['defaults'];
+        ['general' => $general] = $this->config['defaults'];
 
-        return array_merge($defaults['general'], $defaults[$feature]);
+        // We're going to assume a localized description if the type's an array
+        if (is_array($general['description'])) {
+            $activeLocale = call_user_func($this->localeResolver);
+
+            $general['description'] = $general['description'][$activeLocale];
+        }
+
+        return array_merge($general, $this->config['defaults'][$feature]);
     }
 
     public function setLocaleResolver(Closure $callback): self

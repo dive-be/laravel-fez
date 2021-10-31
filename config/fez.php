@@ -7,7 +7,7 @@ use Dive\Fez\Models\Route;
 return [
     'defaults' => [
         'general' => [
-            'description' => null,
+            'description' => null, // Pass an array to localize e.g. ['fr' => 'Salut', 'en' => 'Hello', 'nl' => 'Hallo']
             'image' => null, // Relative path or absolute URL
         ],
 
