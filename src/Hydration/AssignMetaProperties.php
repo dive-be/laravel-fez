@@ -3,22 +3,34 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
+use Dive\Fez\Feature;
 use Dive\Fez\FezManager;
+use Dive\Fez\MetaElements;
 
 class AssignMetaProperties
 {
     public function handle(FezManager $fez, Closure $next): FezManager
     {
-        $data = $fez->metaData();
-
-        if (is_string($keywords = $data->keywords())) {
-            $fez->metaElements->keywords($keywords);
+        if (
+            ! $fez->has(Feature::metaElements())
+            || empty($source = $fez->metaData()->elements())
+        ) {
+            return $next($fez);
         }
 
-        if (is_string($robots = $data->robots())) {
-            $fez->metaElements->robots($robots);
-        }
+        $this->assign($fez->metaElements, $source);
 
         return $next($fez);
+    }
+
+    private function assign(MetaElements $meta, array $source)
+    {
+        foreach ($source as $el) {
+            if ($el['type'] === 'element') {
+                $meta->{$el['attributes']['name']}($el['attributes']['content']);
+            } else {
+                $meta->{$el['type']}(...$el['attributes']);
+            }
+        }
     }
 }

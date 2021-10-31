@@ -9,16 +9,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $description
  * @property array       $elements
  * @property string|null $image
- * @property string|null $keywords
  * @property mixed       $metable
  * @property array|null  $open_graph
- * @property string|null $robots
  * @property string      $title
  * @property array|null  $twitter
  */
 class Meta extends Model
 {
     protected $casts = [
+        'elements' => 'array',
         'open_graph' => 'array',
         'twitter' => 'array',
     ];
@@ -27,10 +26,9 @@ class Meta extends Model
 
     protected $visible = [
         'description',
+        'elements',
         'image',
-        'keywords',
         'open_graph',
-        'robots',
         'title',
         'twitter',
     ];
