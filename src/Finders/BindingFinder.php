@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Reapers;
+namespace Dive\Fez\Finders;
 
+use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Contracts\Reaper;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 
-class BindingReaper implements Reaper
+class BindingFinder implements Finder
 {
     use Makeable;
 
@@ -16,7 +16,7 @@ class BindingReaper implements Reaper
         private string $parameterName,
     ) {}
 
-    public function reap(Route $route): ?Metable
+    public function find(Route $route): ?Metable
     {
         return Arr::get($route->parameters, $this->parameterName);
     }

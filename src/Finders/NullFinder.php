@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Reapers;
+namespace Dive\Fez\Finders;
 
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Contracts\Reaper;
+use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Routing\Route;
 
-class NullReaper implements Reaper
+class NullFinder implements Finder
 {
     use Makeable;
 
-    public function reap(Route $route): ?Metable
+    public function find(Route $route): ?Metable
     {
         return null;
     }

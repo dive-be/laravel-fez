@@ -4,7 +4,7 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Factories\FeatureFactory;
-use Dive\Fez\Factories\ReaperFactory;
+use Dive\Fez\Factories\FinderFactory;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
 use Illuminate\Contracts\Foundation\Application;
@@ -76,10 +76,10 @@ class FezServiceProvider extends ServiceProvider
                 return $manager;
             }
 
-            $reaper = ReaperFactory::make()
-                ->create(...($route->defaults['fez'] ?? $config['reaper']));
+            $finder = FinderFactory::make()
+                ->create(...($route->defaults['fez'] ?? $config['finder']));
 
-            return $manager->when($metable = $reaper->reap($route),
+            return $manager->when($metable = $finder->find($route),
                 static fn (FezManager $manager) => $manager->for($metable)
             );
         });

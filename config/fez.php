@@ -31,6 +31,21 @@ return [
     ],
 
     /**
+     * A (Metable) Finder is responsible for finding a metable object in/by way of an active route
+     * which will then be used to fill various features that are enabled.
+     */
+    'finder' => [
+
+        /**
+         * Define the default strategy.
+         *
+         * Supported values: "relevance", "name" or "null"
+         */
+        'strategy' => 'relevance',
+    ],
+
+
+    /**
      * At least one feature must be enabled. You may leave out features if you don't need them.
      * The order of these features also defines the order in which the tags are generated when rendering your views.
      */
@@ -54,20 +69,6 @@ return [
     'models' => [
         'meta' => Meta::class,
         'route' => Route::class,
-    ],
-
-    /**
-     * A (Route) Reaper is responsible for "reaping" a metable object from/by way of an active route
-     * which will then be used to fill various features that are enabled.
-     */
-    'reaper' => [
-
-        /**
-         * Define the default strategy.
-         *
-         * Supported values: "relevance", "name" or "null"
-         */
-        'strategy' => 'relevance',
     ],
 
     /**

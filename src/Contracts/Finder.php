@@ -4,7 +4,7 @@ namespace Dive\Fez\Contracts;
 
 use Illuminate\Routing\Route;
 
-interface Reaper
+interface Finder
 {
-    public function reap(Route $route): ?Metable;
+    public function find(Route $route): ?Metable;
 }

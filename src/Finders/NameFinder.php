@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Reapers;
+namespace Dive\Fez\Finders;
 
 use Closure;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Contracts\Reaper;
+use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Models\Route as Model;
 use Dive\Fez\Support\Makeable;
 use Illuminate\Routing\Route;
 
-class NameReaper implements Reaper
+class NameFinder implements Finder
 {
     use Makeable;
 
     private static Closure $transformNameUsing;
 
-    public function reap(Route $route): ?Metable
+    public function find(Route $route): ?Metable
     {
         $name = $route->getName();
 

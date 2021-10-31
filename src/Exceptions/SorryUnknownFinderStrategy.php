@@ -4,10 +4,10 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryUnknownReaperStrategy extends Exception
+class SorryUnknownFinderStrategy extends Exception
 {
     public static function make(string $strategy): self
     {
-        return new self("The reaper strategy `{$strategy}` is invalid");
+        return new self("The finder strategy `{$strategy}` is invalid");
     }
 }
