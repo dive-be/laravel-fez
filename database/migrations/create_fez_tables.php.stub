@@ -11,8 +11,8 @@ class CreateFezTables extends Migration
         Schema::create('meta', static function (Blueprint $table) {
             $table->id();
             $table->morphs('metable');
-            $table->string('title')->nullable(); // $table->json('title');
-            $table->string('description')->nullable(); // $table->json('description');
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->json('elements')->nullable();
             $table->json('open_graph')->nullable();
@@ -26,7 +26,7 @@ class CreateFezTables extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
 
-            $table->unique('key');
+            $table->unique('name');
         });
     }
 
