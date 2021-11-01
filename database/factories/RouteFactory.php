@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Dive\Fez\Database\Factories;
 
@@ -13,8 +13,7 @@ class RouteFactory extends Factory
     {
         return [
             'description' => $this->faker->text(255),
-            'key' => $this->faker->unique()->word,
-            'name' => $this->faker->text(20),
+            'name' => $this->faker->unique()->word,
         ];
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Dive\Fez\Database\Factories;
 
@@ -14,8 +14,6 @@ class MetaFactory extends Factory
         return [
             'description' => $this->faker->text(255),
             'image' => 'https://picsum.photos/1200/627',
-            'keywords' => $this->faker->words,
-            'robots' => 'all',
             'title' => $this->faker->title,
         ];
     }

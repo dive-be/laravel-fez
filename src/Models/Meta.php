@@ -2,6 +2,8 @@
 
 namespace Dive\Fez\Models;
 
+use Dive\Fez\Database\Factories\MetaFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -16,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Meta extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'elements' => 'array',
         'open_graph' => 'array',
@@ -34,6 +38,11 @@ class Meta extends Model
     ];
 
     protected $table = 'meta';
+
+    protected static function newFactory(): MetaFactory
+    {
+        return MetaFactory::new();
+    }
 
     public function metable(): MorphTo
     {
