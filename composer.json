@@ -1,6 +1,6 @@
 {
     "name": "dive-be/laravel-fez",
-    "description": "Optimize document heads for robots",
+    "description": "Zero config document head management",
     "keywords": [
         "dive",
         "laravel",

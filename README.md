@@ -1,4 +1,4 @@
-# Optimize document heads for robots
+# Zero config document head management
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-fez.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-fez)
 
