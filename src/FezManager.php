@@ -11,7 +11,6 @@ use Dive\Fez\Exceptions\SorryUnknownFeature;
 use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Traits\Conditionable;
 
 /**
  * @method AlternatePage        alternatePage()
@@ -32,8 +31,6 @@ use Illuminate\Support\Traits\Conditionable;
  */
 class FezManager extends Component
 {
-    use Conditionable;
-
     private ?Metable $model = null;
 
     public function __construct(

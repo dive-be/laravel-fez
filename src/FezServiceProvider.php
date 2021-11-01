@@ -22,17 +22,16 @@ class FezServiceProvider extends ServiceProvider
             $this->registerConfig();
             $this->registerMigration();
         }
-
-        $this->registerBladeDirectives();
-        $this->registerMacros();
-        $this->registerMorphMap();
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
 
+        $this->registerBladeDirectives();
+        $this->registerMacros();
         $this->registerManager();
+        $this->registerMorphMap();
     }
 
     private function registerBladeDirectives()
@@ -74,13 +73,18 @@ class FezServiceProvider extends ServiceProvider
         });
 
         $this->app->afterResolving('fez', static function (FezManager $fez, Application $app) {
-            if (is_null($route = $app['router']->current())) {
+            $route = $app['router']->current();
+
+            // A route can be null if none was matched
+            if (is_null($route)) {
                 return;
             }
 
-            $fez->when($metable = $route->metable(),
-                static fn (FezManager $manager) => $manager->for($metable)
-            );
+            $model = $route->metable();
+
+            if (! is_null($model)) {
+                $fez->for($model);
+            }
         });
 
         $this->app->alias('fez', FezManager::class);
