@@ -38,8 +38,6 @@ class SetTitles
 
     private function createFormatter(): Formatter
     {
-        return FormatterFactory::make(
-            $this->fez->config('title'),
-        )->create();
+        return FormatterFactory::make()->create($this->fez->config('title'));
     }
 }

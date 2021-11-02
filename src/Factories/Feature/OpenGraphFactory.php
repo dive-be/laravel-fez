@@ -14,27 +14,26 @@ class OpenGraphFactory
     private RichObjectFactory $factory;
 
     public function __construct(
-        private array $config,
         private string $locale,
         private UrlGenerator $url,
     ) {
         $this->factory = RichObjectFactory::make();
     }
 
-    public function create(): RichObject
+    public function create(array $config): RichObject
     {
-        return $this->factory->create($this->config['type'])
-            ->when($image = $this->config['image'],
+        return $this->factory->create($config['type'])
+            ->when($image = $config['image'],
                 static fn (RichObject $object) => $object->image($image)
-            )->when($description = $this->config['description'],
+            )->when($description = $config['description'],
                 static fn (RichObject $object) => $object->description($description)
-            )->when($siteName = $this->config['site_name'],
+            )->when($siteName = $config['site_name'],
                 static fn (RichObject $object) => $object->siteName($siteName)
-            )->when($this->config['url'],
+            )->when($config['url'],
                 fn (RichObject $object) => $object->url($this->url->current())
-            )->when($locale = $this->config['locale'],
+            )->when($locale = $config['locale'],
                 fn (RichObject $object) => $object->locale($this->locale),
-            )->when($locale && ($alternates = $this->config['alternates']),
+            )->when($locale && ($alternates = $config['alternates']),
                 static fn (RichObject $object) => $object->alternateLocale($alternates),
             );
     }

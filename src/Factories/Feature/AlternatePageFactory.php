@@ -11,12 +11,11 @@ class AlternatePageFactory
     use Makeable;
 
     public function __construct(
-        private array $locales,
         private Request $request,
     ) {}
 
-    public function create(): AlternatePage
+    public function create(array $locales): AlternatePage
     {
-        return AlternatePage::make($this->locales, $this->request);
+        return AlternatePage::make($locales, $this->request);
     }
 }

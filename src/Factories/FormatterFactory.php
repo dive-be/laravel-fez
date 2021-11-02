@@ -11,18 +11,14 @@ class FormatterFactory
 {
     use Makeable;
 
-    public function __construct(
-        private array|string|null $config,
-    ) {}
-
-    public function create(): Formatter
+    public function create(array|string|null $config): Formatter
     {
-        if (is_string($this->config) && class_exists($this->config)) {
-            return new ($this->config)();
+        if (is_string($config) && class_exists($config)) {
+            return new ($config)();
         }
 
-        if (is_array($this->config)) {
-            return DefaultFormatter::make($this->config['suffix'], $this->config['separator']);
+        if (is_array($config)) {
+            return DefaultFormatter::make($config['suffix'], $config['separator']);
         }
 
         return NullFormatter::make();

@@ -11,20 +11,19 @@ class MetaElementsFactory
     use Makeable;
 
     public function __construct(
-        private array $config,
         private UrlGenerator $url,
     ) {}
 
-    public function create(): MetaElements
+    public function create(array $config): MetaElements
     {
         return MetaElements::make()
-            ->when($description = $this->config['description'],
+            ->when($description = $config['description'],
                 static fn (MetaElements $meta) => $meta->description($description)
-            )->when($this->config['canonical'],
+            )->when($config['canonical'],
                 fn (MetaElements $meta) => $meta->canonical($this->url->current())
-            )->when($keywords = $this->config['keywords'],
+            )->when($keywords = $config['keywords'],
                 static fn (MetaElements $meta) => $meta->keywords($keywords)
-            )->when($robots = $this->config['robots'],
+            )->when($robots = $config['robots'],
                 static fn (MetaElements $meta) => $meta->robots($robots)
             );
     }

@@ -47,33 +47,36 @@ class FeatureFactory
     protected function alternatePage(): AlternatePage
     {
         return AlternatePageFactory::make(
-            $this->locales(),
             call_user_func($this->requestResolver),
-        )->create();
+        )->create(
+            $this->locales()
+        );
     }
 
     protected function metaElements(): MetaElements
     {
         return MetaElementsFactory::make(
-            $this->mergeDefaults(Feature::metaElements()),
             call_user_func($this->urlResolver),
-        )->create();
+        )->create(
+            $this->mergeDefaults(Feature::metaElements())
+        );
     }
 
     protected function openGraph(): RichObject
     {
         return OpenGraphFactory::make(
-            $this->mergeDefaults(Feature::openGraph()) + ['alternates' => $this->locales()],
             call_user_func($this->localeResolver),
             call_user_func($this->urlResolver),
-        )->create();
+        )->create(
+            $this->mergeDefaults(Feature::openGraph()) + ['alternates' => $this->locales()]
+        );
     }
 
     protected function twitterCards(): Card
     {
-        return TwitterCardsFactory::make(
-            $this->mergeDefaults(Feature::twitterCards()),
-        )->create();
+        return TwitterCardsFactory::make()->create(
+            $this->mergeDefaults(Feature::twitterCards())
+        );
     }
 
     private function locales(): array

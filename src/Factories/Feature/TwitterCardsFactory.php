@@ -12,20 +12,19 @@ class TwitterCardsFactory
 
     private CardFactory $factory;
 
-    public function __construct(
-        private array $config,
-    ) {
+    public function __construct()
+    {
         $this->factory = CardFactory::make();
     }
 
-    public function create(): Card
+    public function create(array $config): Card
     {
-        return $this->factory->create($this->config['type'])
-            ->when($image = $this->config['image'],
+        return $this->factory->create($config['type'])
+            ->when($image = $config['image'],
                 static fn (Card $card) => $card->image($image),
-            )->when($description = $this->config['description'],
+            )->when($description = $config['description'],
                 static fn (Card $card) => $card->description($description)
-            )->when($site = $this->config['site'],
+            )->when($site = $config['site'],
                 static fn (Card $card) => $card->site($site)
             );
     }
