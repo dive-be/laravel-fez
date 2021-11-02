@@ -6,9 +6,10 @@ use Dive\Fez\Support\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Renderable;
 use JsonSerializable;
 
-abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializable
+abstract class Component implements Arrayable, Htmlable, Jsonable, JsonSerializable, Renderable
 {
     use Makeable;
 
