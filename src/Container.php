@@ -29,6 +29,24 @@ abstract class Container extends Component
         return Arr::get($this->components, $name);
     }
 
+    public function pushMany(array $components): static
+    {
+        foreach ($components as $component) {
+            $this->push($component);
+        }
+
+        return $this;
+    }
+
+    public function push(Component $component): static
+    {
+        if (! empty($component)) {
+            $this->components[] = $component;
+        }
+
+        return $this;
+    }
+
     public function render(): string
     {
         return Collection::make($this->components)
@@ -38,35 +56,17 @@ abstract class Container extends Component
             ->join(PHP_EOL);
     }
 
-    public function toArray(): array
-    {
-        return array_values(array_map(static fn (Component $component) => $component->toArray(), $this->components));
-    }
-
-    protected function pushMany(array $components): static
-    {
-        foreach ($components as $component) {
-            $this->push($component);
-        }
-
-        return $this;
-    }
-
-    protected function push(Component $component): static
-    {
-        if (! empty($component)) {
-            $this->components[] = $component;
-        }
-
-        return $this;
-    }
-
-    protected function set(string $name, Component $component): static
+    public function set(string $name, Component $component): static
     {
         if (! empty($component)) {
             Arr::set($this->components, $name, $component);
         }
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return array_values(array_map(static fn (Component $component) => $component->toArray(), $this->components));
     }
 }
