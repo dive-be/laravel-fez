@@ -39,9 +39,9 @@ return [
         /**
          * Define the default strategy.
          *
-         * Supported values: "relevance", "name" or "null"
+         * Supported values: "name", "null", "relevance", "smart"
          */
-        'strategy' => 'relevance',
+        'strategy' => 'smart',
     ],
 
 

@@ -34,6 +34,11 @@ class RouteConfig implements Arrayable
         $this->strategy = 'relevance';
     }
 
+    public function smart()
+    {
+        $this->strategy = 'smart';
+    }
+
     public function toArray()
     {
         return [

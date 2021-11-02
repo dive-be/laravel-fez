@@ -8,6 +8,7 @@ use Dive\Fez\Finders\BindingFinder;
 use Dive\Fez\Finders\NameFinder;
 use Dive\Fez\Finders\NullFinder;
 use Dive\Fez\Finders\RelevanceFinder;
+use Dive\Fez\Finders\SmartFinder;
 use Dive\Fez\Support\Makeable;
 
 class FinderFactory
@@ -21,6 +22,7 @@ class FinderFactory
             'name' => NameFinder::make(),
             'null' => NullFinder::make(),
             'relevance' => RelevanceFinder::make(),
+            'smart' => SmartFinder::make($this->create('name'), $this->create('relevance')),
             default => throw SorryUnknownFinderStrategy::make($strategy),
         };
     }
