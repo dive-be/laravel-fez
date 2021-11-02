@@ -21,7 +21,7 @@ class AlternatePage extends Component
         }
     }
 
-    public static function urlUsing(Closure $callback): void
+    public static function urlUsing(?Closure $callback)
     {
         self::$urlUsing = $callback;
     }

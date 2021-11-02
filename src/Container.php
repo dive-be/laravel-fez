@@ -6,7 +6,6 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Dive\Fez\Exceptions\SorryBadMethodCall;
-use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use IteratorAggregate;
@@ -29,12 +28,12 @@ abstract class Container extends Component implements ArrayAccess, Countable, It
         return $this->components;
     }
 
-    public function get(string $name): ?Component
+    public function get(int|string $name): ?Component
     {
         return $this->components[$name] ?? null;
     }
 
-    public function has(string $name): bool
+    public function has(int|string $name): bool
     {
         return array_key_exists($name, $this->components);
     }
@@ -55,7 +54,7 @@ abstract class Container extends Component implements ArrayAccess, Countable, It
         return $this;
     }
 
-    public function remove(string $name): static
+    public function remove(int|string $name): static
     {
         unset($this->components[$name]);
 
@@ -132,12 +131,8 @@ abstract class Container extends Component implements ArrayAccess, Countable, It
         return $this->set($name, $arguments[0]);
     }
 
-    public function __get(string $name): Component
+    public function __get(string $name): ?Component
     {
-        if (! $this->has($name)) {
-            throw SorryPropertyNotFound::make(static::class, $name);
-        }
-
         return $this->get($name);
     }
 

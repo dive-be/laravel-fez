@@ -15,27 +15,31 @@ class RouteConfig implements Arrayable
 
     public function binding(string $parameterName)
     {
-        $this->strategy = 'binding';
         $this->attributes = compact('parameterName');
+        $this->strategy = 'binding';
     }
 
     public function name()
     {
+        $this->attributes = [];
         $this->strategy = 'name';
     }
 
     public function none()
     {
+        $this->attributes = [];
         $this->strategy = 'null';
     }
 
     public function relevance()
     {
+        $this->attributes = [];
         $this->strategy = 'relevance';
     }
 
     public function smart()
     {
+        $this->attributes = [];
         $this->strategy = 'smart';
     }
 

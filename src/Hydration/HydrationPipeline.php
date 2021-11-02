@@ -36,10 +36,12 @@ class HydrationPipeline extends Pipeline
 
     public static function run(MetaData $data, ?array $only = null)
     {
-        return tap(App::make(static::class)->send($data), static function (self $pipeline) use ($only) {
-            if (is_array($only)) {
-                $pipeline->through(Arr::only(static::$mapping, $only));
-            }
-        })->thenReturn();
+        $pipeline = App::make(static::class)->send($data);
+
+        if (is_array($only)) {
+            $pipeline->through(Arr::only(static::$mapping, $only));
+        }
+
+        $pipeline->thenReturn();
     }
 }

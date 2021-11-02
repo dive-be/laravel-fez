@@ -19,11 +19,17 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Dive Test Suite">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">tests/Feature</directory>
+        </testsuite>
+
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
     </testsuites>
     <php>
+        <server name="APP_KEY" value="base64:lVpJ4rRn1kh/k/UzoZth646DCSpSyTXzUzhWNc/bm+c=" />
+        <server name="APP_NAME" value="Laravel Fez" />
         <server name="DB_CONNECTION" value="sqlite"/>
         <server name="DB_DATABASE" value=":memory:"/>
     </php>

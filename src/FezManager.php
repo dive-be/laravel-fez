@@ -73,7 +73,7 @@ class FezManager extends Component
     public function flush(): self
     {
         foreach ($this->features as $feature) {
-            $feature?->clear();
+            method_exists($feature, 'clear') && $feature->clear();
         }
 
         return $this;

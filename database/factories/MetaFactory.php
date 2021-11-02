@@ -11,10 +11,27 @@ class MetaFactory extends Factory
 
     public function definition(): array
     {
-        return [
+        return [];
+    }
+
+    public function withDescription(): self
+    {
+        return $this->state([
             'description' => $this->faker->text(255),
+        ]);
+    }
+
+    public function withImage(): self
+    {
+        return $this->state([
             'image' => 'https://picsum.photos/1200/627',
+        ]);
+    }
+
+    public function withTitle(): self
+    {
+        return $this->state([
             'title' => $this->faker->title,
-        ];
+        ]);
     }
 }

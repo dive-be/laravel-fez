@@ -9,13 +9,13 @@ abstract class VisualMedium extends Medium
         return $this->setProperty("{$this->type}:alt", $alt);
     }
 
-    public function height(string $height): static
+    public function height(int $height): static
     {
-        return $this->setProperty("{$this->type}:height", $height);
+        return $this->setProperty("{$this->type}:height", (string) $height);
     }
 
-    public function width(string $width): static
+    public function width(int $width): static
     {
-        return $this->setProperty("{$this->type}:width", $width);
+        return $this->setProperty("{$this->type}:width", (string) $width);
     }
 }

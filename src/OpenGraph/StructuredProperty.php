@@ -28,7 +28,7 @@ abstract class StructuredProperty extends Container
     {
         return [
             'properties' => parent::toArray(),
-            'type' => (string) Str::of(static::class)->classBasename()->lower(),
+            'type' => $this->type,
         ];
     }
 }

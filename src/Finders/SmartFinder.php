@@ -11,18 +11,13 @@ class SmartFinder implements Finder
 {
     use Makeable;
 
-    public function __construct(
-        private NameFinder $name,
-        private RelevanceFinder $relevance,
-    ) {}
-
     public function find(Route $route): ?Metable
     {
         if ($this->isProbablyDetail($route->uri())) {
-            return $this->relevance->find($route);
+            return RelevanceFinder::make()->find($route);
         }
 
-        return $this->name->find($route);
+        return NameFinder::make()->find($route);
     }
 
     private function isProbablyDetail(string $uri): bool

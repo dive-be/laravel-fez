@@ -23,7 +23,9 @@ class Feature
 
     public static function enabled(): array
     {
-        return array_intersect(array_unique(Config::get('fez.features')), static::all());
+        return array_values(
+            array_intersect(array_unique(Config::get('fez.features')), static::all())
+        );
     }
 
     public static function metaElements(): string

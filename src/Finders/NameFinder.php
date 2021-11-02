@@ -15,7 +15,7 @@ class NameFinder implements Finder
 
     private static ?Closure $transformer = null;
 
-    public static function transformNameUsing(Closure $callback)
+    public static function transformNameUsing(?Closure $callback)
     {
         static::$transformer = $callback;
     }
