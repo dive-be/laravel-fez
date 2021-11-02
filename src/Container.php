@@ -2,11 +2,16 @@
 
 namespace Dive\Fez;
 
-use Illuminate\Support\Arr;
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use Dive\Fez\Exceptions\SorryBadMethodCall;
+use Dive\Fez\Exceptions\SorryPropertyNotFound;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
+use IteratorAggregate;
 
-abstract class Container extends Component
+abstract class Container extends Component implements ArrayAccess, Countable, IteratorAggregate
 {
     use Conditionable;
 
@@ -24,9 +29,14 @@ abstract class Container extends Component
         return $this->components;
     }
 
-    public function get(string $name)
+    public function get(string $name): ?Component
     {
-        return Arr::get($this->components, $name);
+        return $this->components[$name] ?? null;
+    }
+
+    public function has(string $name): bool
+    {
+        return array_key_exists($name, $this->components);
     }
 
     public function pushMany(array $components): static
@@ -40,9 +50,14 @@ abstract class Container extends Component
 
     public function push(Component $component): static
     {
-        if (! empty($component)) {
-            $this->components[] = $component;
-        }
+        $this->components[] = $component;
+
+        return $this;
+    }
+
+    public function remove(string $name): static
+    {
+        unset($this->components[$name]);
 
         return $this;
     }
@@ -58,15 +73,76 @@ abstract class Container extends Component
 
     public function set(string $name, Component $component): static
     {
-        if (! empty($component)) {
-            Arr::set($this->components, $name, $component);
-        }
+        $this->components[$name] = $component;
 
         return $this;
     }
 
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->components);
+    }
+
+    public function count(): int
+    {
+        return count($this->components);
+    }
+
     public function toArray(): array
     {
-        return array_values(array_map(static fn (Component $component) => $component->toArray(), $this->components));
+        return array_values(
+            array_map(static fn (Component $component) => $component->toArray(), $this->components)
+        );
+    }
+
+    public function offsetExists($offset): bool
+    {
+        return $this->has($offset);
+    }
+
+    public function offsetGet($offset): ?Component
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->remove($offset);
+    }
+
+    public function __call(string $name, array $arguments): Component|static
+    {
+        if (! count($arguments)) {
+            if (! $this->has($name)) {
+                throw SorryBadMethodCall::make(static::class, $name);
+            }
+
+            return $this->get($name);
+        }
+
+        if (count($arguments) > 1) {
+            throw SorryBadMethodCall::make(static::class, $name);
+        }
+
+        return $this->set($name, $arguments[0]);
+    }
+
+    public function __get(string $name): Component
+    {
+        if (! $this->has($name)) {
+            throw SorryPropertyNotFound::make(static::class, $name);
+        }
+
+        return $this->get($name);
+    }
+
+    public function __set(string $name, $value)
+    {
+        $this->set($name, $value);
     }
 }
