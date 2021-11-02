@@ -26,6 +26,11 @@ class AlternatePage extends Component
         self::$urlUsing = $callback;
     }
 
+    public function locales(): array
+    {
+        return $this->locales;
+    }
+
     public function render(): string
     {
         return Collection::make($this->toArray())

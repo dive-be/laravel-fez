@@ -10,6 +10,11 @@ class Title extends Component
         private string $value,
     ) {}
 
+    public function value(): string
+    {
+        return $this->value;
+    }
+
     public function render(): string
     {
         return "<title>{$this->value}</title>";

@@ -11,6 +11,16 @@ class Element extends Component
         private string $content,
     ) {}
 
+    public function content(): string
+    {
+        return $this->content;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
     public function render(): string
     {
         return <<<HTML

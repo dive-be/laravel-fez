@@ -10,6 +10,11 @@ class Canonical extends Component
         private string $url,
     ) {}
 
+    public function url(): string
+    {
+        return $this->url;
+    }
+
     public function render(): string
     {
         return <<<HTML
