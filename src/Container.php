@@ -12,16 +12,16 @@ abstract class Container extends Component
 
     protected array $components = [];
 
-    public function components(): array
-    {
-        return $this->components;
-    }
-
-    public function flush(): static
+    public function clear(): static
     {
         $this->components = [];
 
         return $this;
+    }
+
+    public function components(): array
+    {
+        return $this->components;
     }
 
     public function get(string $name)
