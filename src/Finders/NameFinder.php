@@ -5,8 +5,8 @@ namespace Dive\Fez\Finders;
 use Closure;
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Models\Route as Model;
 use Dive\Fez\Support\Makeable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Route;
 
 class NameFinder implements Finder
@@ -20,6 +20,10 @@ class NameFinder implements Finder
         static::$transformer = $callback;
     }
 
+    public function __construct(
+        private Builder $query,
+    ) {}
+
     public function find(Route $route): ?Metable
     {
         $name = $route->getName();
@@ -30,6 +34,6 @@ class NameFinder implements Finder
             $name = call_user_func(static::$transformer, $name);
         }
 
-        return Model::query()->where(compact('name'))->first();
+        return $this->query->where('name', $name)->first();
     }
 }

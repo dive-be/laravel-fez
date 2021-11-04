@@ -19,10 +19,10 @@ class FinderFactory
     {
         return match ($strategy) {
             'binding' => BindingFinder::make(...$attributes),
-            'name' => NameFinder::make(),
+            'name' => NameFinder::make(call_user_func([$attributes['model'], 'query'])),
             'null' => NullFinder::make(),
             'relevance' => RelevanceFinder::make(),
-            'smart' => SmartFinder::make($this->create('name'), $this->create('relevance')),
+            'smart' => SmartFinder::make($this, $attributes),
             default => throw SorryUnknownFinderStrategy::make($strategy),
         };
     }

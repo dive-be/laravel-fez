@@ -9,12 +9,13 @@ use Dive\Fez\Finders\NameFinder;
 use Dive\Fez\Finders\NullFinder;
 use Dive\Fez\Finders\RelevanceFinder;
 use Dive\Fez\Finders\SmartFinder;
+use Tests\Fakes\Models\Post;
 
 it('creates the correct finder for the given strategy', function (string $strategy, string $class, array $args = []) {
    expect(FinderFactory::make()->create($strategy, $args))->toBeInstanceOf($class);
 })->with([
     ['binding', BindingFinder::class, ['parameterName' => 'post']],
-    ['name', NameFinder::class],
+    ['name', NameFinder::class, ['model' => Post::class]],
     ['null', NullFinder::class],
     ['relevance', RelevanceFinder::class],
     ['smart', SmartFinder::class],

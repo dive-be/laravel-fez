@@ -4,6 +4,7 @@ namespace Dive\Fez;
 
 use Dive\Fez\Support\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\Config;
 
 class RouteConfig implements Arrayable
 {
@@ -13,6 +14,13 @@ class RouteConfig implements Arrayable
 
     private ?string $strategy = 'null';
 
+    public static function default(): self
+    {
+        $method = Config::get('fez.finder.strategy');
+
+        return tap(static::make())->{$method}();
+    }
+
     public function binding(string $parameterName)
     {
         $this->attributes = compact('parameterName');
@@ -21,11 +29,16 @@ class RouteConfig implements Arrayable
 
     public function name()
     {
-        $this->attributes = [];
+        $this->attributes = ['model' => Config::get('fez.models.route')];
         $this->strategy = 'name';
     }
 
     public function none()
+    {
+        $this->null();
+    }
+
+    public function null()
     {
         $this->attributes = [];
         $this->strategy = 'null';
@@ -39,7 +52,8 @@ class RouteConfig implements Arrayable
 
     public function smart()
     {
-        $this->attributes = [];
+        $this->name();
+
         $this->strategy = 'smart';
     }
 

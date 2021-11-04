@@ -12,7 +12,9 @@ it('can find a metable route (model) using a route name', function () {
     $route = createLaravelRoute('posts', name: 'en.posts.index');
     $model = RouteFactory::new()->create(['name' => 'posts.index']);
 
-    $metable = NameFinder::make()->find($route);
+    $metable = NameFinder::make(
+        $model->newQuery(),
+    )->find($route);
 
     expect($model->is($metable))->toBeTrue();
 
