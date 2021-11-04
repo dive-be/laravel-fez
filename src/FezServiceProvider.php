@@ -72,6 +72,12 @@ class FezServiceProvider extends ServiceProvider
             );
         });
 
+        $this->app->alias('fez', FezManager::class);
+
+        if ($this->app['config']['fez.finder.disabled']) {
+            return;
+        }
+
         $this->app->afterResolving('fez', static function (FezManager $fez, Application $app) {
             $route = $app['router']->current();
 
@@ -86,8 +92,6 @@ class FezServiceProvider extends ServiceProvider
                 $fez->for($model);
             }
         });
-
-        $this->app->alias('fez', FezManager::class);
     }
 
     private function registerMacros()

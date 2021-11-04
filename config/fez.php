@@ -37,6 +37,11 @@ return [
     'finder' => [
 
         /**
+         * You may toggle this behavior using a flag. Disabling is strongly discouraged, however.
+         */
+        'disabled' => false,
+
+        /**
          * Define the default strategy.
          *
          * Supported values: "name", "null", "relevance", "smart"
