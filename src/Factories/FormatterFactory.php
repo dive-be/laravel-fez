@@ -6,6 +6,7 @@ use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Formatters\DefaultFormatter;
 use Dive\Fez\Formatters\NullFormatter;
 use Dive\Fez\Support\Makeable;
+use Illuminate\Container\Container;
 
 class FormatterFactory
 {
@@ -14,7 +15,7 @@ class FormatterFactory
     public function create(array|string|null $config): Formatter
     {
         if (is_string($config) && class_exists($config)) {
-            return new ($config)();
+            return Container::getInstance()->make($config);
         }
 
         if (is_array($config)) {
