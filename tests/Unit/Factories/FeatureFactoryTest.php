@@ -44,7 +44,7 @@ it('can create an open graph component', function () {
         ->toBeInstanceOf(Website::class)
         ->image->toBeNull()
         ->description->toBeNull()
-        ->site_name->toBeNull()
+        ->site_name->content()->toBe('Laravel Fez')
         ->url->content()->toBe('https://dive.be')
         ->locale->content()->toBe('tr');
 });

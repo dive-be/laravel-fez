@@ -8,7 +8,7 @@ use Dive\Fez\Hydration\AssignMetaProperties;
 use Dive\Fez\MetaElements;
 
 test('assign meta properties task', function () {
-    $fez = createFez(features: [Feature::metaElements() => MetaElements::make()]);
+    $fez = createFez([Feature::metaElements() => MetaElements::make()]);
     $task = new AssignMetaProperties($fez);
     $elements = MetaElements::make()
         ->keywords('rick, roll')

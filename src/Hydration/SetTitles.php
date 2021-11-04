@@ -8,10 +8,12 @@ use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\FezManager;
+use Illuminate\Contracts\Config\Repository;
 
 class SetTitles
 {
     public function __construct(
+        private Repository $config,
         private FezManager $fez,
     ) {}
 
@@ -38,6 +40,6 @@ class SetTitles
 
     private function createFormatter(): Formatter
     {
-        return FormatterFactory::make()->create($this->fez->config('title'));
+        return FormatterFactory::make()->create($this->config->get('fez.title'));
     }
 }

@@ -34,7 +34,6 @@ class FezManager extends Component
     private ?Metable $model = null;
 
     public function __construct(
-        private array $config,
         private array $features,
     ) {
         if (empty($this->features)) {
@@ -51,11 +50,6 @@ class FezManager extends Component
         $this->features[$name] = $feature;
 
         return $this;
-    }
-
-    public function config(string $key): array|bool|string|null
-    {
-        return Arr::get($this->config, $key);
     }
 
     public function except(...$features): self

@@ -9,7 +9,7 @@ use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\OpenGraph\Properties\Audio;
 
 test('assign open graph properties task', function () {
-    $fez = createFez(features: [Feature::openGraph() => Website::make()]);
+    $fez = createFez([Feature::openGraph() => Website::make()]);
     $task = new AssignOpenGraphProperties($fez);
     $object = Website::make()
         ->title('Rick Astley')

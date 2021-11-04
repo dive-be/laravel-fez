@@ -12,7 +12,7 @@ use Tests\Fakes\Models\Post;
 use function Pest\Laravel\swap;
 
 beforeEach(function () {
-    $this->fez = createFez(['key' => 'value']);
+    $this->fez = createFez();
 });
 
 it('can assign / override an existing feature', function () {
@@ -21,11 +21,6 @@ it('can assign / override an existing feature', function () {
     $this->fez->assign('rick', RickRollContainer::make());
 
     expect($this->fez->get('rick'))->not->toBe($rick);
-});
-
-it('can retrieve values from the config', function () {
-    expect($this->fez->config('key'))->toBe('value');
-    expect($this->fez->config('gibberish'))->toBeNull();
 });
 
 it('can clone itself with(out) the given features', function () {

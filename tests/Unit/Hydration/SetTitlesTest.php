@@ -4,10 +4,16 @@ namespace Tests\Unit\Hydration;
 
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Hydration\SetTitles;
+use Illuminate\Contracts\Config\Repository;
+use Mockery;
 use Tests\Fakes\RickRollFormatter;
 
 test('set title task', function () {
-    $task = new SetTitles($fez = createFez(['title' => RickRollFormatter::class]));
+    $task = new SetTitles($config = Mockery::mock(Repository::class), $fez = createFez());
+    $config->shouldReceive('get')
+        ->once()
+        ->with('fez.title')
+        ->andReturn(RickRollFormatter::class);
 
     expect($fez->roll->title)->toBeNull();
 

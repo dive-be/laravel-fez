@@ -8,7 +8,7 @@ use Dive\Fez\Hydration\AssignTwitterProperties;
 use Dive\Fez\TwitterCards\Cards\Summary;
 
 test('assign twitter properties task', function () {
-    $fez = createFez(features: [Feature::twitterCards() => Summary::make()]);
+    $fez = createFez([Feature::twitterCards() => Summary::make()]);
     $task = new AssignTwitterProperties($fez);
     $card = Summary::make()
         ->title('Rick Astley')

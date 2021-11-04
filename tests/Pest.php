@@ -26,9 +26,9 @@ function createLaravelRoute(string $uri, array $parameters = [], string $name = 
     return $route;
 }
 
-function createFez(array $config = [], ?array $features = null): FezManager
+function createFez(?array $features = null): FezManager
 {
-    return FezManager::make($config,
+    return FezManager::make(
         $features ?? ['rick' => RickRollComponent::make(), 'roll' => RickRollContainer::make()]
     );
 }
