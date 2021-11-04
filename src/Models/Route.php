@@ -17,6 +17,8 @@ class Route extends Model implements Metable
     use HasFactory;
     use HasMetaData;
 
+    protected $table = 'routes';
+
     protected $guarded = ['id'];
 
     protected static function newFactory(): RouteFactory
