@@ -15,13 +15,13 @@ trait HasMetaData
 {
     public function gatherMetaData(): MetaData
     {
-        $defaults = Arr::only(array_filter($this->metaDefaults()), ['description', 'image', 'title']);
+        $defaults = Arr::only(array_filter($this->metaDefaults(), 'filled'), ['description', 'image', 'title']);
 
         if (is_null($relation = $this->meta()->getResults())) {
             return MetaData::make(...$defaults);
         }
 
-        $relation = array_filter($relation->toArray());
+        $relation = array_filter($relation->toArray(), 'filled');
 
         if (empty($defaults)) {
             return MetaData::make(...$relation);
