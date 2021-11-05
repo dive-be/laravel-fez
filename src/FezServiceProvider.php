@@ -36,7 +36,7 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives()
     {
-        $this->app->afterResolving('blade.compiler', static function (BladeCompiler $blade) {
+        $this->callAfterResolving('blade.compiler', static function (BladeCompiler $blade) {
             $blade->directive('fez',
                 static fn ($args) => '<?php echo e(fez()' . (empty($args) ? '' : "->only({$args})") . ') . PHP_EOL ?>'
             );
