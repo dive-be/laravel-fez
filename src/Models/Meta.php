@@ -28,20 +28,23 @@ class Meta extends Model
 
     protected $guarded = ['id'];
 
-    protected $visible = [
-        'description',
-        'elements',
-        'image',
-        'open_graph',
-        'title',
-        'twitter',
-    ];
-
     protected $table = 'meta';
 
     protected static function newFactory(): MetaFactory
     {
         return MetaFactory::new();
+    }
+
+    public function data(): array
+    {
+        return $this->only([
+            'description',
+            'elements',
+            'image',
+            'open_graph',
+            'title',
+            'twitter',
+        ]);
     }
 
     public function metable(): MorphTo

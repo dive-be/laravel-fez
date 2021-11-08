@@ -25,10 +25,10 @@ it('defines a singular table name', function () {
     )->toBe('meta');
 });
 
-it('defines visibility', function () {
+it('defines a data getter', function () {
     expect(
-        $this->model->getVisible()
-    )->toMatchArray([
+        $this->model->data()
+    )->toHaveKeys([
         'description',
         'elements',
         'image',
