@@ -24,6 +24,7 @@ class Meta extends Model
 
     protected $casts = [
         'elements' => 'array',
+        'id' => 'integer',
         'open_graph' => 'array',
         'twitter' => 'array',
     ];

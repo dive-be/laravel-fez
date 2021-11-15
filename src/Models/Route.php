@@ -15,9 +15,13 @@ class Route extends Model implements Metable
     use HasMetaData;
     use Prunable;
 
-    protected $table = 'routes';
+    protected $casts = [
+        'id' => 'integer',
+    ];
 
     protected $guarded = ['id'];
+
+    protected $table = 'routes';
 
     public $timestamps = false;
 

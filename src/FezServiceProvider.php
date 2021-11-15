@@ -3,6 +3,9 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
+use Dive\Fez\Commands\PruneRoutesCommand;
+use Dive\Fez\Commands\SeedRoutesCommand;
+use Dive\Fez\Commands\SyncRoutesCommand;
 use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Macros\MetableFinder;
 use Dive\Fez\Macros\PropertySetter;
@@ -47,6 +50,9 @@ class FezServiceProvider extends ServiceProvider
     {
         $this->commands([
             InstallPackageCommand::class,
+            PruneRoutesCommand::class,
+            SeedRoutesCommand::class,
+            SyncRoutesCommand::class,
         ]);
     }
 
