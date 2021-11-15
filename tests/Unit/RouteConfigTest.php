@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use Dive\Fez\Models\Route;
 use Dive\Fez\RouteConfig;
 
 it('can configure various strategies', function () {
@@ -13,15 +12,6 @@ it('can configure various strategies', function () {
     )->toMatchArray([
         'attributes' => [],
         'strategy' => 'relevance',
-    ]);
-
-    expect(
-        tap($config)->smart()->toArray()
-    )->toMatchArray([
-        'attributes' => [
-            'model' => Route::class,
-        ],
-        'strategy' => 'smart',
     ]);
 
     expect(
@@ -38,14 +28,5 @@ it('can configure various strategies', function () {
     )->toMatchArray([
         'attributes' => [],
         'strategy' => 'null',
-    ]);
-
-    expect(
-        tap($config)->name()->toArray()
-    )->toMatchArray([
-        'attributes' => [
-            'model' => Route::class,
-        ],
-        'strategy' => 'name',
     ]);
 });

@@ -27,12 +27,6 @@ class RouteConfig implements Arrayable
         $this->strategy = 'binding';
     }
 
-    public function name()
-    {
-        $this->attributes = ['model' => Config::get('fez.models.route')];
-        $this->strategy = 'name';
-    }
-
     public function none()
     {
         $this->null();
@@ -48,13 +42,6 @@ class RouteConfig implements Arrayable
     {
         $this->attributes = [];
         $this->strategy = 'relevance';
-    }
-
-    public function smart()
-    {
-        $this->name();
-
-        $this->strategy = 'smart';
     }
 
     public function toArray()
