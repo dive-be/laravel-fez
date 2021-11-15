@@ -11,9 +11,6 @@ class RouteFactory extends Factory
 
     public function definition(): array
     {
-        return [
-            'description' => $this->faker->text(255),
-            'name' => $this->faker->unique()->word,
-        ];
+        return [];
     }
 }

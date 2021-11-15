@@ -8,10 +8,6 @@ use Dive\Fez\Models\Concerns\HasMetaData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property string|null $description
- * @property string      $name
- */
 class Route extends Model implements Metable
 {
     use HasFactory;
@@ -20,6 +16,8 @@ class Route extends Model implements Metable
     protected $table = 'routes';
 
     protected $guarded = ['id'];
+
+    public $timestamps = false;
 
     protected static function newFactory(): RouteFactory
     {
