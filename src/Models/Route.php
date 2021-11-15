@@ -7,11 +7,13 @@ use Dive\Fez\Database\Factories\RouteFactory;
 use Dive\Fez\Models\Concerns\HasMetaData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 
 class Route extends Model implements Metable
 {
     use HasFactory;
     use HasMetaData;
+    use Prunable;
 
     protected $table = 'routes';
 
@@ -22,5 +24,10 @@ class Route extends Model implements Metable
     protected static function newFactory(): RouteFactory
     {
         return RouteFactory::new();
+    }
+
+    protected function pruning()
+    {
+        $this->meta?->prune();
     }
 }

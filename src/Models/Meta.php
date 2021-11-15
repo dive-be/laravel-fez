@@ -5,6 +5,7 @@ namespace Dive\Fez\Models;
 use Dive\Fez\Database\Factories\MetaFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Meta extends Model
 {
     use HasFactory;
+    use Prunable;
 
     protected $casts = [
         'elements' => 'array',
