@@ -5,6 +5,7 @@ namespace Tests\Unit\Factories;
 use Dive\Fez\Exceptions\SorryUnknownFinderStrategy;
 use Dive\Fez\Factories\FinderFactory;
 use Dive\Fez\Finders\BindingFinder;
+use Dive\Fez\Finders\IDFinder;
 use Dive\Fez\Finders\NullFinder;
 use Dive\Fez\Finders\RelevanceFinder;
 
@@ -12,6 +13,7 @@ it('creates the correct finder for the given strategy', function (string $strate
    expect(FinderFactory::make()->create($strategy, $args))->toBeInstanceOf($class);
 })->with([
     ['binding', BindingFinder::class, ['parameterName' => 'post']],
+    ['id', IDFinder::class],
     ['null', NullFinder::class],
     ['relevance', RelevanceFinder::class],
 ]);

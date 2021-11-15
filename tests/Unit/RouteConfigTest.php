@@ -29,4 +29,11 @@ it('can configure various strategies', function () {
         'attributes' => [],
         'strategy' => 'null',
     ]);
+
+    expect(
+        tap($config)->id(5)->toArray()
+    )->toMatchArray([
+        'attributes' => ['model' => 5],
+        'strategy' => 'id',
+    ]);
 });

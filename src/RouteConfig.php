@@ -27,6 +27,12 @@ class RouteConfig implements Arrayable
         $this->strategy = 'binding';
     }
 
+    public function id(int $model)
+    {
+        $this->attributes = compact('model');
+        $this->strategy = 'id';
+    }
+
     public function none()
     {
         $this->null();

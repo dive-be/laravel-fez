@@ -9,7 +9,7 @@ beforeEach(function () {
     RouteConfigurator::register();
 });
 
-it('accepts a closure/string/null to customize the config', function () {
+it('accepts a closure/string/bool to customize the config', function () {
     $route = createLaravelRoute('posts/{post}');
 
     $route->fez(fn (RouteConfig $config) => $config->binding('post'));
@@ -32,7 +32,7 @@ it('accepts a closure/string/null to customize the config', function () {
         ],
     ]);
 
-    $route->fez(null);
+    $route->fez(false);
 
     expect($route->defaults)->toMatchArray([
         'fez' => [
