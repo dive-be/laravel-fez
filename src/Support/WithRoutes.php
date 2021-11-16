@@ -9,22 +9,21 @@ use Illuminate\Support\Facades\Route;
 
 trait WithRoutes
 {
-    protected function getRouteIds(): Collection
+    protected static function getRouteIds(): Collection
     {
-        return $this
-            ->getRoutes()
+        return static::getRoutes()
             ->map(static fn ($route) => $route->defaults['fez']['attributes']['model'])
             ->unique();
     }
 
-    protected function getRoutes(): Collection
+    protected static function getRoutes(): Collection
     {
         return Collection::make(Route::getRoutes())
             ->filter(static fn ($route) => array_key_exists('fez', $route->defaults))
             ->filter(static fn ($route) => $route->defaults['fez']['strategy'] === 'id');
     }
 
-    protected function newQuery(): Builder
+    protected static function newQuery(): Builder
     {
         return call_user_func([Config::get('fez.models.route'), 'query']);
     }
