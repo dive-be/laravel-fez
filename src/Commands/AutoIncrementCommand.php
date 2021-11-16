@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Commands;
 
-use Dive\Fez\Commands\Concerns\WithRoutes;
+use Dive\Fez\Support\WithRoutes;
 use Illuminate\Console\Command;
 
 class AutoIncrementCommand extends Command

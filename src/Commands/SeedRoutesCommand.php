@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Commands;
 
-use Dive\Fez\Commands\Concerns\WithRoutes;
+use Dive\Fez\Support\WithRoutes;
 use Illuminate\Console\Command;
 
 class SeedRoutesCommand extends Command
@@ -15,7 +15,7 @@ class SeedRoutesCommand extends Command
 
     public function handle(): int
     {
-        $routes = $this->getRoutes();
+        $routes = $this->getRouteIds();
 
         if ($routes->isEmpty()) {
             $this->error('🤚  There are no routes that should be seeded.');

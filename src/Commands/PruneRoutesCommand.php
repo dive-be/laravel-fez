@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Commands;
 
-use Dive\Fez\Commands\Concerns\WithRoutes;
+use Dive\Fez\Support\WithRoutes;
 use Illuminate\Console\Command;
 
 class PruneRoutesCommand extends Command
@@ -17,7 +17,7 @@ class PruneRoutesCommand extends Command
     {
         $routes = $this
             ->newQuery()
-            ->whereNotIn('id', $this->getRoutes())
+            ->whereNotIn('id', $this->getRouteIds())
             ->get();
 
         if ($routes->isEmpty()) {
