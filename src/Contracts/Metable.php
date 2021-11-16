@@ -9,5 +9,9 @@ interface Metable
 {
     public function gatherMetaData(): MetaData;
 
+    public function getKey();
+
+    public function getMorphClass();
+
     public function meta(): MorphOne;
 }
