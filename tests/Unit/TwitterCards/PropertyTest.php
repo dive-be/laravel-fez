@@ -4,13 +4,9 @@ namespace Tests\Unit\TwitterCards;
 
 use Dive\Fez\TwitterCards\Property;
 
-beforeEach(function () {
-    $this->prop = Property::make('dive', 'interactive');
-});
-
 it('is arrayable', function () {
     expect(
-        $this->prop->toArray()
+        Property::make('dive', 'interactive')->toArray()
     )->toMatchArray([
         'attributes' => [
             'content' => 'interactive',
@@ -22,8 +18,8 @@ it('is arrayable', function () {
 
 it('is renderable', function () {
     expect(
-        $this->prop->render()
+        Property::make('<script>dive</script>', '<script>interactive</script>')->render()
     )->toBe(
-        '<meta name="twitter:dive" content="interactive" />'
+        '<meta name="twitter:&lt;script&gt;dive&lt;/script&gt;" content="&lt;script&gt;interactive&lt;/script&gt;" />'
     );
 });

@@ -23,8 +23,11 @@ class Element extends Component
 
     public function render(): string
     {
+        $content = e($this->content);
+        $name = e($this->name);
+
         return <<<HTML
-<meta name="{$this->name}" content="{$this->content}" />
+<meta name="{$name}" content="{$content}" />
 HTML;
     }
 

@@ -34,7 +34,7 @@ class AlternatePage extends Component
     public function render(): string
     {
         return Collection::make($this->toArray())
-            ->map(fn (string $href, string $lang) => $this->tag($href, $lang))
+            ->map(fn (string $href, string $lang) => $this->tag(e($href), e($lang)))
             ->join(PHP_EOL);
     }
 

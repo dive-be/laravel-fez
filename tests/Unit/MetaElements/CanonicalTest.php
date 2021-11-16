@@ -4,21 +4,17 @@ namespace Tests\Unit\MetaElements;
 
 use Dive\Fez\MetaElements\Canonical;
 
-beforeEach(function () {
-    $this->el = Canonical::make('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-});
-
 it('is renderable', function () {
     expect(
-        $this->el->render()
+        Canonical::make('<script>Edgy Content</script>')->render()
     )->toBe(
-        '<link rel="canonical" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />'
+        '<link rel="canonical" href="&lt;script&gt;Edgy Content&lt;/script&gt;" />'
     );
 });
 
 it('is arrayable', function () {
     expect(
-        $this->el->toArray()
+        Canonical::make('https://www.youtube.com/watch?v=dQw4w9WgXcQ')->toArray()
     )->toMatchArray([
         'attributes' => [
             'url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',

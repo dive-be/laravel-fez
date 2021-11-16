@@ -17,7 +17,9 @@ class Title extends Component
 
     public function render(): string
     {
-        return "<title>{$this->value}</title>";
+        $value = e($this->value);
+
+        return "<title>{$value}</title>";
     }
 
     public function toArray(): array

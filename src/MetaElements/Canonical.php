@@ -17,8 +17,10 @@ class Canonical extends Component
 
     public function render(): string
     {
+        $url = e($this->url);
+
         return <<<HTML
-<link rel="canonical" href="{$this->url}" />
+<link rel="canonical" href="{$url}" />
 HTML;
     }
 

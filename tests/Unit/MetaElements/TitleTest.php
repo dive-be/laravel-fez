@@ -4,21 +4,17 @@ namespace Tests\Unit\MetaElements;
 
 use Dive\Fez\MetaElements\Title;
 
-beforeEach(function () {
-    $this->el = Title::make('Never Gonna Give You Up');
-});
-
 it('is renderable', function () {
     expect(
-        $this->el->render()
+        Title::make('<script>Never Gonna Give You Up</script>')->render()
     )->toBe(
-        '<title>Never Gonna Give You Up</title>'
+        '<title>&lt;script&gt;Never Gonna Give You Up&lt;/script&gt;</title>'
     );
 });
 
 it('is arrayable', function () {
     expect(
-        $this->el->toArray()
+        Title::make('Never Gonna Give You Up')->toArray()
     )->toMatchArray([
         'attributes' => [
             'value' => 'Never Gonna Give You Up',

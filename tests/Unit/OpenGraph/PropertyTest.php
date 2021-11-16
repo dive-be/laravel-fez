@@ -4,13 +4,9 @@ namespace Tests\Unit\OpenGraph;
 
 use Dive\Fez\OpenGraph\Property;
 
-beforeEach(function () {
-    $this->prop = Property::make('dive', 'interactive');
-});
-
 it('is arrayable', function () {
     expect(
-        $this->prop->toArray()
+        Property::make('dive', 'interactive')->toArray()
     )->toMatchArray([
         'attributes' => [
             'content' => 'interactive',
@@ -22,8 +18,8 @@ it('is arrayable', function () {
 
 it('is renderable', function () {
     expect(
-        $this->prop->render()
+        Property::make('<script>dive</script>', '<script>interactive</script>')->render()
     )->toBe(
-        '<meta property="og:dive" content="interactive" />'
+        '<meta property="og:&lt;script&gt;dive&lt;/script&gt;" content="&lt;script&gt;interactive&lt;/script&gt;" />'
     );
 });

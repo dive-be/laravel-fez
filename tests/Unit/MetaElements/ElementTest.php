@@ -4,21 +4,17 @@ namespace Tests\Unit\MetaElements;
 
 use Dive\Fez\MetaElements\Element;
 
-beforeEach(function () {
-    $this->el = Element::make('dive', 'interactive');
-});
-
 it('is renderable', function () {
     expect(
-        $this->el->render()
+        Element::make('<script>dive</script>', '<script>interactive</script>')->render()
     )->toBe(
-        '<meta name="dive" content="interactive" />'
+        '<meta name="&lt;script&gt;dive&lt;/script&gt;" content="&lt;script&gt;interactive&lt;/script&gt;" />'
     );
 });
 
 it('is arrayable', function () {
     expect(
-        $this->el->toArray()
+        Element::make('dive', 'interactive')->toArray()
     )->toMatchArray([
         'attributes' => [
             'content' => 'interactive',

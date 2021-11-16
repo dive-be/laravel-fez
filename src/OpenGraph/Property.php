@@ -23,8 +23,11 @@ class Property extends Component
 
     public function render(): string
     {
+        $content = e($this->content);
+        $name = e($this->name);
+
         return <<<HTML
-<meta property="og:{$this->name}" content="{$this->content}" />
+<meta property="og:{$name}" content="{$content}" />
 HTML;
     }
 

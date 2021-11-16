@@ -18,8 +18,11 @@ class Property extends Component
 
     public function render(): string
     {
+        $content = e($this->content);
+        $name = e($this->name);
+
         return <<<HTML
-<meta name="twitter:{$this->name}" content="{$this->content}" />
+<meta name="twitter:{$name}" content="{$content}" />
 HTML;
     }
 
