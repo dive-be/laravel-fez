@@ -10,7 +10,6 @@ use Dive\Fez\FezManager;
 use Dive\Fez\RouteConfig;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Arr;
 
 class HydrateFromParameters
 {
@@ -34,6 +33,8 @@ class HydrateFromParameters
             $this->fez->for($metable);
         }
 
+        $route->forgetParameter('fez');
+
         return $next($request);
     }
 
@@ -44,6 +45,6 @@ class HydrateFromParameters
 
     private function getStrategy(Route $route): array
     {
-        return Arr::pull($route->defaults, 'fez') ?? RouteConfig::default()->toArray();
+        return $route->defaults['fez'] ?? RouteConfig::default()->toArray();
     }
 }
