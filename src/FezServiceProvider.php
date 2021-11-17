@@ -8,11 +8,12 @@ use Dive\Fez\Commands\PruneRoutesCommand;
 use Dive\Fez\Commands\SeedRoutesCommand;
 use Dive\Fez\Commands\SyncRoutesCommand;
 use Dive\Fez\Factories\FeatureFactory;
-use Dive\Fez\Macros\MetableFinder;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
+use Dive\Fez\Middleware\HydrateFromParameters;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -35,6 +36,7 @@ class FezServiceProvider extends ServiceProvider
         $this->registerBladeDirectives();
         $this->registerMacros();
         $this->registerManager();
+        $this->registerMiddleware();
         $this->registerMorphMap();
     }
 
@@ -67,6 +69,12 @@ class FezServiceProvider extends ServiceProvider
         ], 'config');
     }
 
+    private function registerMacros()
+    {
+        PropertySetter::register();
+        RouteConfigurator::register();
+    }
+
     private function registerManager()
     {
         $this->app->singleton('fez', static function (Application $app) {
@@ -81,32 +89,13 @@ class FezServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('fez', FezManager::class);
-
-        if ($this->app['config']['fez.finder.disabled']) {
-            return;
-        }
-
-        $this->app->afterResolving('fez', static function (FezManager $fez, Application $app) {
-            $route = $app['router']->current();
-
-            // A route can be null if none was matched
-            if (is_null($route)) {
-                return;
-            }
-
-            $model = $route->metable();
-
-            if (! is_null($model)) {
-                $fez->for($model);
-            }
-        });
     }
 
-    private function registerMacros()
+    private function registerMiddleware()
     {
-        MetableFinder::register();
-        PropertySetter::register();
-        RouteConfigurator::register();
+        $this->callAfterResolving('router', static function (Router $router) {
+            $router->aliasMiddleware('fez', HydrateFromParameters::class);
+        });
     }
 
     private function registerMigration()

@@ -8,7 +8,7 @@ use Tests\Fakes\Models\Post;
 beforeEach(function () {
     Route::get('posts/{post}', static function (Post $post) {
         return view('test::tree', compact('post'));
-    })->middleware('web');
+    })->middleware(['web', 'fez']);
 
     $this->post = Post::factory()->create();
     $this->post->meta()->create([
