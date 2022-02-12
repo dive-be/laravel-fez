@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Dive\Fez\Feature;
 use Dive\Fez\Models\Meta;
@@ -35,7 +35,6 @@ return [
      * which will then be used to fill various features that are enabled.
      */
     'finder' => [
-
         /**
          * Define the default strategy.
          *
@@ -43,7 +42,6 @@ return [
          */
         'strategy' => 'relevance',
     ],
-
 
     /**
      * At least one feature must be enabled. You may leave out features if you don't need them.

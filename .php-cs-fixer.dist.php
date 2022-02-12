@@ -1,13 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 $finder = Symfony\Component\Finder\Finder::create()
     ->exclude('vendor')
     ->name('*.php')
-    ->notName('*.blade.php')
-    ->in([
-        __DIR__.'/src',
-        __DIR__.'/tests',
-    ])
+    ->in(__DIR__)
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
