@@ -73,16 +73,14 @@ it('can extract localized string from description and use that', function () {
         ],
     ]);
 
-    $components = array_map([$factory, 'create'], [
+    $components = array_map($factory->create(...), [
         Feature::metaElements(),
         Feature::openGraph(),
         Feature::twitterCards(),
     ]);
 
-    expect($components)->each(fn ($component) => $component
-        ->description
-        ->content()
-        ->toBe('Senden asla vazgeçmeyeceğim')
+    expect($components)->each(
+        fn ($component) => $component->description->content()->toBe('Senden asla vazgeçmeyeceğim')
     );
 });
 

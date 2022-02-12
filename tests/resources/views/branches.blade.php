@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ App::getLocale() }}">
+<html lang="{{ $app->getLocale() }}">
 <head>
     @fez('twitterCards')
 </head>

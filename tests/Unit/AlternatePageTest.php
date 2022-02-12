@@ -7,7 +7,7 @@ use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
 use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
 use Illuminate\Http\Request;
 
-afterEach(function () {
+afterAll(function () {
     AlternatePage::urlUsing(null);
 });
 

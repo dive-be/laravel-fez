@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Commands;
+namespace Tests\Feature\Artisan;
 
 use Dive\Fez\Database\Factories\RouteFactory;
 use Illuminate\Console\Command;

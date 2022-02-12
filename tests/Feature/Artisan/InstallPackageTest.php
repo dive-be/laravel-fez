@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Commands;
+namespace Tests\Feature\Artisan;
 
 use function Pest\Laravel\artisan;
 
-afterEach(function () {
+afterAll(function () {
     file_exists(config_path('fez.php')) && unlink(config_path('fez.php'));
     array_map('unlink', glob(database_path('migrations/*_create_fez_tables.php')));
 });
