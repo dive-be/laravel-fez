@@ -23,6 +23,9 @@ trait WithRoutes
             ->filter(static fn ($route) => $route->defaults['fez']['strategy'] === 'id');
     }
 
+    /**
+     * @return Builder<\Dive\Fez\Models\Route>
+     */
     protected static function newQuery(): Builder
     {
         return call_user_func([Config::get('fez.models.route'), 'query']);

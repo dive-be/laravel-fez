@@ -16,7 +16,7 @@ class RelevanceFinder implements Finder
     public function find(Route $route): ?Metable
     {
         return Collection::make($route->parameterNames)
-            ->map(fn ($param) => Arr::get($route->parameters, $param))
-            ->last(fn ($param) => $param instanceof Metable);
+            ->map(static fn ($param) => Arr::get($route->parameters, $param))
+            ->last(static fn ($param) => $param instanceof Metable);
     }
 }

@@ -27,8 +27,8 @@ class Element extends Component
         $name = e($this->name);
 
         return <<<HTML
-<meta name="{$name}" content="{$content}" />
-HTML;
+        <meta name="{$name}" content="{$content}" />
+        HTML;
     }
 
     public function toArray(): array

@@ -20,8 +20,8 @@ class Canonical extends Component
         $url = e($this->url);
 
         return <<<HTML
-<link rel="canonical" href="{$url}" />
-HTML;
+        <link rel="canonical" href="{$url}" />
+        HTML;
     }
 
     public function toArray(): array

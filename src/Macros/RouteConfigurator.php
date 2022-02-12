@@ -10,7 +10,7 @@ class RouteConfigurator
 {
     public static function register()
     {
-        Route::macro('fez', static::macro());
+        Route::macro('fez', self::macro());
     }
 
     private static function macro(): Closure

@@ -27,8 +27,8 @@ class Property extends Component
         $name = e($this->name);
 
         return <<<HTML
-<meta property="og:{$name}" content="{$content}" />
-HTML;
+        <meta property="og:{$name}" content="{$content}" />
+        HTML;
     }
 
     public function toArray(): array

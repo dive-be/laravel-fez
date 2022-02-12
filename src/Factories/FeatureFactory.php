@@ -5,7 +5,6 @@ namespace Dive\Fez\Factories;
 use Closure;
 use Dive\Fez\AlternatePage;
 use Dive\Fez\Component;
-use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Exceptions\SorryUnknownFeature;
 use Dive\Fez\Factories\Feature\AlternatePageFactory;
 use Dive\Fez\Factories\Feature\MetaElementsFactory;
@@ -20,8 +19,6 @@ use Dive\Fez\TwitterCards\Card;
 class FeatureFactory
 {
     use Makeable;
-
-    private Formatter $formatter;
 
     private Closure $localeResolver;
 

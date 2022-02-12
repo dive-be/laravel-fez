@@ -104,12 +104,12 @@ abstract class Container extends Component implements ArrayAccess, Countable, It
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->remove($offset);
     }

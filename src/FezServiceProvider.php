@@ -33,20 +33,19 @@ class FezServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
 
-        $this->registerBladeDirectives();
         $this->registerMacros();
         $this->registerManager();
-        $this->registerMiddleware();
         $this->registerMorphMap();
+
+        $this->callAfterResolving('blade.compiler', $this->registerDirectives(...));
+        $this->callAfterResolving('router', $this->registerMiddleware(...));
     }
 
-    private function registerBladeDirectives()
+    private function registerDirectives(BladeCompiler $blade)
     {
-        $this->callAfterResolving('blade.compiler', static function (BladeCompiler $blade) {
-            $blade->directive('fez',
-                static fn ($args) => '<?php echo e(fez()' . (empty($args) ? '' : "->only({$args})") . ') . PHP_EOL ?>'
-            );
-        });
+        $blade->directive('fez',
+            static fn ($args) => '<?php echo e(fez()' . (empty($args) ? '' : "->only({$args})") . ') . PHP_EOL ?>'
+        );
     }
 
     private function registerCommands()
@@ -77,6 +76,7 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerManager()
     {
+        $this->app->alias('fez', FezManager::class);
         $this->app->singleton('fez', static function (Application $app) {
             $factory = FeatureFactory::make($app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
@@ -84,18 +84,14 @@ class FezServiceProvider extends ServiceProvider
                 ->setUrlResolver(static fn () => $app['url']);
 
             return FezManager::make(
-                array_combine($features = Feature::enabled(), array_map([$factory, 'create'], $features))
+                array_combine($features = Feature::enabled(), array_map($factory->create(...), $features))
             );
         });
-
-        $this->app->alias('fez', FezManager::class);
     }
 
-    private function registerMiddleware()
+    private function registerMiddleware(Router $router)
     {
-        $this->callAfterResolving('router', static function (Router $router) {
-            $router->aliasMiddleware('fez', HydrateFromParameters::class);
-        });
+        $router->aliasMiddleware('fez', HydrateFromParameters::class);
     }
 
     private function registerMigration()

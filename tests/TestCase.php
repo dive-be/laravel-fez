@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use CreateFezTables;
 use Dive\Fez\FezServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
@@ -28,7 +27,7 @@ class TestCase extends BaseTestCase
         $schema = $app->make('db.connection')->getSchemaBuilder();
         $schema->dropAllTables();
 
-        require_once __DIR__ . '/../database/migrations/create_fez_tables.php.stub';
+        $fez = require __DIR__ . '/../database/migrations/create_fez_tables.php.stub';
 
         $schema->create('posts', static function (Blueprint $table) {
             $table->id();
@@ -39,7 +38,7 @@ class TestCase extends BaseTestCase
             $table->tinyText('body');
         });
 
-        (new CreateFezTables())->up();
+        $fez->up();
     }
 
     protected function setUpViews(Application $app)

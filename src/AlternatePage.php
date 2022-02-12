@@ -58,7 +58,7 @@ class AlternatePage extends Component
     private function tag(string $href, string $lang): string
     {
         return <<<HTML
-<link rel="alternate" href="{$href}" hreflang="{$lang}" />
-HTML;
+        <link rel="alternate" href="{$href}" hreflang="{$lang}" />
+        HTML;
     }
 }

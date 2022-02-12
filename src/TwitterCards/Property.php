@@ -22,8 +22,8 @@ class Property extends Component
         $name = e($this->name);
 
         return <<<HTML
-<meta name="twitter:{$name}" content="{$content}" />
-HTML;
+        <meta name="twitter:{$name}" content="{$content}" />
+        HTML;
     }
 
     public function name(): string
