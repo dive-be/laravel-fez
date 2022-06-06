@@ -4,18 +4,15 @@ namespace Dive\Fez\Macros;
 
 use Closure;
 use Dive\Fez\RouteConfig;
-use Illuminate\Routing\Route;
 
+/**
+ * @mixin \Illuminate\Routing\Route
+ */
 class RouteConfigurator
 {
-    public static function register()
+    public function fez(): Closure
     {
-        Route::macro('fez', self::macro());
-    }
-
-    private static function macro(): Closure
-    {
-        return function (Closure|bool|int|string $value, ...$arguments): Route {
+        return function (Closure|bool|int|string $value, ...$arguments) {
             $config = RouteConfig::make();
 
             if (is_string($value)) {

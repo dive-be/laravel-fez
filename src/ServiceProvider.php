@@ -13,10 +13,12 @@ use Dive\Fez\Macros\RouteConfigurator;
 use Dive\Fez\Middleware\HydrateFromParameters;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\View\View;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -68,8 +70,8 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerMacros()
     {
-        PropertySetter::register();
-        RouteConfigurator::register();
+        Route::mixin(new RouteConfigurator());
+        View::mixin(new PropertySetter());
     }
 
     private function registerManager()

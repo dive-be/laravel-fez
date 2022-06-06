@@ -1,13 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Macros;
+namespace Tests\Integration;
 
-use Dive\Fez\Macros\PropertySetter;
 use function Pest\Laravel\mock;
-
-beforeEach(function () {
-   PropertySetter::register();
-});
 
 it('proxies call to the manager', function () {
     $view = view('welcome');

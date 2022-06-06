@@ -4,18 +4,15 @@ namespace Dive\Fez\Macros;
 
 use Closure;
 use Dive\Fez\Fez;
-use Illuminate\View\View;
 
+/**
+ * @mixin \Illuminate\View\View
+ */
 class PropertySetter
 {
-    public static function register()
+    public function fez(): Closure
     {
-        View::macro('fez', static::macro());
-    }
-
-    public static function macro(): Closure
-    {
-        return function (array|string $property, ?string $value = null): View {
+        return function (array|string $property, ?string $value = null) {
             Fez::set($property, $value);
 
             return $this;

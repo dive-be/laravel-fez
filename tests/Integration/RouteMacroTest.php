@@ -1,13 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Macros;
+namespace Tests\Integration;
 
-use Dive\Fez\Macros\RouteConfigurator;
 use Dive\Fez\RouteConfig;
-
-beforeEach(function () {
-    RouteConfigurator::register();
-});
 
 it('accepts a closure/string/bool to customize the config', function () {
     $route = createLaravelRoute('posts/{post}');

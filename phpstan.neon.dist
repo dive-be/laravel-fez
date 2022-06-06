@@ -10,5 +10,4 @@ parameters:
     checkMissingIterableValueType: false
 
     ignoreErrors:
-        - '#Undefined variable: \$this#'
         - '#Variable \$alternates might not be defined\.#'
