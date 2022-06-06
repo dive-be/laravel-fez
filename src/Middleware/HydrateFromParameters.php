@@ -6,7 +6,7 @@ use Closure;
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Factories\FinderFactory;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Dive\Fez\RouteConfig;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -14,7 +14,7 @@ use Illuminate\Routing\Route;
 class HydrateFromParameters
 {
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(Request $request, Closure $next)

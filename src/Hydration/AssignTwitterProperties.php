@@ -6,13 +6,13 @@ use Closure;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\CardFactory;
 use Dive\Fez\Feature;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Dive\Fez\TwitterCards\Card;
 
 class AssignTwitterProperties
 {
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(MetaData $data, Closure $next): MetaData

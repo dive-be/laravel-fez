@@ -5,13 +5,13 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Dive\Fez\MetaElements;
 
 class AssignMetaProperties
 {
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(MetaData $data, Closure $next): MetaData

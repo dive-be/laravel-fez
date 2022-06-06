@@ -7,7 +7,7 @@ use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\Factories\StructuredPropertyFactory;
 use Dive\Fez\Feature;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Dive\Fez\OpenGraph\RichObject;
 
 class AssignOpenGraphProperties
@@ -15,7 +15,7 @@ class AssignOpenGraphProperties
     private array $pushables = ['audio', 'author', 'image', 'tag', 'video'];
 
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {
         $this->pushables = array_flip($this->pushables);
     }

@@ -7,14 +7,14 @@ use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Contracts\Titleable;
 use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\FormatterFactory;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Illuminate\Contracts\Config\Repository;
 
 class SetTitles
 {
     public function __construct(
         private Repository $config,
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(MetaData $data, Closure $next): MetaData

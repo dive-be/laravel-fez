@@ -65,7 +65,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Dive\\Fez\\FezServiceProvider"
+                "Dive\\Fez\\ServiceProvider"
             ],
             "aliases": {
                 "Fez": "Dive\\Fez\\Facades\\Fez"

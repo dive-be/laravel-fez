@@ -5,7 +5,7 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\Contracts\Describable;
 use Dive\Fez\DataTransferObjects\MetaData;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Illuminate\Support\Str;
 
 class SetDescriptions
@@ -13,7 +13,7 @@ class SetDescriptions
     public const MAX_LENGTH = 140;
 
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(MetaData $data, Closure $next): MetaData

@@ -14,11 +14,11 @@ use Illuminate\Support\Collection;
 
 /**
  * @method AlternatePage        alternatePage()
- * @method FezManager           description(string $description)
- * @method FezManager           image(string $image)
+ * @method Manager              description(string $description)
+ * @method Manager              image(string $image)
  * @method MetaElements         metaElements()
  * @method OpenGraph\RichObject openGraph()
- * @method FezManager           title(string $title)
+ * @method Manager              title(string $title)
  * @method TwitterCards\Card    twitterCards()
  *
  * @property AlternatePage        $alternatePage
@@ -29,7 +29,7 @@ use Illuminate\Support\Collection;
  * @property string               $title
  * @property TwitterCards\Card    $twitterCards
  */
-class FezManager extends Component
+class Manager extends Component
 {
     private ?Metable $model = null;
 

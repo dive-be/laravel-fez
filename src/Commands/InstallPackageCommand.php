@@ -22,14 +22,14 @@ class InstallPackageCommand extends Command
         $this->line('📑  Publishing configuration...');
 
         $this->call('vendor:publish', [
-            '--provider' => "Dive\Fez\FezServiceProvider",
+            '--provider' => "Dive\Fez\ServiceProvider",
             '--tag' => 'config',
         ]);
 
         $this->line('📑  Publishing migration...');
 
         $this->call('vendor:publish', [
-            '--provider' => "Dive\Fez\FezServiceProvider",
+            '--provider' => "Dive\Fez\ServiceProvider",
             '--tag' => 'migrations',
         ]);
 

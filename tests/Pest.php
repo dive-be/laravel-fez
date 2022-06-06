@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Routing\Route;
@@ -26,9 +26,9 @@ function createLaravelRoute(string $uri, array $parameters = [], string $name = 
     return $route;
 }
 
-function createFez(?array $features = null): FezManager
+function createFez(?array $features = null): Manager
 {
-    return FezManager::make(
+    return Manager::make(
         $features ?? ['rick' => RickRollComponent::make(), 'roll' => RickRollContainer::make()]
     );
 }

@@ -15,10 +15,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
-class FezServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     public function boot()
     {
@@ -76,14 +76,14 @@ class FezServiceProvider extends ServiceProvider
 
     private function registerManager()
     {
-        $this->app->alias('fez', FezManager::class);
+        $this->app->alias('fez', Manager::class);
         $this->app->singleton('fez', static function (Application $app) {
             $factory = FeatureFactory::make($app['config']['fez'])
                 ->setLocaleResolver(static fn () => $app->getLocale())
                 ->setRequestResolver(static fn () => $app['request'])
                 ->setUrlResolver(static fn () => $app['url']);
 
-            return FezManager::make(
+            return Manager::make(
                 array_combine($features = Feature::enabled(), array_map($factory->create(...), $features))
             );
         });

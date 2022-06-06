@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Dive\Fez\FezServiceProvider;
+use Dive\Fez\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -19,7 +19,7 @@ class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app): array
     {
-        return [FezServiceProvider::class];
+        return [ServiceProvider::class];
     }
 
     protected function setUpDatabase(Application $app)

@@ -5,12 +5,12 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\Contracts\Imageable;
 use Dive\Fez\DataTransferObjects\MetaData;
-use Dive\Fez\FezManager;
+use Dive\Fez\Manager;
 
 class SetImages
 {
     public function __construct(
-        private FezManager $fez,
+        private Manager $fez,
     ) {}
 
     public function handle(MetaData $data, Closure $next): MetaData
