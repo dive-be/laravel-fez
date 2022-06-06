@@ -3,11 +3,11 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\Factories\StructuredPropertyFactory;
 use Dive\Fez\Feature;
 use Dive\Fez\Manager;
+use Dive\Fez\MetaData;
 use Dive\Fez\OpenGraph\RichObject;
 
 class AssignOpenGraphProperties

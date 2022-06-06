@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Hydration\SetDescriptions;
+use Dive\Fez\MetaData;
 
 test('set descriptions task', function () {
     $task = new SetDescriptions($fez = createFez());

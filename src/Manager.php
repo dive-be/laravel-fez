@@ -3,7 +3,6 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Exceptions\SorryBadMethodCall;
 use Dive\Fez\Exceptions\SorryNoFeaturesActive;
 use Dive\Fez\Exceptions\SorryPropertyNotFound;

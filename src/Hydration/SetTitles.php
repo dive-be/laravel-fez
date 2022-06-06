@@ -5,9 +5,9 @@ namespace Dive\Fez\Hydration;
 use Closure;
 use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Contracts\Titleable;
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\Manager;
+use Dive\Fez\MetaData;
 use Illuminate\Contracts\Config\Repository;
 
 class SetTitles

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
 use Dive\Fez\Hydration\AssignMetaProperties;
+use Dive\Fez\MetaData;
 use Dive\Fez\MetaElements;
 
 test('assign meta properties task', function () {

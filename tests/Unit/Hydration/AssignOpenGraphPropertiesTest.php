@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
 use Dive\Fez\Hydration\AssignOpenGraphProperties;
+use Dive\Fez\MetaData;
 use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\OpenGraph\Properties\Audio;
 

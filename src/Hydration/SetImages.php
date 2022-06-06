@@ -4,8 +4,8 @@ namespace Dive\Fez\Hydration;
 
 use Closure;
 use Dive\Fez\Contracts\Imageable;
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Manager;
+use Dive\Fez\MetaData;
 
 class SetImages
 {

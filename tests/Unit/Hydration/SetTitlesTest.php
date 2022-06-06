@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Hydration\SetTitles;
+use Dive\Fez\MetaData;
 use Illuminate\Contracts\Config\Repository;
 use Mockery;
 use Tests\Fakes\RickRollFormatter;

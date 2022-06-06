@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Models\Concerns;
 
-use Dive\Fez\DataTransferObjects\MetaData;
+use Dive\Fez\MetaData;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 

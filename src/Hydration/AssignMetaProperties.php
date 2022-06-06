@@ -3,9 +3,9 @@
 namespace Dive\Fez\Hydration;
 
 use Closure;
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
 use Dive\Fez\Manager;
+use Dive\Fez\MetaData;
 use Dive\Fez\MetaElements;
 
 class AssignMetaProperties

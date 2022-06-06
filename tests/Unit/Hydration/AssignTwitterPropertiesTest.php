@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
 use Dive\Fez\Feature;
 use Dive\Fez\Hydration\AssignTwitterProperties;
+use Dive\Fez\MetaData;
 use Dive\Fez\TwitterCards\Cards\Summary;
 
 test('assign twitter properties task', function () {

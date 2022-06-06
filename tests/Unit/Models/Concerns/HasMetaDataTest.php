@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models\Concerns;
 
 use Dive\Fez\Database\Factories\MetaFactory;
-use Dive\Fez\DataTransferObjects\MetaData;
+use Dive\Fez\MetaData;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Tests\Fakes\Factories\PostWithDefaultsFactory;
 use Tests\Fakes\Models\Post;

@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Contracts;
 
-use Dive\Fez\DataTransferObjects\MetaData;
+use Dive\Fez\MetaData;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 interface Metable

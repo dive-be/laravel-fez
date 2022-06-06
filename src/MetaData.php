@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\DataTransferObjects;
+namespace Dive\Fez;
 
 use Dive\Utils\Makeable;
 

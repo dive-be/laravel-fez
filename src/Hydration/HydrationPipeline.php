@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Hydration;
 
-use Dive\Fez\DataTransferObjects\MetaData;
+use Dive\Fez\MetaData;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
