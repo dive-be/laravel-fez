@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Dive\Fez\Facades\Fez;
+use Dive\Fez\Fez;
 
 beforeEach(function () {
     Fez::metaElements()->title('Santa Claus saves the winter');

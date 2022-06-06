@@ -68,7 +68,7 @@
                 "Dive\\Fez\\ServiceProvider"
             ],
             "aliases": {
-                "Fez": "Dive\\Fez\\Facades\\Fez"
+                "Fez": "Dive\\Fez\\Fez"
             }
         }
     },

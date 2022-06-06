@@ -3,7 +3,7 @@
 namespace Dive\Fez\Macros;
 
 use Closure;
-use Dive\Fez\Facades\Fez;
+use Dive\Fez\Fez;
 use Illuminate\View\View;
 
 class PropertySetter
