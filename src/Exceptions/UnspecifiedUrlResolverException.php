@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryUnspecifiedUrlResolver extends Exception
+class UnspecifiedUrlResolverException extends Exception
 {
     public static function make(): self
     {

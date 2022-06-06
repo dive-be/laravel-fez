@@ -3,7 +3,7 @@
 namespace Dive\Fez\Factories;
 
 use Dive\Fez\Contracts\Finder;
-use Dive\Fez\Exceptions\SorryUnknownFinderStrategy;
+use Dive\Fez\Exceptions\UnknownFinderException;
 use Dive\Fez\Finders\BindingFinder;
 use Dive\Fez\Finders\IDFinder;
 use Dive\Fez\Finders\NullFinder;
@@ -21,7 +21,7 @@ class FinderFactory
             'id' => IDFinder::make(),
             'null' => NullFinder::make(),
             'relevance' => RelevanceFinder::make(),
-            default => throw SorryUnknownFinderStrategy::make($strategy),
+            default => throw UnknownFinderException::make($strategy),
         };
     }
 }

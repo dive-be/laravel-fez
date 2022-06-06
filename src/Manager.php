@@ -3,10 +3,10 @@
 namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Exceptions\SorryBadMethodCall;
-use Dive\Fez\Exceptions\SorryNoFeaturesActive;
-use Dive\Fez\Exceptions\SorryPropertyNotFound;
-use Dive\Fez\Exceptions\SorryUnknownFeature;
+use Dive\Fez\Exceptions\BadMethodCallException;
+use Dive\Fez\Exceptions\NoFeaturesActiveException;
+use Dive\Fez\Exceptions\PropertyNotFoundException;
+use Dive\Fez\Exceptions\UnknownFeatureException;
 use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -36,14 +36,14 @@ class Manager extends Component
         private array $features,
     ) {
         if (empty($this->features)) {
-            throw SorryNoFeaturesActive::make();
+            throw NoFeaturesActiveException::make();
         }
     }
 
     public function assign(string $name, Component $feature): self
     {
         if (! $this->has($name)) {
-            throw SorryUnknownFeature::make($name);
+            throw UnknownFeatureException::make($name);
         }
 
         $this->features[$name] = $feature;
@@ -84,7 +84,7 @@ class Manager extends Component
     public function get(string $feature): Component
     {
         if (! $this->has($feature)) {
-            throw SorryUnknownFeature::make($feature);
+            throw UnknownFeatureException::make($feature);
         }
 
         return $this->features[$feature];
@@ -139,14 +139,14 @@ class Manager extends Component
     {
         if (empty($arguments)) {
             if (! $this->has($name)) {
-                throw SorryBadMethodCall::make(static::class, $name);
+                throw BadMethodCallException::make(static::class, $name);
             }
 
             return $this->get($name);
         }
 
         if (count($arguments) > 1 || ! HydrationPipeline::has($name)) {
-            throw SorryBadMethodCall::make(static::class, $name);
+            throw BadMethodCallException::make(static::class, $name);
         }
 
         return $this->set($name, $arguments[0]);
@@ -155,7 +155,7 @@ class Manager extends Component
     public function __get(string $name): Component
     {
         if (! $this->has($name)) {
-            throw SorryPropertyNotFound::make(static::class, $name);
+            throw PropertyNotFoundException::make(static::class, $name);
         }
 
         return $this->get($name);
@@ -164,7 +164,7 @@ class Manager extends Component
     public function __set(string $name, $value)
     {
         if (! HydrationPipeline::has($name) && ! $this->has($name)) {
-            throw SorryPropertyNotFound::make(static::class, $name);
+            throw PropertyNotFoundException::make(static::class, $name);
         }
 
         if ($this->has($name)) {

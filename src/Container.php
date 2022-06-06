@@ -5,7 +5,7 @@ namespace Dive\Fez;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use Dive\Fez\Exceptions\SorryBadMethodCall;
+use Dive\Fez\Exceptions\BadMethodCallException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use IteratorAggregate;
@@ -118,14 +118,14 @@ abstract class Container extends Component implements ArrayAccess, Countable, It
     {
         if (! count($arguments)) {
             if (! $this->has($name)) {
-                throw SorryBadMethodCall::make(static::class, $name);
+                throw BadMethodCallException::make(static::class, $name);
             }
 
             return $this->get($name);
         }
 
         if (count($arguments) > 1) {
-            throw SorryBadMethodCall::make(static::class, $name);
+            throw BadMethodCallException::make(static::class, $name);
         }
 
         return $this->set($name, $arguments[0]);

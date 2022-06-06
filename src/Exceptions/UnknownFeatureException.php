@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryUnknownFeature extends Exception
+class UnknownFeatureException extends Exception
 {
     public static function make(string $feature): self
     {

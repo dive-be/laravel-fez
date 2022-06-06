@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryBadMethodCall extends Exception
+class BadMethodCallException extends Exception
 {
     public static function make(string $class, string $method): self
     {

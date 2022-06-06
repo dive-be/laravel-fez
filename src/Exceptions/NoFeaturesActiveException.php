@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryNoFeaturesActive extends Exception
+class NoFeaturesActiveException extends Exception
 {
     public static function make(): self
     {

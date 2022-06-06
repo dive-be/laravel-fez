@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryTooFewLocalesSpecified extends Exception
+class TooFewLocalesSpecifiedException extends Exception
 {
     public static function make(): self
     {

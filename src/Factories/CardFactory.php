@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Factories;
 
-use Dive\Fez\Exceptions\SorryUnknownTwitterCardsType;
+use Dive\Fez\Exceptions\UnknownTwitterCardsTypeException;
 use Dive\Fez\TwitterCards\Card;
 use Dive\Fez\TwitterCards\Cards\Player;
 use Dive\Fez\TwitterCards\Cards\Summary;
@@ -19,7 +19,7 @@ class CardFactory
             'player' => Player::make(),
             'summary' => Summary::make(),
             'summary_large_image' => SummaryLargeImage::make(),
-            default => throw SorryUnknownTwitterCardsType::make($type),
+            default => throw UnknownTwitterCardsTypeException::make($type),
         };
     }
 }

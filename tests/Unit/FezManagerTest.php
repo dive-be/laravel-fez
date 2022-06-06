@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Dive\Fez\Exceptions\SorryUnknownFeature;
+use Dive\Fez\Exceptions\UnknownFeatureException;
 use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Support\Collection;
 use Tests\Fakes\Components\RickRollComponent;
@@ -103,7 +103,7 @@ it('can __call and "set" a property', function () {
 
 it('throws if an unknown feature is gotten', function () {
     $this->fez->get('gibberish');
-})->throws(SorryUnknownFeature::class);
+})->throws(UnknownFeatureException::class);
 
 it('can check if a feature exists', function () {
     expect($this->fez->has('rick'))->toBeTrue();

@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryPropertyNotFound extends Exception
+class PropertyNotFoundException extends Exception
 {
     public static function make(string $class, string $property): self
     {

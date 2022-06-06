@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Factories;
 
-use Dive\Fez\Exceptions\SorryUnknownTwitterCardsType;
+use Dive\Fez\Exceptions\UnknownTwitterCardsTypeException;
 use Dive\Fez\Factories\CardFactory;
 use Dive\Fez\TwitterCards\Cards\Player;
 use Dive\Fez\TwitterCards\Cards\Summary;
@@ -18,4 +18,4 @@ it('creates the correct card for the given type', function (string $type, string
 
 it('throws if an unknown type is given', function () {
     CardFactory::make()->create('Never Gonna Give You Up');
-})->throws(SorryUnknownTwitterCardsType::class);
+})->throws(UnknownTwitterCardsTypeException::class);

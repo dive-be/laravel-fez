@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Factories;
 
-use Dive\Fez\Exceptions\SorryUnknownOpenGraphObjectType;
+use Dive\Fez\Exceptions\UnknownOpenGraphObjectException;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
 use Dive\Fez\OpenGraph\Properties\Video;
@@ -19,7 +19,7 @@ class StructuredPropertyFactory
             'audio' => Audio::make(),
             'image' => Image::make(),
             'video' => Video::make(),
-            default => throw SorryUnknownOpenGraphObjectType::make($type),
+            default => throw UnknownOpenGraphObjectException::make($type),
         };
     }
 }

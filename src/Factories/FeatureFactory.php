@@ -5,7 +5,7 @@ namespace Dive\Fez\Factories;
 use Closure;
 use Dive\Fez\AlternatePage;
 use Dive\Fez\Component;
-use Dive\Fez\Exceptions\SorryUnknownFeature;
+use Dive\Fez\Exceptions\UnknownFeatureException;
 use Dive\Fez\Factories\Feature\AlternatePageFactory;
 use Dive\Fez\Factories\Feature\MetaElementsFactory;
 use Dive\Fez\Factories\Feature\OpenGraphFactory;
@@ -37,7 +37,7 @@ class FeatureFactory
             Feature::metaElements() => $this->metaElements(),
             Feature::openGraph() => $this->openGraph(),
             Feature::twitterCards() => $this->twitterCards(),
-            default => throw SorryUnknownFeature::make($feature),
+            default => throw UnknownFeatureException::make($feature),
         };
     }
 

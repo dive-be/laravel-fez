@@ -4,7 +4,7 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryUnknownFinderStrategy extends Exception
+class UnknownFinderException extends Exception
 {
     public static function make(string $strategy): self
     {

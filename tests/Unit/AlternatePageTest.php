@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use Dive\Fez\AlternatePage;
-use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
-use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
+use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
+use Dive\Fez\Exceptions\UnspecifiedUrlResolverException;
 use Illuminate\Http\Request;
 
 afterAll(function () {
@@ -13,7 +13,7 @@ afterAll(function () {
 
 it('cannot be instantiated if passed locales are too few', function () {
     createAlternatePage(['tr']);
-})->throws(SorryTooFewLocalesSpecified::class);
+})->throws(TooFewLocalesSpecifiedException::class);
 
 it('must have a url resolver to render', function () {
     $alternatePage = createAlternatePage();
@@ -21,7 +21,7 @@ it('must have a url resolver to render', function () {
     AlternatePage::urlUsing(null);
 
     $alternatePage->render();
-})->throws(SorryUnspecifiedUrlResolver::class);
+})->throws(UnspecifiedUrlResolverException::class);
 
 it('is arrayable', function () {
     expect(

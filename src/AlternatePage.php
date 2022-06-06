@@ -3,8 +3,8 @@
 namespace Dive\Fez;
 
 use Closure;
-use Dive\Fez\Exceptions\SorryTooFewLocalesSpecified;
-use Dive\Fez\Exceptions\SorryUnspecifiedUrlResolver;
+use Dive\Fez\Exceptions\TooFewLocalesSpecifiedException;
+use Dive\Fez\Exceptions\UnspecifiedUrlResolverException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -17,7 +17,7 @@ class AlternatePage extends Component
         private Request $request,
     ) {
         if (count($locales) < 2) {
-            throw SorryTooFewLocalesSpecified::make();
+            throw TooFewLocalesSpecifiedException::make();
         }
     }
 
@@ -44,12 +44,12 @@ class AlternatePage extends Component
     }
 
     /**
-     * @throws SorryUnspecifiedUrlResolver
+     * @throws UnspecifiedUrlResolverException
      */
     private function urlResolver(): Closure
     {
         if (is_null($resolver = self::$urlUsing)) {
-            throw SorryUnspecifiedUrlResolver::make();
+            throw UnspecifiedUrlResolverException::make();
         }
 
         return fn (string $locale) => $resolver($locale, $this->request);

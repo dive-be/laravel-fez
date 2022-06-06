@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Factories;
 
-use Dive\Fez\Exceptions\SorryUnknownOpenGraphObjectType;
+use Dive\Fez\Exceptions\UnknownOpenGraphObjectException;
 use Dive\Fez\Factories\StructuredPropertyFactory;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
@@ -18,4 +18,4 @@ it('creates the correct structured property for the given type', function (strin
 
 it('throws if an unknown type is given', function () {
     StructuredPropertyFactory::make()->create('Never Gonna Give You Up');
-})->throws(SorryUnknownOpenGraphObjectType::class);
+})->throws(UnknownOpenGraphObjectException::class);

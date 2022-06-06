@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\Factories;
 
-use Dive\Fez\Exceptions\SorryUnknownOpenGraphObjectType;
+use Dive\Fez\Exceptions\UnknownOpenGraphObjectException;
 use Dive\Fez\OpenGraph\Objects\Article;
 use Dive\Fez\OpenGraph\Objects\Book;
 use Dive\Fez\OpenGraph\Objects\Profile;
@@ -21,7 +21,7 @@ class RichObjectFactory
             'book' => Book::make(),
             'profile' => Profile::make(),
             'website' => Website::make(),
-            default => throw SorryUnknownOpenGraphObjectType::make($type),
+            default => throw UnknownOpenGraphObjectException::make($type),
         };
     }
 }

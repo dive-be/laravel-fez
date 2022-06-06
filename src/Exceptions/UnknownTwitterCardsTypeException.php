@@ -4,10 +4,10 @@ namespace Dive\Fez\Exceptions;
 
 use Exception;
 
-class SorryUnknownOpenGraphObjectType extends Exception
+class UnknownTwitterCardsTypeException extends Exception
 {
     public static function make(string $type): self
     {
-        return new self("The open graph object type `{$type}` is invalid");
+        return new self("The twitter cards type `{$type}` is invalid");
     }
 }
