@@ -7,7 +7,7 @@ use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\OpenGraph\Properties\Image;
 use Dive\Fez\OpenGraph\Properties\Video;
 use Dive\Fez\OpenGraph\StructuredProperty;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 
 class StructuredPropertyFactory
 {

@@ -5,7 +5,7 @@ namespace Dive\Fez\Factories;
 use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Formatters\DefaultFormatter;
 use Dive\Fez\Formatters\NullFormatter;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 use Illuminate\Container\Container;
 
 class FormatterFactory

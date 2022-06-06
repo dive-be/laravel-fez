@@ -3,8 +3,8 @@
 namespace Dive\Fez\Factories\Feature;
 
 use Dive\Fez\Factories\CardFactory;
-use Dive\Fez\Support\Makeable;
 use Dive\Fez\TwitterCards\Card;
+use Dive\Utils\Makeable;
 
 class TwitterCardsFactory
 {

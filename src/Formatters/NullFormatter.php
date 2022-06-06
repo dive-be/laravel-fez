@@ -3,7 +3,7 @@
 namespace Dive\Fez\Formatters;
 
 use Dive\Fez\Contracts\Formatter;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 
 class NullFormatter implements Formatter
 {

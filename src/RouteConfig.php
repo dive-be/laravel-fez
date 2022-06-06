@@ -2,7 +2,7 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Config;
 

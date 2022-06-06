@@ -8,7 +8,7 @@ use Dive\Fez\OpenGraph\Objects\Book;
 use Dive\Fez\OpenGraph\Objects\Profile;
 use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\OpenGraph\RichObject;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 
 class RichObjectFactory
 {

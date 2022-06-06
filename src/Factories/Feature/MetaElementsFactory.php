@@ -3,7 +3,7 @@
 namespace Dive\Fez\Factories\Feature;
 
 use Dive\Fez\MetaElements;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
 class MetaElementsFactory

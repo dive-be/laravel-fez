@@ -2,7 +2,7 @@
 
 namespace Dive\Fez\DataTransferObjects;
 
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 
 class MetaData
 {

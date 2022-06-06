@@ -13,8 +13,8 @@ use Dive\Fez\Factories\Feature\TwitterCardsFactory;
 use Dive\Fez\Feature;
 use Dive\Fez\MetaElements;
 use Dive\Fez\OpenGraph\RichObject;
-use Dive\Fez\Support\Makeable;
 use Dive\Fez\TwitterCards\Card;
+use Dive\Utils\Makeable;
 
 class FeatureFactory
 {

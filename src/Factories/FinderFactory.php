@@ -8,7 +8,7 @@ use Dive\Fez\Finders\BindingFinder;
 use Dive\Fez\Finders\IDFinder;
 use Dive\Fez\Finders\NullFinder;
 use Dive\Fez\Finders\RelevanceFinder;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 
 class FinderFactory
 {

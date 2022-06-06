@@ -4,8 +4,8 @@ namespace Dive\Fez\Finders;
 
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Support\Makeable;
 use Dive\Fez\Support\WithRoutes;
+use Dive\Utils\Makeable;
 use Illuminate\Routing\Route;
 
 class IDFinder implements Finder

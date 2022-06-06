@@ -11,5 +11,4 @@ parameters:
 
     ignoreErrors:
         - '#Undefined variable: \$this#'
-        - '#Unsafe usage of new static\(\).#'
         - '#Variable \$alternates might not be defined\.#'

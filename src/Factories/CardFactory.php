@@ -3,11 +3,11 @@
 namespace Dive\Fez\Factories;
 
 use Dive\Fez\Exceptions\SorryUnknownTwitterCardsType;
-use Dive\Fez\Support\Makeable;
 use Dive\Fez\TwitterCards\Card;
 use Dive\Fez\TwitterCards\Cards\Player;
 use Dive\Fez\TwitterCards\Cards\Summary;
 use Dive\Fez\TwitterCards\Cards\SummaryLargeImage;
+use Dive\Utils\Makeable;
 
 class CardFactory
 {

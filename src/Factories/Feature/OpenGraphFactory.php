@@ -4,7 +4,7 @@ namespace Dive\Fez\Factories\Feature;
 
 use Dive\Fez\Factories\RichObjectFactory;
 use Dive\Fez\OpenGraph\RichObject;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
 class OpenGraphFactory

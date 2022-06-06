@@ -4,7 +4,7 @@ namespace Dive\Fez\Finders;
 
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
-use Dive\Fez\Support\Makeable;
+use Dive\Utils\Makeable;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
