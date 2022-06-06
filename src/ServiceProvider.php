@@ -43,9 +43,7 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerDirectives(BladeCompiler $blade)
     {
-        $blade->directive('fez',
-            static fn ($args) => '<?php echo e(fez()' . (empty($args) ? '' : "->only({$args})") . ') . PHP_EOL ?>'
-        );
+        $blade->directive('fez', [Directive::class, 'compile']);
     }
 
     private function registerCommands()
