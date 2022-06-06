@@ -8,6 +8,7 @@ use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Dive\Fez\Exceptions\PropertyNotFoundException;
 use Dive\Fez\Exceptions\UnknownFeatureException;
 use Dive\Fez\Hydration\HydrationPipeline;
+use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -30,6 +31,15 @@ use Illuminate\Support\Collection;
  */
 class Manager extends Component
 {
+    private array $loaders = [
+        \Dive\Fez\Loaders\DescriptionLoader::class,
+        \Dive\Fez\Loaders\ImageLoader::class,
+        \Dive\Fez\Loaders\TitleLoader::class,
+        \Dive\Fez\Loaders\TwitterCardsLoader::class,
+        \Dive\Fez\Loaders\OpenGraphLoader::class,
+        \Dive\Fez\Loaders\MetaElementsLoader::class,
+    ];
+
     private ?Metable $model = null;
 
     public function __construct(
@@ -95,6 +105,13 @@ class Manager extends Component
         return array_key_exists($feature, $this->features);
     }
 
+    public function loadFrom(Metable $model): self
+    {
+        $this->model = $model;
+
+        return $this->load($model->gatherMetaData());
+    }
+
     public function model(): ?Metable
     {
         return $this->model;
@@ -133,6 +150,15 @@ class Manager extends Component
     public function toArray(): array
     {
         return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
+    }
+
+    private function load(MetaData $data): self
+    {
+        foreach ($this->loaders as $loader) {
+            Container::getInstance()->make($loader)->load($this, $data);
+        }
+
+        return $this;
     }
 
     public function __call(string $name, array $arguments): Component|self

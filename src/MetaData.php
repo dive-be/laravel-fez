@@ -9,14 +9,17 @@ class MetaData
     use Makeable;
 
     public function __construct(
-        private ?string $description = null,
-        private ?array $elements = null,
-        private ?string $image = null,
-        private ?array $open_graph = null,
-        private ?string $title = null,
-        private ?array $twitter = null,
+        public readonly ?string $description = null,
+        public readonly ?array $elements = null,
+        public readonly ?string $image = null,
+        public readonly ?array $open_graph = null,
+        public readonly ?string $title = null,
+        public readonly ?array $twitter = null,
     ) {}
 
+    /**
+     * TODO - Remove getters.
+     */
     public function description(): ?string
     {
         return $this->description;
