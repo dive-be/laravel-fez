@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Support;
+namespace Tests\Feature;
 
 use Dive\Fez\Feature;
 
