@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Config;
 
 class Feature
 {
+    final public const ALTERNATE_PAGE = 'alternatePage';
+    final public const META_ELEMENTS = 'metaElements';
+    final public const OPEN_GRAPH = 'openGraph';
+    final public const TWITTER_CARDS = 'twitterCards';
+
     public static function all(): array
     {
         return [
@@ -18,7 +23,7 @@ class Feature
 
     public static function alternatePage(): string
     {
-        return 'alternatePage';
+        return self::ALTERNATE_PAGE;
     }
 
     public static function enabled(): array
@@ -30,16 +35,16 @@ class Feature
 
     public static function metaElements(): string
     {
-        return 'metaElements';
+        return self::META_ELEMENTS;
     }
 
     public static function openGraph(): string
     {
-        return 'openGraph';
+        return self::OPEN_GRAPH;
     }
 
     public static function twitterCards(): string
     {
-        return 'twitterCards';
+        return self::TWITTER_CARDS;
     }
 }
