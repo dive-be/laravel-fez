@@ -6,8 +6,13 @@ use Exception;
 
 class MetableNotFoundException extends Exception
 {
-    public static function throw(): self
+    public static function make(): self
     {
-        throw new self('You are not supposed to see this. Please submit a bug report.');
+        return new self('You are not supposed to see this. Please submit a bug report.');
+    }
+
+    public static function throw(): never
+    {
+        throw self::make();
     }
 }

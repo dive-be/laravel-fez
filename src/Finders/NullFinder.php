@@ -14,6 +14,6 @@ class NullFinder implements Finder
 
     public function find(Route $route): Metable
     {
-        MetableNotFoundException::throw();
+        throw MetableNotFoundException::make();
     }
 }

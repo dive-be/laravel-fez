@@ -5,11 +5,13 @@ namespace Dive\Fez\Http\Middleware;
 use Closure;
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
+use Dive\Fez\Events\MetableWasFound;
 use Dive\Fez\Exceptions\MetableNotFoundException;
 use Dive\Fez\Factories\FinderFactory;
 use Dive\Fez\Manager;
 use Dive\Fez\RouteConfig;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
@@ -17,6 +19,7 @@ class LoadFromRoute
 {
     public function __construct(
         private Manager $fez,
+        private Dispatcher $dispatcher,
     ) {}
 
     public function handle(Request $request, Closure $next)
@@ -26,7 +29,7 @@ class LoadFromRoute
         try {
             $this->fez->loadFrom($metable = $finder->find($route));
 
-            $this->share($metable);
+            $this->share($metable)->event($metable);
         } catch (MetableNotFoundException) {
             // noop
         }
@@ -43,8 +46,15 @@ class LoadFromRoute
         return FinderFactory::make()->create(...$strategy);
     }
 
-    private function share(Metable $metable)
+    private function event(Metable $metable)
+    {
+        $this->dispatcher->dispatch(MetableWasFound::make($metable));
+    }
+
+    private function share(Metable $metable): self
     {
         Container::getInstance()->instance(Metable::class, $metable);
+
+        return $this;
     }
 }
