@@ -3,6 +3,7 @@
 namespace Dive\Fez\Models\Concerns;
 
 use Dive\Fez\MetaData;
+use Dive\Fez\Models\Meta;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 
@@ -31,7 +32,7 @@ trait HasMetaData
 
     public function meta(): MorphOne
     {
-        return $this->morphOne(MorphOne::getMorphedModel('meta'), 'metable');
+        return $this->morphOne(Meta::class, 'metable');
     }
 
     protected function metaDefaults(): array

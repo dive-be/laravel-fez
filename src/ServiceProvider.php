@@ -12,7 +12,6 @@ use Dive\Fez\Http\Middleware\LoadFromRoute;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
@@ -37,7 +36,6 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->registerMacros();
         $this->registerManager();
-        $this->registerMorphMap();
 
         $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
         $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
@@ -108,10 +106,5 @@ class ServiceProvider extends BaseServiceProvider
                 $stub => $this->app->databasePath("migrations/{$timestamp}_{$migration}"),
             ], 'migrations');
         }
-    }
-
-    private function registerMorphMap()
-    {
-        Relation::morphMap($this->app['config']['fez.models']);
     }
 }
