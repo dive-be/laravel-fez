@@ -32,18 +32,18 @@ class ServiceProvider extends BaseServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
+        $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
+        $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
 
         $this->registerMacros();
         $this->registerManager();
 
-        $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
-        $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
+        $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
     }
 
     private function registerDirectives(BladeCompiler $blade)
     {
-        $blade->directive('fez', [Directive::class, 'compile']);
+        $blade->directive('fez', Directive::compile(...));
     }
 
     private function registerCommands()
