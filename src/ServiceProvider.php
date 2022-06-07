@@ -39,8 +39,8 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerManager();
         $this->registerMorphMap();
 
-        $this->callAfterResolving('blade.compiler', $this->registerDirectives(...));
-        $this->callAfterResolving('router', $this->registerMiddleware(...));
+        $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
+        $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
     }
 
     private function registerDirectives(BladeCompiler $blade)
