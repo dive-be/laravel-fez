@@ -24,3 +24,11 @@ it('can find a metable and load all features with meta data', function () {
 
     get("posts/{$post->getKey()}")->assertOk();
 });
+
+it('skips execution if there is no route', function () {
+    Route::get('posts', fn (Post $post) => 'Hola Mundo')->middleware('fez');
+
+    mock(Manager::class)->shouldNotReceive('loadFrom');
+
+    get('posts')->assertOk();
+});
