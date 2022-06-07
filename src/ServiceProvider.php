@@ -8,9 +8,9 @@ use Dive\Fez\Commands\PruneRoutesCommand;
 use Dive\Fez\Commands\SeedRoutesCommand;
 use Dive\Fez\Commands\SyncRoutesCommand;
 use Dive\Fez\Factories\FeatureFactory;
+use Dive\Fez\Http\Middleware\LoadFromRoute;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
-use Dive\Fez\Middleware\HydrateFromParameters;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Routing\Route;
@@ -91,7 +91,7 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerMiddleware(Router $router)
     {
-        $router->aliasMiddleware('fez', HydrateFromParameters::class);
+        $router->aliasMiddleware('fez', LoadFromRoute::class);
     }
 
     private function registerMigration()

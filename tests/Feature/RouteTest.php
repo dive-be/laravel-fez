@@ -17,7 +17,7 @@ beforeEach(function () {
     ]);
 });
 
-test('model can be found using a strategy and utilized as hydration source for fez')
+test('model can be found using a strategy and utilized as data source for fez')
     ->get('posts/1')
     ->assertOk()
     ->assertSee('<title>Taylor Otwell saves the PHP ecosystem | Laravel Fez</title>', false)

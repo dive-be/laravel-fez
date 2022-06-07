@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Dive\Fez\Middleware;
+namespace Dive\Fez\Http\Middleware;
 
 use Closure;
 use Dive\Fez\Contracts\Finder;
@@ -11,7 +11,7 @@ use Dive\Fez\RouteConfig;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
-class HydrateFromParameters
+class LoadFromRoute
 {
     public function __construct(
         private Manager $fez,
@@ -21,16 +21,12 @@ class HydrateFromParameters
     {
         $route = $request->route();
 
-        if (is_null($route)) {
-            return $next($request);
-        }
-
         $metable = $this->createFinder(
             $this->getStrategy($route)
         )->find($route);
 
         if ($metable instanceof Metable) {
-            $this->fez->for($metable);
+            $this->fez->loadFrom($metable);
         }
 
         $route->forgetParameter('fez');

@@ -7,7 +7,6 @@ use Dive\Fez\Exceptions\BadMethodCallException;
 use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Dive\Fez\Exceptions\PropertyNotFoundException;
 use Dive\Fez\Exceptions\UnknownFeatureException;
-use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -32,9 +31,9 @@ use Illuminate\Support\Collection;
 class Manager extends Component
 {
     private array $loaders = [
-        \Dive\Fez\Loaders\DescriptionLoader::class,
-        \Dive\Fez\Loaders\ImageLoader::class,
-        \Dive\Fez\Loaders\TitleLoader::class,
+        'description' => \Dive\Fez\Loaders\DescriptionLoader::class,
+        'image' => \Dive\Fez\Loaders\ImageLoader::class,
+        'title' => \Dive\Fez\Loaders\TitleLoader::class,
         \Dive\Fez\Loaders\TwitterCardsLoader::class,
         \Dive\Fez\Loaders\OpenGraphLoader::class,
         \Dive\Fez\Loaders\MetaElementsLoader::class,
@@ -78,15 +77,6 @@ class Manager extends Component
         foreach ($this->features as $feature) {
             method_exists($feature, 'clear') && $feature->clear();
         }
-
-        return $this;
-    }
-
-    public function for(Metable $model): self
-    {
-        $this->model = $model;
-
-        HydrationPipeline::run($model->gatherMetaData());
 
         return $this;
     }
@@ -140,11 +130,9 @@ class Manager extends Component
             $property = [$property => $value];
         }
 
-        $property = Arr::only($property, HydrationPipeline::properties());
+        $property = Arr::only($property, array_keys($this->loaders));
 
-        HydrationPipeline::run(new MetaData(...$property), array_keys($property));
-
-        return $this;
+        return $this->load(new MetaData(...$property));
     }
 
     public function toArray(): array
@@ -171,7 +159,7 @@ class Manager extends Component
             return $this->get($name);
         }
 
-        if (count($arguments) > 1 || ! HydrationPipeline::has($name)) {
+        if (count($arguments) > 1 || ! array_key_exists($name, $this->loaders)) {
             throw BadMethodCallException::make(static::class, $name);
         }
 
@@ -189,7 +177,7 @@ class Manager extends Component
 
     public function __set(string $name, $value)
     {
-        if (! HydrationPipeline::has($name) && ! $this->has($name)) {
+        if (! array_key_exists($name, $this->loaders) && ! $this->has($name)) {
             throw PropertyNotFoundException::make(static::class, $name);
         }
 

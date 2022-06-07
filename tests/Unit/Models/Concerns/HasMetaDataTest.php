@@ -20,25 +20,25 @@ it('can gather meta data using the defaults *only*', function () {
 
     expect($post->gatherMetaData())
         ->toBeInstanceOf(MetaData::class)
-        ->description()->toBe($post->short_description)
-        ->image()->toBe($post->hero)
-        ->title()->toBe($post->title)
-        ->elements()->toBeNull()
-        ->openGraph()->toBeNull()
-        ->twitterCards()->toBeNull();
+        ->description->toBe($post->short_description)
+        ->image->toBe($post->hero)
+        ->title->toBe($post->title)
+        ->elements->toBeNull()
+        ->open_graph->toBeNull()
+        ->twitter->toBeNull();
 });
 
 it('can gather meta data using defaults *and* meta relation', function () {
-    $post = PostWithDefaultsFactory::new()->has(
-        MetaFactory::new()->withDescription()->withImage()
-    )->create();
+    $post = PostWithDefaultsFactory::new()
+        ->make()
+        ->setRelation('meta', MetaFactory::new()->withDescription()->withImage()->make());
 
     expect($post->gatherMetaData())
         ->toBeInstanceOf(MetaData::class)
-        ->description()->not->toBe($post->short_description) // relational data takes precedence
-        ->image()->not->toBe($post->hero) // relational data takes precedence
-        ->title()->toBe($post->title)
-        ->elements()->toBeNull()
-        ->openGraph()->toBeNull()
-        ->twitterCards()->toBeNull();
+        ->description->not->toBe($post->short_description) // relational data takes precedence
+        ->image->not->toBe($post->hero) // relational data takes precedence
+        ->title->toBe($post->title)
+        ->elements->toBeNull()
+        ->open_graph->toBeNull()
+        ->twitter->toBeNull();
 });

@@ -3,13 +3,9 @@
 namespace Tests\Unit;
 
 use Dive\Fez\Exceptions\UnknownFeatureException;
-use Dive\Fez\Hydration\HydrationPipeline;
 use Illuminate\Support\Collection;
 use Tests\Fakes\Components\RickRollComponent;
 use Tests\Fakes\Components\RickRollContainer;
-use Tests\Fakes\HydrationPipelineFake;
-use Tests\Fakes\Models\Post;
-use function Pest\Laravel\swap;
 
 beforeEach(function () {
     $this->fez = createFez();
@@ -61,18 +57,6 @@ it('can __get a feature', function () {
     expect($this->fez->rick)->toBeInstanceOf(RickRollComponent::class);
 });
 
-it('can automagically "set" properties', function () {
-    $pipeline = fakePipeline();
-
-    $this->fez->set([
-        'description' => 'Never Gonna Give You Up',
-        'image' => '/static/assets/img/rick_astley.jpg',
-        'title' => 'Rick Astley',
-    ]);
-
-    $pipeline->assertRanPartially(['description', 'image', 'title']);
-});
-
 it('can __set a feature', function () {
     $rick = $this->fez->get('rick');
 
@@ -81,24 +65,8 @@ it('can __set a feature', function () {
     expect($rick)->not->toBe($this->fez->rick);
 });
 
-it('can __set a property', function () {
-    $pipeline = fakePipeline();
-
-    $this->fez->description = 'Never Gonna Give You Up';
-
-    $pipeline->assertRanPartially(['description']);
-});
-
 it('can __call and get a feature', function () {
     expect($this->fez->rick())->toBeInstanceOf(RickRollComponent::class);
-});
-
-it('can __call and "set" a property', function () {
-    $pipeline = fakePipeline();
-
-    $this->fez->title('Rick Astley');
-
-    $pipeline->assertRanPartially(['title']);
 });
 
 it('throws if an unknown feature is gotten', function () {
@@ -108,17 +76,6 @@ it('throws if an unknown feature is gotten', function () {
 it('can check if a feature exists', function () {
     expect($this->fez->has('rick'))->toBeTrue();
     expect($this->fez->has('gibberish'))->toBeFalse();
-});
-
-it('can hydrate the features using a metable model', function () {
-    $pipeline = fakePipeline();
-
-    expect($this->fez->model())->toBeNull();
-
-    $this->fez->for($post = Post::factory()->make());
-
-    expect($this->fez->model())->toBe($post);
-    $pipeline->assertRanEntirely();
 });
 
 it('is arrayable', function () {
@@ -144,10 +101,3 @@ it('is renderable', function () {
         'Never Gonna Give You Up' // roll
     );
 });
-
-function fakePipeline(): HydrationPipelineFake
-{
-    swap(HydrationPipeline::class, $pipeline = new HydrationPipelineFake());
-
-    return $pipeline;
-}
