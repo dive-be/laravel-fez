@@ -30,14 +30,33 @@ class ServiceProvider extends BaseServiceProvider
 
     public function register()
     {
-        $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
-        $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
-
-        $this->registerFormatter();
         $this->registerMacros();
-        $this->registerManager();
+
+        $this->app->afterResolving(BladeCompiler::class, $this->registerDirectives(...));
+        $this->app->afterResolving(Router::class, $this->registerMiddleware(...));
+        $this->app->singleton('fez', $this->createManager(...));
+        $this->app->alias('fez', Manager::class);
+        $this->app->bind(Formatter::class, $this->createFormatter(...));
 
         $this->mergeConfigFrom(__DIR__ . '/../config/fez.php', 'fez');
+    }
+
+    private function createFormatter(Application $app): Formatter
+    {
+        return $app->make(FormatterFactory::class)->create($app['config']['fez.title']);
+    }
+
+    private function createManager(Application $app): Manager
+    {
+        $factory = FeatureFactory::make($app['config']['fez'])
+            ->setLocaleResolver(static fn () => $app->getLocale())
+            ->setRequestResolver(static fn () => $app['request'])
+            ->setUrlResolver(static fn () => $app['url']);
+
+        $features = Feature::enabled();
+        $features = array_combine($features, array_map($factory->create(...), $features));
+
+        return Manager::make($features);
     }
 
     private function registerDirectives(BladeCompiler $blade)
@@ -54,39 +73,15 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerConfig()
     {
-        $config = 'fez.php';
-
         $this->publishes([
-            __DIR__ . '/../config/' . $config => $this->app->configPath($config),
+            __DIR__ . '/../config/fez.php' => $this->app->configPath('fez.php'),
         ], 'config');
-    }
-
-    private function registerFormatter()
-    {
-        $this->app->bind(Formatter::class,
-            static fn (Application $app) => $app->make(FormatterFactory::class)->create($app['config']['fez.title'])
-        );
     }
 
     private function registerMacros()
     {
         Route::mixin(new RouteConfigurator());
         View::mixin(new PropertySetter());
-    }
-
-    private function registerManager()
-    {
-        $this->app->alias('fez', Manager::class);
-        $this->app->singleton('fez', static function (Application $app) {
-            $factory = FeatureFactory::make($app['config']['fez'])
-                ->setLocaleResolver(static fn () => $app->getLocale())
-                ->setRequestResolver(static fn () => $app['request'])
-                ->setUrlResolver(static fn () => $app['url']);
-
-            return Manager::make(
-                array_combine($features = Feature::enabled(), array_map($factory->create(...), $features))
-            );
-        });
     }
 
     private function registerMiddleware(Router $router)
