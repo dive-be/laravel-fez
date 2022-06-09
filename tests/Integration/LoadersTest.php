@@ -14,7 +14,7 @@ use Dive\Fez\MetaElements;
 use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\TwitterCards\Cards\Summary;
-use Tests\Fakes\Models\Post;
+use Tests\Fakes\Factories\PostWithDefaultsFactory;
 use Tests\Fakes\RickRollFormatter;
 
 it('loads twitter', function () {
@@ -107,11 +107,11 @@ it('loads descriptions', function () {
 it('can load the features using a metable model', function () {
     $manager = createFez();
 
-    expect($manager->model())->toBeNull();
+    expect($manager->get('roll'))->title->toBeNull();
 
-    $manager->loadFrom($post = Post::factory()->make());
+    $manager->loadFrom($post = PostWithDefaultsFactory::new()->make());
 
-    expect($manager->model())->toBe($post);
+    expect($manager->get('roll'))->title->value()->toBe("{$post->title} | Laravel Fez");
 });
 
 it('can __call and "set" a property', function () {

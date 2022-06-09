@@ -39,8 +39,6 @@ class Manager extends Component
         \Dive\Fez\Loaders\MetaElementsLoader::class,
     ];
 
-    private ?Metable $model = null;
-
     public function __construct(
         private array $features,
     ) {}
@@ -93,14 +91,7 @@ class Manager extends Component
 
     public function loadFrom(Metable $model): self
     {
-        $this->model = $model;
-
         return $this->load($model->gatherMetaData());
-    }
-
-    public function model(): ?Metable
-    {
-        return $this->model;
     }
 
     public function only(...$features): self
