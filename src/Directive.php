@@ -2,7 +2,7 @@
 
 namespace Dive\Fez;
 
-final class Directive
+class Directive
 {
     public static function compile(string $expression = ''): string
     {

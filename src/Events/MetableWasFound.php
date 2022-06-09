@@ -5,7 +5,7 @@ namespace Dive\Fez\Events;
 use Dive\Fez\Contracts\Metable;
 use Dive\Utils\Makeable;
 
-final class MetableWasFound
+class MetableWasFound
 {
     use Makeable;
 
