@@ -15,4 +15,5 @@ it('creates the correct formatter for the given configuration', function (array|
     [RickRollFormatter::class, RickRollFormatter::class],
     [['suffix' => 'Dive', 'separator' => '~'], DefaultFormatter::class],
     [null, NullFormatter::class],
+    [FormatterFactory::class, NullFormatter::class],
 ]);
