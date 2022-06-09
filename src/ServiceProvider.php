@@ -7,7 +7,9 @@ use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Commands\PruneRoutesCommand;
 use Dive\Fez\Commands\SeedRoutesCommand;
 use Dive\Fez\Commands\SyncRoutesCommand;
+use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Factories\FeatureFactory;
+use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\Http\Middleware\LoadFromRoute;
 use Dive\Fez\Macros\PropertySetter;
 use Dive\Fez\Macros\RouteConfigurator;
@@ -35,6 +37,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->callAfterResolving(BladeCompiler::class, $this->registerDirectives(...));
         $this->callAfterResolving(Router::class, $this->registerMiddleware(...));
 
+        $this->registerFormatter();
         $this->registerMacros();
         $this->registerManager();
 
@@ -64,6 +67,13 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../config/' . $config => $this->app->configPath($config),
         ], 'config');
+    }
+
+    private function registerFormatter()
+    {
+        $this->app->bind(Formatter::class,
+            static fn (Application $app) => $app->make(FormatterFactory::class)->create($app['config']['fez.title'])
+        );
     }
 
     private function registerMacros()

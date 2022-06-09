@@ -14,8 +14,6 @@ use Dive\Fez\MetaElements;
 use Dive\Fez\OpenGraph\Objects\Website;
 use Dive\Fez\OpenGraph\Properties\Audio;
 use Dive\Fez\TwitterCards\Cards\Summary;
-use Illuminate\Contracts\Config\Repository;
-use Mockery;
 use Tests\Fakes\Models\Post;
 use Tests\Fakes\RickRollFormatter;
 
@@ -36,10 +34,8 @@ it('loads twitter', function () {
 });
 
 it('loads titles', function () {
-    $loader = new TitleLoader($config = Mockery::mock(Repository::class));
+    $loader = new TitleLoader(new RickRollFormatter());
     $manager = createFez();
-
-    $config->shouldReceive('get')->once()->with('fez.title')->andReturn(RickRollFormatter::class);
 
     expect($manager->roll->title)->toBeNull();
 

@@ -5,12 +5,9 @@ namespace Dive\Fez\Factories;
 use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Formatters\DefaultFormatter;
 use Dive\Fez\Formatters\NullFormatter;
-use Dive\Utils\Makeable;
 
 class FormatterFactory
 {
-    use Makeable;
-
     public function create(array|string|null $config): Formatter
     {
         if (is_string($config)

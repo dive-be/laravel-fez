@@ -9,7 +9,7 @@ use Tests\Fakes\RickRollFormatter;
 
 it('creates the correct formatter for the given configuration', function (array|string|null $config, string $class) {
     expect(
-        FormatterFactory::make()->create($config)
+        (new FormatterFactory())->create($config)
     )->toBeInstanceOf($class);
 })->with([
     [RickRollFormatter::class, RickRollFormatter::class],
