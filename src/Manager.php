@@ -4,7 +4,6 @@ namespace Dive\Fez;
 
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Exceptions\BadMethodCallException;
-use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Dive\Fez\Exceptions\PropertyNotFoundException;
 use Dive\Fez\Exceptions\UnknownFeatureException;
 use Illuminate\Container\Container;
@@ -30,6 +29,8 @@ use Illuminate\Support\Collection;
  */
 class Manager extends Component
 {
+    private Collection $features;
+
     private array $loaders = [
         'description' => \Dive\Fez\Loaders\DescriptionLoader::class,
         'image' => \Dive\Fez\Loaders\ImageLoader::class,
@@ -39,9 +40,10 @@ class Manager extends Component
         \Dive\Fez\Loaders\MetaElementsLoader::class,
     ];
 
-    public function __construct(
-        private array $features,
-    ) {}
+    public function __construct(array $features)
+    {
+        $this->features = Collection::make($features);
+    }
 
     public function assign(string $name, Component $feature): self
     {
@@ -49,7 +51,7 @@ class Manager extends Component
             throw UnknownFeatureException::make($name);
         }
 
-        $this->features[$name] = $feature;
+        $this->features->put($name, $feature);
 
         return $this;
     }
@@ -57,13 +59,13 @@ class Manager extends Component
     public function except(...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
-            $that->features = Arr::except($this->features, $features);
+            $that->features = $this->features->except($features);
         });
     }
 
     public function features(): Collection
     {
-        return Collection::make($this->features);
+        return $this->features;
     }
 
     public function flush(): self
@@ -75,18 +77,21 @@ class Manager extends Component
         return $this;
     }
 
+    /**
+     * @throws UnknownFeatureException
+     */
     public function get(string $feature): Component
     {
         if (! $this->has($feature)) {
             throw UnknownFeatureException::make($feature);
         }
 
-        return $this->features[$feature];
+        return $this->features->get($feature);
     }
 
     public function has(string $feature): bool
     {
-        return array_key_exists($feature, $this->features);
+        return $this->features->has($feature);
     }
 
     public function loadFrom(Metable $model): self
@@ -97,14 +102,13 @@ class Manager extends Component
     public function only(...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
-            $that->features = Arr::only($this->features, $features);
+            $that->features = $this->features->only($features);
         });
     }
 
     public function render(): string
     {
-        return $this
-            ->features()
+        return $this->features
             ->map(static fn (Component $feature) => $feature->render())
             ->values()
             ->filter()
@@ -124,7 +128,7 @@ class Manager extends Component
 
     public function toArray(): array
     {
-        return array_map(static fn (Component $feature) => $feature->toArray(), $this->features);
+        return $this->features->toArray();
     }
 
     private function load(MetaData $data): self
