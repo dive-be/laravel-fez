@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class AlternatePage extends Component
 {
-    private static ?Closure $urlUsing = null;
+    private static ?Closure $resolver = null;
 
     public function __construct(
         private array $locales,
@@ -21,9 +21,9 @@ class AlternatePage extends Component
         }
     }
 
-    public static function urlUsing(?Closure $callback)
+    public static function resolveUrlsUsing(?Closure $callback)
     {
-        self::$urlUsing = $callback;
+        self::$resolver = $callback;
     }
 
     public function locales(): array
@@ -40,15 +40,15 @@ class AlternatePage extends Component
 
     public function toArray(): array
     {
-        return array_combine($this->locales, array_map($this->urlResolver(), $this->locales));
+        return array_combine($this->locales, array_map($this->resolver(), $this->locales));
     }
 
     /**
      * @throws UnspecifiedUrlResolverException
      */
-    private function urlResolver(): Closure
+    private function resolver(): Closure
     {
-        if (is_null($resolver = self::$urlUsing)) {
+        if (is_null($resolver = self::$resolver)) {
             throw UnspecifiedUrlResolverException::make();
         }
 

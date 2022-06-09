@@ -37,13 +37,8 @@ trait HasMetaData
 
     protected function metaDefaults(): array
     {
-        if (! property_exists($this, 'metaDefaults')) {
-            return [];
-        }
-
-        return array_map(
-            fn (string $attribute) => $this->getAttribute($attribute),
-            $this->metaDefaults,
-        );
+        return property_exists($this, 'metaDefaults')
+            ? array_map($this->getAttribute(...), $this->metaDefaults)
+            : [];
     }
 }

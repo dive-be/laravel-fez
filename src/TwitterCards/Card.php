@@ -50,7 +50,7 @@ abstract class Card extends Container implements Describable, Imageable, Titleab
 
     public function type(): string
     {
-        return (string) Str::of(static::class)->classBasename()->snake()->lower();
+        return Str::of(static::class)->classBasename()->snake()->lower()->value();
     }
 
     public function toArray(): array

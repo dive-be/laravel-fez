@@ -15,6 +15,8 @@ use Dive\Fez\MetaElements;
 use Dive\Fez\OpenGraph\RichObject;
 use Dive\Fez\TwitterCards\Card;
 use Dive\Utils\Makeable;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\Request;
 
 class FeatureFactory
 {
@@ -43,28 +45,19 @@ class FeatureFactory
 
     protected function alternatePage(): AlternatePage
     {
-        return AlternatePageFactory::make(
-            call_user_func($this->requestResolver),
-        )->create(
-            $this->locales()
-        );
+        return AlternatePageFactory::make($this->request())->create($this->locales());
     }
 
     protected function metaElements(): MetaElements
     {
-        return MetaElementsFactory::make(
-            call_user_func($this->urlResolver),
-        )->create(
+        return MetaElementsFactory::make($this->url())->create(
             $this->mergeDefaults(Feature::metaElements())
         );
     }
 
     protected function openGraph(): RichObject
     {
-        return OpenGraphFactory::make(
-            call_user_func($this->localeResolver),
-            call_user_func($this->urlResolver),
-        )->create(
+        return OpenGraphFactory::make($this->locale(), $this->url())->create(
             $this->mergeDefaults(Feature::openGraph()) + ['alternates' => $this->locales()]
         );
     }
@@ -87,9 +80,7 @@ class FeatureFactory
 
         // We're going to assume a localized description if the type's an array
         if (is_array($general['description'])) {
-            $activeLocale = call_user_func($this->localeResolver);
-
-            $general['description'] = $general['description'][$activeLocale];
+            $general['description'] = $general['description'][$this->locale()];
         }
 
         return array_merge($general, $this->config['defaults'][$feature]);
@@ -102,6 +93,11 @@ class FeatureFactory
         return $this;
     }
 
+    private function locale(): string
+    {
+        return call_user_func($this->localeResolver);
+    }
+
     public function setRequestResolver(Closure $callback): self
     {
         $this->requestResolver = $callback;
@@ -109,10 +105,20 @@ class FeatureFactory
         return $this;
     }
 
+    private function request(): Request
+    {
+        return call_user_func($this->requestResolver);
+    }
+
     public function setUrlResolver(Closure $callback): self
     {
         $this->urlResolver = $callback;
 
         return $this;
+    }
+
+    private function url(): UrlGenerator
+    {
+        return call_user_func($this->urlResolver);
     }
 }

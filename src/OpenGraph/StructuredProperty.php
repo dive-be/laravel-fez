@@ -11,7 +11,7 @@ abstract class StructuredProperty extends Container
 
     public function __construct()
     {
-        $this->type = (string) Str::of(static::class)->classBasename()->lower();
+        $this->type = Str::of(static::class)->classBasename()->lower()->value();
     }
 
     public function setProperty(string $name, string $content): static

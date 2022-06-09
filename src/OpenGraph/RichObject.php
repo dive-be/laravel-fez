@@ -86,7 +86,7 @@ abstract class RichObject extends Container implements Describable, Imageable, T
 
     public function type(): string
     {
-        return (string) Str::of(static::class)->classBasename()->lower();
+        return Str::of(static::class)->classBasename()->lower()->value();
     }
 
     private function value(string $name, Component|string $value): Component

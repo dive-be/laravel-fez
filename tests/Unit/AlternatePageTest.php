@@ -8,7 +8,7 @@ use Dive\Fez\Exceptions\UnspecifiedUrlResolverException;
 use Illuminate\Http\Request;
 
 afterAll(function () {
-    AlternatePage::urlUsing(null);
+    AlternatePage::resolveUrlsUsing(null);
 });
 
 it('cannot be instantiated if passed locales are too few', function () {
@@ -18,7 +18,7 @@ it('cannot be instantiated if passed locales are too few', function () {
 it('must have a url resolver to render', function () {
     $alternatePage = createAlternatePage();
 
-    AlternatePage::urlUsing(null);
+    AlternatePage::resolveUrlsUsing(null);
 
     $alternatePage->render();
 })->throws(UnspecifiedUrlResolverException::class);
@@ -43,7 +43,7 @@ it('is renderable', function () {
 
 function createAlternatePage(array $locales = ['en', 'nl']): AlternatePage
 {
-    AlternatePage::urlUsing(static function (string $locale, Request $request) {
+    AlternatePage::resolveUrlsUsing(static function (string $locale, Request $request) {
         return $request->getUri() . $locale;
     });
 
