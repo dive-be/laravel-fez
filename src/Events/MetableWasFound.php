@@ -10,6 +10,6 @@ final class MetableWasFound
     use Makeable;
 
     public function __construct(
-        public Metable $model,
+        public readonly Metable $model,
     ) {}
 }
