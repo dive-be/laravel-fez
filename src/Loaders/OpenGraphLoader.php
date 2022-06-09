@@ -34,7 +34,7 @@ class OpenGraphLoader implements Loader
         $target = $this->selectTarget($fez->openGraph, $source['type']);
         $target = $this->assign($target, $source);
 
-        $fez->openGraph = $target;
+        $fez->openGraph($target);
     }
 
     private function assign($target, array $source, int $depth = 0)

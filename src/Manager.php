@@ -11,13 +11,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
- * @method AlternatePage        alternatePage()
- * @method Manager              description(string $description)
- * @method Manager              image(string $image)
- * @method MetaElements         metaElements()
- * @method OpenGraph\RichObject openGraph()
- * @method Manager              title(string $title)
- * @method TwitterCards\Card    twitterCards()
+ * @method Manager|AlternatePage        alternatePage(AlternatePage|null $alternatePage)
+ * @method Manager                      description(string $description)
+ * @method Manager                      image(string $image)
+ * @method Manager|MetaElements         metaElements(MetaElements|null $metaElements)
+ * @method Manager|OpenGraph\RichObject openGraph(OpenGraph\RichObject|null $richObject)
+ * @method Manager                      title(string $title)
+ * @method Manager|TwitterCards\Card    twitterCards(TwitterCards\Card|null $card)
  *
  * @property AlternatePage        $alternatePage
  * @property string               $description
@@ -56,7 +56,7 @@ class Manager extends Component
         return $this;
     }
 
-    public function except(...$features): self
+    public function except(string ...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
             $that->features = $this->features->except($features);
@@ -99,7 +99,7 @@ class Manager extends Component
         return $this->load($model->gatherMetaData());
     }
 
-    public function only(...$features): self
+    public function only(string ...$features): self
     {
         return tap(clone $this, function (self $that) use ($features) {
             $that->features = $this->features->only($features);
@@ -150,11 +150,13 @@ class Manager extends Component
             return $this->get($name);
         }
 
-        if (count($arguments) > 1 || ! array_key_exists($name, $this->loaders)) {
+        if (count($arguments) > 1 || ! array_key_exists($name, $this->loaders) && ! $this->has($name)) {
             throw BadMethodCallException::make(static::class, $name);
         }
 
-        return $this->set($name, $arguments[0]);
+        return $this->has($name)
+            ? $this->assign($name, $arguments[0])
+            : $this->set($name, $arguments[0]);
     }
 
     public function __get(string $name): Component
