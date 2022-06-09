@@ -5,7 +5,6 @@ namespace Dive\Fez\Factories;
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Exceptions\UnknownFinderException;
 use Dive\Fez\Finders\BindingFinder;
-use Dive\Fez\Finders\IDFinder;
 use Dive\Fez\Finders\NullFinder;
 use Dive\Fez\Finders\RelevanceFinder;
 use Dive\Utils\Makeable;
@@ -18,7 +17,6 @@ class FinderFactory
     {
         return match ($strategy) {
             'binding' => BindingFinder::make(...$attributes),
-            'id' => IDFinder::make(),
             'null' => NullFinder::make(),
             'relevance' => RelevanceFinder::make(),
             default => throw UnknownFinderException::make($strategy),

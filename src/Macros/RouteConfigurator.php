@@ -12,13 +12,11 @@ class RouteConfigurator
 {
     public function fez(): Closure
     {
-        return function (Closure|bool|int|string $value, ...$arguments) {
+        return function (Closure|bool|string $value, ...$arguments) {
             $config = RouteConfig::make();
 
             if (is_string($value)) {
                 call_user_func_array([$config, $value], $arguments);
-            } elseif (is_int($value)) {
-                $config->id($value);
             } elseif (is_bool($value)) {
                 $config->none();
             } else {

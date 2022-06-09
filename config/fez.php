@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
 use Dive\Fez\Feature;
-use Dive\Fez\Models\Meta;
-use Dive\Fez\Models\Route;
 
 return [
     'defaults' => [
@@ -60,14 +58,6 @@ return [
      * At least two locales must be provided when using the alternate pages feature.
      */
     'locales' => [],
-
-    /**
-     * The fully qualified class names of models that should be used.
-     */
-    'models' => [
-        'meta' => Meta::class,
-        'route' => Route::class,
-    ],
 
     /**
      * Define how your page titles should be formatted here.

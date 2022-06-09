@@ -2,11 +2,7 @@
 
 namespace Dive\Fez;
 
-use Dive\Fez\Commands\AutoIncrementCommand;
 use Dive\Fez\Commands\InstallPackageCommand;
-use Dive\Fez\Commands\PruneRoutesCommand;
-use Dive\Fez\Commands\SeedRoutesCommand;
-use Dive\Fez\Commands\SyncRoutesCommand;
 use Dive\Fez\Contracts\Formatter;
 use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Factories\FormatterFactory;
@@ -52,11 +48,7 @@ class ServiceProvider extends BaseServiceProvider
     private function registerCommands()
     {
         $this->commands([
-            AutoIncrementCommand::class,
             InstallPackageCommand::class,
-            PruneRoutesCommand::class,
-            SeedRoutesCommand::class,
-            SyncRoutesCommand::class,
         ]);
     }
 
