@@ -4,6 +4,7 @@ namespace Dive\Fez;
 
 use Dive\Fez\Commands\InstallPackageCommand;
 use Dive\Fez\Contracts\Formatter;
+use Dive\Fez\Exceptions\NoFeaturesActiveException;
 use Dive\Fez\Factories\FeatureFactory;
 use Dive\Fez\Factories\FormatterFactory;
 use Dive\Fez\Http\Middleware\LoadFromRoute;
@@ -54,6 +55,11 @@ class ServiceProvider extends BaseServiceProvider
             ->setUrlResolver(static fn () => $app['url']);
 
         $features = Feature::enabled();
+
+        if (! count($features)) {
+            throw NoFeaturesActiveException::make();
+        }
+
         $features = array_combine($features, array_map($factory->create(...), $features));
 
         return Manager::make($features);

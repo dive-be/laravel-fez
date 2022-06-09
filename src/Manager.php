@@ -43,11 +43,7 @@ class Manager extends Component
 
     public function __construct(
         private array $features,
-    ) {
-        if (empty($this->features)) {
-            throw NoFeaturesActiveException::make();
-        }
-    }
+    ) {}
 
     public function assign(string $name, Component $feature): self
     {
