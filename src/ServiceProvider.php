@@ -14,11 +14,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\ServiceProvider as ServiceProviderBase;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\View;
 
-class ServiceProvider extends BaseServiceProvider
+class ServiceProvider extends ServiceProviderBase
 {
     public function boot()
     {

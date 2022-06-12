@@ -5,9 +5,9 @@ namespace Tests;
 use Dive\Fez\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
-use Orchestra\Testbench\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as TestCaseBase;
 
-class TestCase extends BaseTestCase
+class TestCase extends TestCaseBase
 {
     protected function setUp(): void
     {
