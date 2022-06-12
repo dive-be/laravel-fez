@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Models\Concerns;
+namespace Tests\Integration;
 
 use Dive\Fez\Database\Factories\MetaFactory;
 use Dive\Fez\MetaData;

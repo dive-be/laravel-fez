@@ -8,7 +8,7 @@ use Tests\Fakes\Components\RickRollComponent;
 use Tests\Fakes\Components\RickRollContainer;
 use Tests\TestCase;
 
-uses(TestCase::class)->in(__DIR__);
+uses(TestCase::class)->in('Feature', 'Integration');
 uses(InteractsWithViews::class)->in('Feature');
 
 function createLaravelRoute(string $uri, array $parameters = [], string $name = 'default'): Route

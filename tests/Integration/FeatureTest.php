@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Integration;
 
 use Dive\Fez\Feature;
 use Illuminate\Support\Facades\Config;
