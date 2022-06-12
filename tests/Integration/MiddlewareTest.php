@@ -33,11 +33,3 @@ it('can find a metable and load all features with meta data', function () {
 
     Event::assertDispatched(MetableWasFound::class);
 });
-
-it('skips execution if there is no route', function () {
-    Route::get('posts', fn (Post $post) => 'Hola Mundo')->middleware('fez');
-
-    mock(Manager::class)->shouldNotReceive('loadFrom');
-
-    get('posts')->assertOk();
-});

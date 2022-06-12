@@ -6,8 +6,5 @@ use Illuminate\Routing\Route;
 
 interface Finder
 {
-    /**
-     * @throws \Dive\Fez\Exceptions\MetableNotFoundException
-     */
-    public function find(Route $route): Metable;
+    public function find(Route $route): ?Metable;
 }

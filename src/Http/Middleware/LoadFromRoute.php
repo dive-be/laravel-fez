@@ -6,7 +6,6 @@ use Closure;
 use Dive\Fez\Contracts\Finder;
 use Dive\Fez\Contracts\Metable;
 use Dive\Fez\Events\MetableWasFound;
-use Dive\Fez\Exceptions\MetableNotFoundException;
 use Dive\Fez\Factories\FinderFactory;
 use Dive\Fez\Manager;
 use Dive\Fez\RouteConfig;
@@ -26,12 +25,10 @@ class LoadFromRoute
     {
         $finder = $this->createFinder($route = $request->route());
 
-        try {
-            $this->fez->loadFrom($metable = $finder->find($route));
+        if ($metable = $finder->find($route)) {
+            $this->fez->loadFrom($metable);
 
             $this->share($metable)->event($metable);
-        } catch (MetableNotFoundException) {
-            // noop
         }
 
         $route->forgetParameter('fez');
